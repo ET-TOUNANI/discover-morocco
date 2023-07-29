@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "667664566587",
+    "project_id": "tourism-assistant-551b3",
+    "storage_bucket": "tourism-assistant-551b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667664566587:android:5566c928808bc89b2a0f1e",
+        "android_client_info": {
+          "package_name": "com.tourism.discover_morocco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667664566587-olpjch7g0260jsd9hom1mn3k330erniv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA11pEQT9z2ZlSGxR09oKuYOn3IutrjoZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667664566587-olpjch7g0260jsd9hom1mn3k330erniv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
