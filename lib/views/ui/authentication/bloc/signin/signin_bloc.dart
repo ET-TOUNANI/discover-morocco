@@ -25,7 +25,6 @@ class SignInCubit extends Cubit<SignInState> {
       ),
     );
   }
-
   void passwordChanged(String value) {
     final password = Password.dirty(value);
     emit(

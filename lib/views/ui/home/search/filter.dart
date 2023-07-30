@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 
@@ -91,7 +92,9 @@ class _FilterViewState extends State<FilterView> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+
+              },
               borderRadius: BorderRadius.circular(16),
             ),
           ),
@@ -256,7 +259,10 @@ class _FilterViewState extends State<FilterView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Save chosen filter
+                    //and go back to MainView
+
+                    Navigator.pushNamed(context, MainView.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: buttonSize,

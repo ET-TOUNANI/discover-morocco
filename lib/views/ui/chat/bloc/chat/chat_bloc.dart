@@ -23,7 +23,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(ChatSuccess(answers: answers, questions: state.questions));
       } catch (e) {
         answers.removeLast();
-        answers.add("Error!!!");
+        answers.add("We are currently facing a technical issue. Please try again after sometime.");
         emit(ChatError(answers: answers, questions: state.questions));
       }
     });

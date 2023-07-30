@@ -76,7 +76,7 @@ class TourismApp extends StatelessWidget {
               theme: Themes().getBrightness(state.brightness),
               home: state.authStatus == AuthenticationStatus.unauthenticated
                   ? const LandingView()
-                  : const ChooseView() /*state.user.emailVerified == true
+                  : const MainView() /*state.user.emailVerified == true
                     ? const MainView()
                     : const VerifyEmailPage(),*/
               ),

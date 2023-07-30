@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discover_morocco/views/ui/home/search/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +12,7 @@ import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/tex
 import 'package:discover_morocco/views/ui/authentication/widgets/outline_icon_button.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/singin_button.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -67,15 +69,17 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> onAppleSingInPressed() async {
-    final navigator = Navigator.of(context);
-    await fakeSingin();
-    navigator.popAndPushNamed(MainView.routeName);
+    //final navigator = Navigator.of(context);
+    //await fakeSingin();
+    //navigator.popAndPushNamed(MainView.routeName);
+    await context.read<SignInCubit>().signInAnonymously();
   }
 
   Future<void> onFacebookSingInPressed() async {
-    final navigator = Navigator.of(context);
-    await fakeSingin();
-    navigator.popAndPushNamed(MainView.routeName);
+    //final navigator = Navigator.of(context);
+    //await fakeSingin();
+    await context.read<SignInCubit>().signInAnonymously();
+    //navigator.popAndPushNamed(MainView.routeName);
   }
 
   Widget _externalLoginButtons() => Row(
@@ -148,11 +152,21 @@ class _LoginViewState extends State<LoginView> {
             state.password.invalid ? 'invalid password' : null,
         icon: Icons.lock_outline_rounded,
       );
+  Future<bool> _isFirstTimeSignIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
+    if (isFirstTime) {
+      // If it's the first time, set the flag to false for future runs
+      await prefs.setBool('isFirstTime', false);
+    }
+
+    return isFirstTime;
+  }
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignInCubit, SignInState>(
-      listener: (context, state) {
+      listener: (context, state)async {
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -164,12 +178,12 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (state.status.isSubmissionSuccess) {
-          Navigator.of(context).popAndPushNamed(MainView.routeName);
-         /* if (state.anonymously || !state.otpSingIn) {
-
-          } else if (state.otpSingIn) {
-            Navigator.of(context).pushNamed(AuthCodePage.routeName);
-          }*/
+         final isFIrstTime = await _isFirstTimeSignIn();
+          if (isFIrstTime) {
+            Navigator.of(context).popAndPushNamed(FilterView.routeName);
+          } else  {
+            Navigator.of(context).pushNamed(MainView.routeName);
+          }
         }
       },
       child: Stack(

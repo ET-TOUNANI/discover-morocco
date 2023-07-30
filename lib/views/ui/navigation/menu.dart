@@ -1,3 +1,4 @@
+import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
@@ -8,7 +9,32 @@ class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
 
   Future<void> onLogoutPressed(BuildContext context) async {
-    context.read<SettingsBloc>().add(const AppLogoutRequested());
+    await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text("LOGOUT"),
+          titleTextStyle: const TextStyle(fontSize: 20),
+          content:  Padding(
+            padding:const EdgeInsets.symmetric(vertical: 15.0),
+            child:
+            Text("Are you sure, you want to Logout?",style: Theme.of(context).textTheme.bodyMedium,),
+
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              onPressed: () => context.read<SettingsBloc>().add(const AppLogoutRequested()),
+              style: ElevatedButton.styleFrom(backgroundColor:Theme.of(context).primaryColor, side: BorderSide.none),
+              child: const Text("Yes"),
+            ),
+            OutlinedButton(onPressed: () => Navigator.pop(context), child: const Text("No")),
+          ],
+        ));
+
+  }
+  Future<void> onProfilePressed(BuildContext context) async {
+    //context.read<SettingsBloc>().add(const ());
+    Navigator.pushNamed(context, Profile.routeName);
   }
 
   @override
@@ -27,12 +53,16 @@ class NavigationMenu extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  leading: Icon(Icons.translate_rounded),
-                  title: Text("Languages"),
-                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+              const Divider(indent: 24, endIndent: 24),
+              InkWell(
+                onTap: () => onProfilePressed(context),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    leading: Icon(Icons.manage_accounts),
+                    title: Text("Profile"),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded),
+                  ),
                 ),
               ),
               const Divider(indent: 24, endIndent: 24),
@@ -48,17 +78,8 @@ class NavigationMenu extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
-                  leading: Icon(Icons.shield_outlined),
-                  title: Text("Terms and conditions"),
-                  trailing: Icon(Icons.arrow_forward_ios_rounded),
-                ),
-              ),
-              const Divider(indent: 24, endIndent: 24),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  leading: Icon(Icons.lock_outline_rounded),
-                  title: Text("Privacy"),
+                  leading: Icon(Icons.public),
+                  title: Text("Create new publication"),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
               ),
@@ -67,7 +88,16 @@ class NavigationMenu extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
                   leading: Icon(Icons.support_agent_rounded),
-                  title: Text("Help center"),
+                  title: Text("My publications"),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+              ),
+              const Divider(indent: 24, endIndent: 24),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ListTile(
+                  leading: Icon(Icons.translate_rounded),
+                  title: Text("Languages"),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
               ),
@@ -83,7 +113,7 @@ class NavigationMenu extends StatelessWidget {
                   ),
                 ),
               ),
-              // const Divider(indent: 24, endIndent: 24),
+              const Divider(indent: 24, endIndent: 24),
             ],
           ),
         ),
