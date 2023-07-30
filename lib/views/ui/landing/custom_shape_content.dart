@@ -18,10 +18,21 @@ class CustomShapeContentWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SvgPicture.asset(
-            'assets/images/logo_inline_black.svg',
-            height: 75,
-            semanticsLabel: 'Beautiful Destinations',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                  'assets/images/logo_black.svg',
+                  height: 75,
+                  semanticsLabel: 'Discover Morocco',
+                ),
+             const SizedBox(width: 20,),
+              Text("Discover \nMorocco", style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 21,
+                color: Colors.black,
+              ),)
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0),

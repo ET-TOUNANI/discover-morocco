@@ -191,14 +191,14 @@ class _FilterViewState extends State<FilterView> {
                       selectedItemBuilder: (context) => const [
                         Row(
                           children: [
-                            Icon(Icons.hotel_rounded),
+                            Icon(Icons.villa_rounded),
                             Padding(padding: EdgeInsets.all(4)),
-                            Text("Casablanca")
+                            Text("Casablanca"),
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(Icons.home_filled),
+                            Icon(Icons.villa_rounded),
                             Padding(padding: EdgeInsets.all(4)),
                             Text("Agadir")
                           ],
@@ -211,11 +211,12 @@ class _FilterViewState extends State<FilterView> {
                           ],
                         ),
                       ],
+                      style: _theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                       padding:const EdgeInsets.only(left: 8, right: 10) ,
                       borderRadius:  BorderRadius.circular(16),
                       decoration: InputDecoration(
                         isDense: true,
-                        contentPadding: EdgeInsets.zero,
+                        contentPadding:const EdgeInsets.symmetric(vertical: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),

@@ -196,16 +196,26 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           Container(
                             padding:
-                                const EdgeInsets.only(top: 24.0, bottom: 64.0),
+                                const EdgeInsets.only(top: 24.0,bottom: 10),
                             alignment: Alignment.center,
                             child: SvgPicture.asset(
-                              'assets/images/logo_inline_black.svg',
+                              'assets/images/logo_black.svg',
                               height: 75,
                               semanticsLabel: 'Discover Morocco',
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 50.0),
+                            child: Center(
+                              child: Text("Discover Morocco", style: theme.textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 21,
+                              color: Colors.grey.shade500,
+                              ),),
+                            ),
+                          ),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
