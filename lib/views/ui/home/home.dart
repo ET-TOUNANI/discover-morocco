@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as b;
+import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +12,7 @@ import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
 
-import 'bookmarked/bookmarked.dart';
+import '../publication/view/list_Publication.dart';
 import 'explore/explore.dart';
 import 'search/search.dart';
 
@@ -27,6 +28,8 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   //late AppLocalizations _localizations;
   late ThemeData _theme;
+
+  bool idAdmin=true;
 
   @override
   void didChangeDependencies() {
@@ -104,39 +107,44 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
         backgroundColor: _theme.canvasColor,
       ),
       body: DefaultTabController(
-        length: 3,
+        length: 4,
         child: FloatingBottomNavbar(
           color: _theme.primaryColor,
           unselectedColor: Colors.white,
           start: 30,
-          end: 2,
+          end: 3,
           actions: [
             FloatingBottomNavbarAction(
               onTap: onButtomNavigatorExplorePressed,
               child: const Icon(Icons.explore),
             ),
           ],
-          tabs: const [
-            FloatingBottomNavbarItem(
+          tabs:  [
+            if(idAdmin)const FloatingBottomNavbarItem(
+              icon: Icons.dashboard,
+              text: "Dashboard",
+            ),
+            const FloatingBottomNavbarItem(
               icon: Icons.home_rounded,
               text: "Home",
             ),
-            FloatingBottomNavbarItem(
-              icon: Icons.bookmark,
-              text: "Bookmarked",
-            ),
-            FloatingBottomNavbarItem(
+            const FloatingBottomNavbarItem(
               icon: Icons.search,
               text: "Search",
             ),
+            const FloatingBottomNavbarItem(
+              icon: Icons.list,
+              text: "Publications",
+            ),
           ],
-          child: const TabBarView(
+          child:  TabBarView(
             dragStartBehavior: DragStartBehavior.down,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
-              ExploreView(),
-              BookmarkView(),
-              SearchView(),
+              if(idAdmin)const Dashboard(),
+              const ExploreView(),
+              const SearchView(),
+              const ListPublication()
             ],
           ),
         ),

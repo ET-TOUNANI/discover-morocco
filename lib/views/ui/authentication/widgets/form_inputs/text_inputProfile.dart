@@ -53,6 +53,7 @@ class TextFormInput extends StatelessWidget {
                 textFieldKey: textFieldKey,
                 icon: icon,
                 hint: hint,
+                multiline: false,
                 keyboardType: keyboardType,
                 obscureText: obscureText,
                 backgroundColor: Colors.grey.shade100,

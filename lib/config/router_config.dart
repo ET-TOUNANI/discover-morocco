@@ -1,4 +1,5 @@
 
+import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
 import 'package:discover_morocco/views/ui/authentication/page/signin.dart';
 //import 'package:discover_morocco/views/ui/authentication/view/auth_code.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
@@ -9,6 +10,8 @@ import 'package:discover_morocco/views/ui/landing/landing.dart';
 import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
+import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart';
+import 'package:discover_morocco/views/ui/publication/view/list_Publication.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 
 class Routers {
@@ -17,6 +20,9 @@ class Routers {
         LandingView.routeName: (_) => const LandingView(),
         SingInPage.routeName: (_) => const SingInPage(),
         Profile.routeName: (_) => const Profile(),
+        AddPublication.routeName: (_) => const AddPublication(),
+        Dashboard.routeName: (_) => const Dashboard(),
+        ListPublication.routeName: (_) => const ListPublication(),
         MainView.routeName: (_) => const MainView(),
         NotificationView.routeName: (_) => const NotificationView(),
         NavigationMenu.routeName: (_) => const NavigationMenu(),

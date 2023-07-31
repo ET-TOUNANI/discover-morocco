@@ -14,7 +14,6 @@ import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dar
 import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 import 'package:discover_morocco/views/widgets/medium_place_card.dart';
-import 'package:discover_morocco/views/widgets/row_place_card.dart';
 
 import 'bloc/explore_bloc.dart';
 
@@ -152,47 +151,6 @@ class _ExploreViewState extends State<ExploreView> {
                         .values
                         .toList(),
                   ),
-                ),
-              ),
-              const Headline(text: "Featured Listed"),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Wrap(
-                  spacing: 16,
-                  direction: Axis.horizontal,
-                  children: snapList
-                      .map(
-                        (e) => RowPlaceCard(
-                          imageHeroTag: ValueKey('row_${e['id']}'),
-                          title: e['title']!,
-                          description: e['description']!,
-                          assetImage: e['imageUrl']!,
-                          onTab: () => onPlaceCardPressed(
-                            e['id']!,
-                            ValueKey('row_${e['id']}'),
-                          ),
-                          onActionTab: () => onPlaceBookmarkPressed(e['id']!),
-                          price: random.nextInt(400) + 100,
-                          options: [
-                            PlaceOptionModel(
-                              iconClass: IconClass.materialIcon,
-                              icon: Icons.king_bed_rounded.codePoint,
-                              value: '${random.nextInt(3) + 1}',
-                            ),
-                            PlaceOptionModel(
-                              iconClass: IconClass.materialIcon,
-                              icon: Icons.meeting_room.codePoint,
-                              value: '${random.nextInt(3) + 1}',
-                            ),
-                          ],
-                          action: const Icon(
-                            Icons.bookmark_border_rounded,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                        ),
-                      )
-                      .toList(),
                 ),
               ),
             ],

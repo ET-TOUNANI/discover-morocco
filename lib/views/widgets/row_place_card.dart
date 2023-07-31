@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_morocco/business_logic/models/models/place_option.dart';
-import 'package:discover_morocco/views/ui/extensions/enum_extension.dart';
 
 import 'circle_button.dart';
 
@@ -37,39 +36,10 @@ class RowPlaceCard extends StatelessWidget {
     this.onBookingTab,
   });
 
-  List<Widget> _getOptionWidgets(ThemeData theme) {
-    final List<Widget> optionWidgets = [];
-    if (options?.isNotEmpty == true) {
-      for (final option in options!) {
-        optionWidgets.addAll([
-          Icon(
-            option.iconClass.iconData(option.icon),
-            size: 18,
-            color: theme.disabledColor,
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(
-              start: 4,
-              end: 8,
-            ),
-            child: Text(
-              option.value,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.disabledColor,
-              ),
-            ),
-          ),
-        ]);
-      }
-    }
-    return optionWidgets;
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
-    final optionWidgets = _getOptionWidgets(theme);
 
     final header = Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -102,7 +72,7 @@ class RowPlaceCard extends StatelessWidget {
             child: SizedBox(
               height: 105,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -122,24 +92,6 @@ class RowPlaceCard extends StatelessWidget {
                         style: theme.textTheme.bodySmall,
                       ),
                     ),
-                  if (optionWidgets.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Row(children: optionWidgets),
-                    ),
-                  if (onBookingTab == null) ...[
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        '$price\$',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ]
                 ],
               ),
             ),
@@ -168,7 +120,7 @@ class RowPlaceCard extends StatelessWidget {
 
     //final localizations = AppLocalizations.of(context)!;
 
-    final buttonSize = Size(min(150, mediaQuery.size.width * 0.4), 40);
+    final buttonSize = Size(min(150, mediaQuery.size.width * 0.3), 40);
     final footer = Column(
       children: [
         header,
@@ -177,18 +129,18 @@ class RowPlaceCard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
           child: Row(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Total",
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  minimumSize: buttonSize,
+                  backgroundColor: theme.buttonTheme.colorScheme!.background,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0),
                   ),
-                  Text('$price\$')
-                ],
+                ),
+                child: const Text(
+                  "Reject",
+                ),
               ),
               const Spacer(),
               ElevatedButton(
@@ -200,7 +152,7 @@ class RowPlaceCard extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  "Rebooking",
+                  "Approve",
                 ),
               )
             ],

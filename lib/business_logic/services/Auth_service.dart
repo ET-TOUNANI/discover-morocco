@@ -228,6 +228,18 @@ class AuthenticationRepository {
       throw LogOutFailure();
     }
   }
+  Future<bool> isAdmin() async {
+    try {
+      if(_firebaseAuth.currentUser != null){
+        return _firebaseAuth.currentUser?.uid == "admin_uid";
+      }
+      return false;
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw SignInFailure.fromCode(e.code);
+    } catch (_) {
+      throw const SignInFailure();
+    }
+  }
 }
 
 extension on firebase_auth.User {

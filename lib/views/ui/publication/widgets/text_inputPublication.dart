@@ -1,20 +1,20 @@
 
+import 'package:discover_morocco/views/ui/publication/bloc/publication_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:discover_morocco/views/ui/authentication/bloc/bloc.dart';
 import 'package:discover_morocco/views/widgets/icon_text_field.dart';
 
 class TextFormInput extends StatelessWidget {
   final String label;
   final IconData icon;
   final String hint;
-  final bool Function(SignInState, SignInState) buildWhen;
+  final bool Function(PublicationState, PublicationState) buildWhen;
   final Key textFieldKey;
   final TextInputType keyboardType;
   final bool obscureText;
-  final Function(String, BuildContext, SignInState) onChanged;
-  final String? Function(BuildContext, SignInState) getError;
-
+  final Function(String, BuildContext, PublicationState) onChanged;
+  final String? Function(BuildContext, PublicationState) getError;
+  final bool height;
   const TextFormInput({
     super.key,
     required this.label,
@@ -26,16 +26,16 @@ class TextFormInput extends StatelessWidget {
     required this.onChanged,
     required this.getError,
     required this.icon,
+    this.height=false
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<SignInCubit, SignInState>(
+    return BlocBuilder<PublicationCubit, PublicationState>(
       buildWhen: buildWhen,
       builder: (context, state) {
-        final error = getError(context, state);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,8 @@ class TextFormInput extends StatelessWidget {
                 textFieldKey: textFieldKey,
                 icon: icon,
                 hint: hint,
-                multiline: false,
+                multiline:height,
+                height: (height)?170:50,
                 keyboardType: keyboardType,
                 obscureText: obscureText,
                 backgroundColor: Colors.grey.shade100,
@@ -63,25 +64,6 @@ class TextFormInput extends StatelessWidget {
                 onChanged: (value) => onChanged(value, context, state),
               ),
             ),
-            AnimatedCrossFade(
-              crossFadeState: error != null
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 200),
-              firstChild: Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  top: 8.0,
-                  start: 64.0,
-                ),
-                child: Text(
-                  error ?? '',
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    color: theme.colorScheme.error,
-                  ),
-                ),
-              ),
-              secondChild: const SizedBox(),
-            )
           ],
         );
       },

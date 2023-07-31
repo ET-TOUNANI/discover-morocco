@@ -1,4 +1,5 @@
 import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
+import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
@@ -32,9 +33,15 @@ class NavigationMenu extends StatelessWidget {
         ));
 
   }
-  Future<void> onProfilePressed(BuildContext context) async {
+
+  void onProfilePressed(BuildContext context)  {
     //context.read<SettingsBloc>().add(const ());
     Navigator.pushNamed(context, Profile.routeName);
+  }
+
+  void createPupPressed(BuildContext context)  {
+    //context.read<SettingsBloc>().add(const ());
+    Navigator.pushNamed(context, AddPublication.routeName);
   }
 
   @override
@@ -75,12 +82,15 @@ class NavigationMenu extends StatelessWidget {
                 ),
               ),
               const Divider(indent: 24, endIndent: 24),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  leading: Icon(Icons.public),
-                  title: Text("Create new publication"),
-                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+               Padding(
+                padding:const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: InkWell(
+                  onTap: ()=>createPupPressed(context),
+                  child:const ListTile(
+                    leading: Icon(Icons.public),
+                    title: Text("Create new publication"),
+                    trailing: Icon(Icons.arrow_forward_ios_rounded),
+                  ),
                 ),
               ),
               const Divider(indent: 24, endIndent: 24),
