@@ -1,28 +1,32 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'tiktok.g.dart';
+import 'enums/PubState.dart';
+
+part 'publication.g.dart';
 
 @JsonSerializable()
-class TiktokModel extends Equatable {
+class Publication extends Equatable {
   final String id;
   final String title;
   final String? description;
   final String imageUrl;
   final String video;
-
+  final PubState state;
   final int likes;
   final int comments;
-
   final bool isLiked;
+  final bool isPublished;
 
-  const TiktokModel({
-    required this.id,
+   const Publication(  {
+    required this.state,
+     required this.id,
     required this.title,
     required this.imageUrl,
     required this.video,
     this.isLiked = false,
-    this.description,
+     this.isPublished = false,
+    this.description='',
     this.likes = 0,
     this.comments = 0,
   });
@@ -30,8 +34,8 @@ class TiktokModel extends Equatable {
   @override
   List<Object?> get props => [id];
 
-  factory TiktokModel.fromJson(Map<String, dynamic> json) =>
-      _$TiktokModelFromJson(json);
+  factory Publication.fromJson(Map<String, dynamic> json) =>
+      _$PublicationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TiktokModelToJson(this);
+  Map<String, dynamic> toJson() => _$PublicationToJson(this);
 }

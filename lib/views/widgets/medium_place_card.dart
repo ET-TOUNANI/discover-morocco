@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_morocco/business_logic/models/models/place_option.dart';
-import 'package:discover_morocco/views/ui/extensions/enum_extension.dart';
 
 import 'circle_button.dart';
 
@@ -13,7 +11,6 @@ class MediumPlaceCard extends StatelessWidget {
   final String? networkImage;
   final String title;
   final String? description;
-  final List<PlaceOptionModel>? options;
 
   final Object imageHeroTag;
 
@@ -28,7 +25,6 @@ class MediumPlaceCard extends StatelessWidget {
     required this.action,
     required this.onActionTab,
     required this.imageHeroTag,
-    this.options,
     this.description,
     this.assetImage,
     this.networkImage,
@@ -146,21 +142,6 @@ class MediumPlaceCard extends StatelessWidget {
                       style: theme.textTheme.bodySmall,
                     ),
                   ),
-                if (options != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Row(
-                      children: options!
-                          .map(
-                            (e) => _chip(
-                              theme,
-                              e.value,
-                              e.iconClass.iconData(e.icon),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  )
               ],
             ),
           ),

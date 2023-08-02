@@ -15,9 +15,9 @@ class ExploreState extends Equatable {
   final BlocStatus featureStatus;
   final BlocStatus popularsStatus;
 
-  final List<PlaceCategoryModel> categories;
-  final List<PlaceModel> features;
-  final List<PlaceModel> populars;
+  final List<Publication> categories;
+  final List<Publication> features;
+  final List<Publication> populars;
 
   @override
   List<Object?> get props => [
@@ -33,9 +33,9 @@ class ExploreState extends Equatable {
     BlocStatus? categoriesStatus,
     BlocStatus? featureStatus,
     BlocStatus? popularsStatus,
-    List<PlaceCategoryModel>? categories,
-    List<PlaceModel>? features,
-    List<PlaceModel>? populars,
+    List<Publication>? categories,
+    List<Publication>? features,
+    List<Publication>? populars,
   }) =>
       ExploreState(
         featureStatus: featureStatus ?? this.featureStatus,

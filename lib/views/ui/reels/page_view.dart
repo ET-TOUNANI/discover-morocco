@@ -1,16 +1,18 @@
 import 'dart:math';
 
+import 'package:discover_morocco/views/ui/extensions/number_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import 'package:discover_morocco/business_logic/models/models/tiktok.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
-import 'package:discover_morocco/views/ui/extensions/number_extention.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../business_logic/models/models/publication.dart';
+
+
 class TiktokPageView extends StatefulWidget {
-  final TiktokModel model;
+  final Publication model;
 
   const TiktokPageView(this.model, {super.key});
 
@@ -19,8 +21,6 @@ class TiktokPageView extends StatefulWidget {
 }
 
 class _TiktokPageViewState extends State<TiktokPageView> {
-  // out-sourced funtionalities, geting injected by `InheritedWidget`
-  //late AppLocalizations _localizations;
   late MediaQueryData _mediaQuery;
   late ThemeData _theme;
 

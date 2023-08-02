@@ -93,7 +93,6 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                 color: Colors.white,
               ),
             ),
-            elevation: 0,
             position: b.BadgePosition.topEnd(end: -4, top: -4),
             child: const Icon(
               Icons.notifications_rounded,

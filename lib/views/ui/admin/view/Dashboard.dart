@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
-import 'package:discover_morocco/business_logic/models/models/place_option.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
@@ -76,18 +74,6 @@ class _DashboardState extends State<Dashboard> {
                     onActionTab: () => onPlaceBookmarkPressed(e['id']!),
                     onBookingTab: () => onBookingTab(e['id']!),
                     price: random.nextInt(400) + 100,
-                    options: [
-                      PlaceOptionModel(
-                        iconClass: IconClass.materialIcon,
-                        icon: Icons.king_bed_rounded.codePoint,
-                        value: '${random.nextInt(3) + 1}',
-                      ),
-                      PlaceOptionModel(
-                        iconClass: IconClass.materialIcon,
-                        icon: Icons.meeting_room.codePoint,
-                        value: '${random.nextInt(3) + 1}',
-                      ),
-                    ],
                     action: const Icon(
                       Icons.close,
                       color: Colors.black,

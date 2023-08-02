@@ -41,7 +41,7 @@ class NavigationMenu extends StatelessWidget {
 
   void createPupPressed(BuildContext context)  {
     //context.read<SettingsBloc>().add(const ());
-    Navigator.pushNamed(context, AddPublication.routeName);
+    Navigator.pushNamed(context, PublicationProvider.routeName);
   }
 
   @override
@@ -128,6 +128,7 @@ class NavigationMenu extends StatelessWidget {
           ),
         ),
       ),
+
     );
   }
 }

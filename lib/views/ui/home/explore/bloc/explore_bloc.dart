@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/bloc_status.dart';
-import 'package:discover_morocco/business_logic/models/models/place.dart';
-import 'package:discover_morocco/business_logic/models/models/video_category.dart';
 import 'package:discover_morocco/business_logic/services/db_service.dart';
+
+import '../../../../../business_logic/models/models/publication.dart';
 
 part 'explore_event.dart';
 part 'explore_state.dart';
@@ -19,7 +19,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     on<ExploreFeatureFetched>(_onFeatureFetched);
   }
 
-  final PlaceRepository _repository;
+  final DbService _repository;
 
   Future<void> _onFetched(
     ExploreFetched event,
@@ -30,7 +30,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       emit(
         state.copyWith(
           categoriesStatus: BlocStatus.success,
-          categories: await _repository.categories(),
+          categories: await _repository.publications(),
         ),
       );
     } catch (e) {
@@ -47,7 +47,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       emit(
         state.copyWith(
           categoriesStatus: BlocStatus.success,
-          categories: await _repository.categories(),
+          categories: await _repository.publications(),
         ),
       );
     } catch (e) {

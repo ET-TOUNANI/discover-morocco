@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../business_logic/models/models/enums/icon_class.dart';
-import '../../../../business_logic/models/models/place_option.dart';
 import '../../../../business_logic/services/db_service.dart';
 import '../../../utils/constants.dart';
 import '../../../widgets/headline.dart';
@@ -38,7 +37,7 @@ class _ListPublicationState extends State<ListPublication> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (blocProviderContext) =>
-      ExploreBloc(blocProviderContext.read<PlaceRepository>())
+      ExploreBloc(blocProviderContext.read<DbService>())
         ..add(ExploreFetched()),
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,
@@ -67,18 +66,6 @@ class _ListPublicationState extends State<ListPublication> {
                       ),
                       onActionTab: () => onPlaceBookmarkPressed(e['id']!),
                       price: random.nextInt(400) + 100,
-                      options: [
-                        PlaceOptionModel(
-                          iconClass: IconClass.materialIcon,
-                          icon: Icons.king_bed_rounded.codePoint,
-                          value: '${random.nextInt(3) + 1}',
-                        ),
-                        PlaceOptionModel(
-                          iconClass: IconClass.materialIcon,
-                          icon: Icons.meeting_room.codePoint,
-                          value: '${random.nextInt(3) + 1}',
-                        ),
-                      ],
                       action: const Icon(
                         Icons.delete,
                         color: Colors.red,

@@ -3,9 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
-import 'package:discover_morocco/business_logic/models/models/video_category.dart';
 
-typedef AsyncSnapListCallback = Future<void> Function(PlaceCategoryModel);
+import '../../../../../business_logic/models/models/publication.dart';
+
+typedef AsyncSnapListCallback = Future<void> Function(Publication);
 
 class SnapList extends StatelessWidget {
   const SnapList({
@@ -19,7 +20,7 @@ class SnapList extends StatelessWidget {
   final double width;
   final double height;
   final AsyncSnapListCallback onPressed;
-  final List<PlaceCategoryModel> models;
+  final List<Publication> models;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class SnapList extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SingleChildScrollView(
                                 child: Text(
-                                  model.description,
+                                  model.description??'',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.white,
                                   ),

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_morocco/business_logic/models/models/place_option.dart';
 
 import 'circle_button.dart';
 
@@ -15,7 +14,6 @@ class RowPlaceCard extends StatelessWidget {
   final String? networkImage;
   final String title;
   final String? description;
-  final List<PlaceOptionModel>? options;
 
   final double price;
 
@@ -29,7 +27,6 @@ class RowPlaceCard extends StatelessWidget {
     required this.action,
     required this.onActionTab,
     required this.imageHeroTag,
-    this.options,
     this.description,
     this.assetImage,
     this.networkImage,

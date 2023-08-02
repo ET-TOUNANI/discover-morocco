@@ -1,9 +1,10 @@
-import 'dart:math';
 
+import 'package:discover_morocco/business_logic/models/models/enums/PubState.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_morocco/business_logic/models/models/tiktok.dart';
 import 'package:discover_morocco/views/ui/reels/page_view.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
+
+import '../../../business_logic/models/models/publication.dart';
 
 class TiktokVideoView extends StatefulWidget {
   static const routeName = 'explore';
@@ -51,7 +52,6 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
 
   @override
   Widget build(BuildContext context) {
-    final random = Random();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -68,14 +68,15 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
         children: datasource
             .map(
               (e) => TiktokPageView(
-                TiktokModel(
+                Publication(
                   id: e['id']!,
                   title: e['title']!,
                   imageUrl: e['imageUrl']!,
                   video: e['video']!,
                   description: e['description'],
-                  likes: random.nextInt(70) + 10,
-                  comments: 5000,
+                  likes: e["likes"]! as int,
+                  comments: e["comments"]! as int,
+                  state: e['state']! as PubState,
                 ),
               ),
             )

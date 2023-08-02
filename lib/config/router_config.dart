@@ -20,7 +20,7 @@ class Routers {
         LandingView.routeName: (_) => const LandingView(),
         SingInPage.routeName: (_) => const SingInPage(),
         Profile.routeName: (_) => const Profile(),
-        AddPublication.routeName: (_) => const AddPublication(),
+        PublicationProvider.routeName: (_) => const PublicationProvider(),
         Dashboard.routeName: (_) => const Dashboard(),
         ListPublication.routeName: (_) => const ListPublication(),
         MainView.routeName: (_) => const MainView(),

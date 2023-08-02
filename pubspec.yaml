@@ -14,8 +14,8 @@ dependencies:
   lottie: ^2.4.0
   flutter_dotenv: ^5.1.0
   formz: ^0.4.1
-  badges: ^2.0.3
-  shimmer: ^2.0.0
+  badges: ^3.1.1
+  shimmer: ^3.0.0
   timelines: ^0.1.0
   like_button: ^2.0.5
   flutter_blurhash: ^0.7.0
@@ -23,10 +23,11 @@ dependencies:
   scroll_snap_list:
     path: dependencies/scroll_snap_list
 
-  dio: ^4.0.6
+  uuid: ^3.0.7
+  dio: ^5.3.1
   intl: ^0.18.0
-  share_plus: ^6.3.0
-  flutter_svg: ^1.1.6
+  share_plus: ^7.1.0
+  flutter_svg: ^2.0.7
   url_launcher: ^6.1.6
   json_annotation: ^4.5.0
   json_serializable: ^6.2.0
@@ -43,9 +44,9 @@ dependencies:
 
   dart_vlc: ^0.4.0
   video_player: ^2.4.8
-  video_player_win: ^1.1.0
-  video_player_macos: 1.0.6
-  google_sign_in: ^5.4.2
+  video_player_win: ^2.2.2
+  video_player_macos: ^2.0.1
+  google_sign_in: ^6.1.4
 
 
 
@@ -55,7 +56,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   retrofit_generator: any
-  mocktail: ^0.3.0
+  mocktail: ^1.0.0
   test: ^1.16.0
   bloc_test: ^9.1.0
   device_preview: ^1.1.0
@@ -76,7 +77,7 @@ flutter_native_splash:
   ios: true
 
 flutter:
-  generate: true
+  #generate: true
   uses-material-design: true
   assets:
     - assets/images/

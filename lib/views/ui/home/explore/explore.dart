@@ -1,11 +1,10 @@
 import 'dart:math';
 
+import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/bloc_status.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
-import 'package:discover_morocco/business_logic/models/models/place_option.dart';
-import 'package:discover_morocco/business_logic/models/models/video_category.dart';
 import 'package:discover_morocco/business_logic/services/db_service.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/home/explore/widgets/snap_list.dart';
@@ -49,7 +48,7 @@ class _ExploreViewState extends State<ExploreView> {
     super.didChangeDependencies();
   }
 
-  Future<void> onCategoryPressed(PlaceCategoryModel categoryModel) async {}
+  Future<void> onCategoryPressed(Publication categoryModel) async {}
 
   void onButtomNavigatorExplorePressed(String id) {
     Navigator.of(context).pushNamed(ExploreView.routeName, arguments: id);
@@ -94,7 +93,7 @@ class _ExploreViewState extends State<ExploreView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (blocProviderContext) =>
-          ExploreBloc(blocProviderContext.read<PlaceRepository>())
+          ExploreBloc(blocProviderContext.read<DbService>())
             ..add(ExploreFetched()),
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,
@@ -126,18 +125,7 @@ class _ExploreViewState extends State<ExploreView> {
                               onActionTab: () =>
                                   onPlaceBookmarkPressed(e['id']!),
                               price: random.nextInt(400) + 100,
-                              options: [
-                                PlaceOptionModel(
-                                  iconClass: IconClass.materialIcon,
-                                  icon: Icons.king_bed_rounded.codePoint,
-                                  value: '${random.nextInt(3) + 1}',
-                                ),
-                                PlaceOptionModel(
-                                  iconClass: IconClass.materialIcon,
-                                  icon: Icons.meeting_room.codePoint,
-                                  value: '${random.nextInt(3) + 1}',
-                                ),
-                              ],
+                              
                               title: e['title']!,
                               description: e['description']!.substring(0, 100),
                               assetImage:e['imageUrl']!,

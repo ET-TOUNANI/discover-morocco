@@ -3,9 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:discover_morocco/business_logic/models/models/video_category.dart';
 
-typedef AsyncSnapListCallback = Future<void> Function(PlaceCategoryModel);
+import '../../../../../business_logic/models/models/publication.dart';
+
+typedef AsyncSnapListCallback = Future<void> Function(Publication);
 
 class SnapListShimmer extends StatelessWidget {
   const SnapListShimmer({
