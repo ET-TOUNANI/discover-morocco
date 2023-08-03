@@ -1,8 +1,8 @@
+import 'package:discover_morocco/views/ui/authentication/bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:discover_morocco/views/ui/authentication/bloc/bloc.dart';
 
 class SingInButton extends StatelessWidget {
   const SingInButton({

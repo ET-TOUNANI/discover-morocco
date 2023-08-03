@@ -1,13 +1,13 @@
 import 'dart:io' show Platform;
 import 'dart:ui' show SingletonFlutterWindow;
 
+import 'package:discover_morocco/business_logic/models/models/enums/contact_host.dart';
+import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
+import 'package:discover_morocco/business_logic/models/models/enums/screen_type.dart';
 import 'package:flutter/material.dart'
     show BuildContext, IconData, MediaQueryData;
 import 'package:flutter/widgets.dart'
     show BuildContext, IconData, MediaQueryData;
-import 'package:discover_morocco/business_logic/models/models/enums/contact_host.dart';
-import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
-import 'package:discover_morocco/business_logic/models/models/enums/screen_type.dart';
 
 import 'map_extension.dart';
 import 'string_extension.dart';
@@ -31,7 +31,7 @@ extension IconClassExtension on IconClass {
       // case IconClass.iconDataRegular:
       //   return IconDataRegular(code);
       case IconClass.materialIcon:
-        return  IconData(code, fontFamily: 'MaterialIcons');
+        return IconData(code, fontFamily: 'MaterialIcons');
       default:
         throw Exception();
     }
@@ -164,8 +164,7 @@ extension ContactHostExtention on ContactHost {
           'https://medium.com/@$identifier'.tryLaunch(identifier, context);
         };
       default:
-        return (BuildContext context) =>
-            identifier.copyToClipboard();
+        return (BuildContext context) => identifier.copyToClipboard();
     }
   }
 /*

@@ -92,9 +92,7 @@ class _FilterViewState extends State<FilterView> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {
-
-              },
+              onTap: () {},
               borderRadius: BorderRadius.circular(16),
             ),
           ),
@@ -170,7 +168,6 @@ class _FilterViewState extends State<FilterView> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: DropdownButtonFormField(
-
                       items: [
                         "Casablanca",
                         "Agadir",
@@ -214,12 +211,14 @@ class _FilterViewState extends State<FilterView> {
                           ],
                         ),
                       ],
-                      style: _theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                      padding:const EdgeInsets.only(left: 8, right: 10) ,
-                      borderRadius:  BorderRadius.circular(16),
+                      style: _theme.textTheme.bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.only(left: 8, right: 10),
+                      borderRadius: BorderRadius.circular(16),
                       decoration: InputDecoration(
                         isDense: true,
-                        contentPadding:const EdgeInsets.symmetric(vertical: 10),
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),

@@ -64,7 +64,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       emit(
         state.copyWith(
           popularsStatus: BlocStatus.success,
-          populars: await _repository.populars(),
+          populars:
+              await _repository.publications(), //TODO: replace it with Pupulars
         ),
       );
     } catch (e) {
@@ -81,7 +82,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       emit(
         state.copyWith(
           featureStatus: BlocStatus.success,
-          features: await _repository.features(),
+          features:
+              await _repository.publications(), //TODO: replace it with Feature
         ),
       );
     } catch (e) {

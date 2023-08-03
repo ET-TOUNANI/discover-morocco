@@ -1,20 +1,21 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/formz/email.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/formz/password.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(
     this.authenticationRepository,
-  ) : super( ProfileState(
-      email:Email.dirty(authenticationRepository.currentUser.email??'' ),
-      name: authenticationRepository.currentUser.name??'',
-      photo:authenticationRepository.currentUser.photo??'assets/mock/profile.png'
-  ));
+  ) : super(ProfileState(
+            email:
+                Email.dirty(authenticationRepository.currentUser.email ?? ''),
+            name: authenticationRepository.currentUser.name ?? '',
+            photo: authenticationRepository.currentUser.photo ??
+                'assets/mock/profile.png'));
 
   final AuthenticationRepository authenticationRepository;
 
@@ -27,6 +28,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void passwordChanged(String value) {
     final password = Password.dirty(value);
     emit(
@@ -36,6 +38,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void nameChanged(String value) {
     emit(
       state.copyWith(
@@ -44,6 +47,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void phoneChanged(String value) {
     emit(
       state.copyWith(
@@ -52,6 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void photoChanged(String value) {
     emit(
       state.copyWith(
@@ -60,6 +65,4 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
-
-
 }

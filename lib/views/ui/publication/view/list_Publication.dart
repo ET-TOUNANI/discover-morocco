@@ -1,16 +1,19 @@
 import 'dart:math';
 
+import 'package:discover_morocco/views/ui/admin/bloc/pub_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
-import '../../../../business_logic/models/models/enums/icon_class.dart';
+import '../../../../business_logic/models/models/enums/bloc_status.dart';
+import '../../../../business_logic/services/Auth_service.dart';
 import '../../../../business_logic/services/db_service.dart';
-import '../../../utils/constants.dart';
 import '../../../widgets/headline.dart';
 import '../../../widgets/row_place_card.dart';
 import '../../book/detail.dart';
-import '../../home/explore/bloc/explore_bloc.dart';
+import '../../home/explore/widgets/snap_list_shimmer.dart';
 import '../../home/widgets/bottom_nav_bar/navbar.dart';
+
 class ListPublication extends StatefulWidget {
   static const String routeName = '/home/listPublication';
   const ListPublication({super.key});
@@ -20,29 +23,99 @@ class ListPublication extends StatefulWidget {
 }
 
 class _ListPublicationState extends State<ListPublication> {
+  late Size _snapListSize;
 
+  late MediaQueryData _mediaQuery;
+  void _computeCustomCardSize() {
+    final height = max(400, _mediaQuery.size.height * 0.62).toDouble();
+    _snapListSize = Size(height * (12 / 16), height);
+  }
 
-  final random = Random();
+  Widget _listPub() => SizedBox(
+        height: _snapListSize.height,
+        child: BlocBuilder<PubliacationBloc, WaitingPubState>(
+          buildWhen: (previous, current) =>
+              current.pubListStatus != previous.pubListStatus ||
+              current.publicationsByUser != previous.publicationsByUser,
+          builder: (context, state) {
+            switch (state.pubListStatus) {
+              case BlocStatus.success:
+                return Wrap(
+                    //mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (state.publicationsByUser.isEmpty)
+                        Lottie.asset(
+                          "assets/mock/noData.json",
+                          width: _mediaQuery.size.width - 40,
+                          height: _mediaQuery.size.height / 3,
+                        ),
+                      ...state.publicationsByUser
+                          .map(
+                            (e) => RowPlaceCard(
+                              imageHeroTag: ValueKey('row_${e.id}'),
+                              title: e.title,
+                              description: e.description,
+                              networkImage: e.imageUrl,
+                              onTab: () => onPlaceCardPressed(
+                                e.id,
+                                ValueKey('row_${e.id}'),
+                              ),
+                              onActionTab: () => onPlaceBookmarkPressed(e.id),
+                              action: const Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                                size: 18,
+                              ),
+                            ),
+                          )
+                          .toList()
+                    ]);
 
-
+              case BlocStatus.initial:
+                return SizedBox(
+                  height: _snapListSize.height,
+                  width: _snapListSize.width,
+                );
+              case BlocStatus.loading:
+                return SnapListShimmer(
+                  height: _snapListSize.height,
+                  width: _snapListSize.width,
+                );
+              case BlocStatus.failure:
+                return Lottie.asset(
+                  "assets/mock/noData.json",
+                  width: _mediaQuery.size.width - 40,
+                  height: _mediaQuery.size.height / 3,
+                );
+              default:
+                return Lottie.asset(
+                  "assets/mock/noData.json",
+                  width: _mediaQuery.size.width - 40,
+                  height: _mediaQuery.size.height / 3,
+                );
+            }
+          },
+        ),
+      );
 
   @override
   void didChangeDependencies() {
-
+    _mediaQuery = MediaQuery.of(context);
+    _computeCustomCardSize();
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (blocProviderContext) =>
-      ExploreBloc(blocProviderContext.read<DbService>())
-        ..add(ExploreFetched()),
+      create: (blocProviderContext) => PubliacationBloc(
+          blocProviderContext.read<DbService>(),
+          blocProviderContext.read<AuthenticationRepository>())
+        ..add(PubEventListFetched()),
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,30 +124,9 @@ class _ListPublicationState extends State<ListPublication> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Wrap(
-                  spacing: 16,
-                  direction: Axis.horizontal,
-                  children: snapList
-                      .map(
-                        (e) => RowPlaceCard(
-                      imageHeroTag: ValueKey('row_${e['id']}'),
-                      title: e['title']!,
-                      description: e['description']!,
-                      assetImage: e['imageUrl']!,
-                      onTab: () => onPlaceCardPressed(
-                        e['id']!,
-                        ValueKey('row_${e['id']}'),
-                      ),
-                      onActionTab: () => onPlaceBookmarkPressed(e['id']!),
-                      price: random.nextInt(400) + 100,
-                      action: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                        size: 18,
-                      ),
-                    ),
-                  )
-                      .toList(),
-                ),
+                    spacing: 16,
+                    direction: Axis.horizontal,
+                    children: [_listPub()]),
               ),
             ],
           ),

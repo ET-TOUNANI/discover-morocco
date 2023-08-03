@@ -1,13 +1,13 @@
 import 'package:discover_morocco/views/ui/authentication/bloc/signin/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class Picture extends StatelessWidget {
   const Picture({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return  Stack(
+    return Stack(
       children: [
         SizedBox(
           width: 120,
@@ -16,7 +16,7 @@ class Picture extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               child: BlocBuilder<ProfileCubit, ProfileState>(
                   buildWhen: (previous, current) =>
-                  current.photo != previous.photo,
+                      current.photo != previous.photo,
                   builder: (context, state) {
                     return Image(image: AssetImage(state.photo));
                   })),
@@ -34,8 +34,8 @@ class Picture extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   color: Theme.of(context).primaryColor),
-              child: const Icon(Icons.camera_alt,
-                  color: Colors.black, size: 20),
+              child:
+                  const Icon(Icons.camera_alt, color: Colors.black, size: 20),
             ),
           ),
         ),

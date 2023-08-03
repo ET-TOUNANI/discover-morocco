@@ -10,6 +10,7 @@ Publication _$PublicationFromJson(Map<String, dynamic> json) => Publication(
       state: $enumDecode(_$PubStateEnumMap, json['state']),
       id: json['id'] as String,
       title: json['title'] as String,
+      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
       imageUrl: json['imageUrl'] as String,
       video: json['video'] as String,
       isLiked: json['isLiked'] as bool? ?? false,
@@ -31,6 +32,7 @@ Map<String, dynamic> _$PublicationToJson(Publication instance) =>
       'comments': instance.comments,
       'isLiked': instance.isLiked,
       'isPublished': instance.isPublished,
+      'user': instance.user.toJson(),
     };
 
 const _$PubStateEnumMap = {

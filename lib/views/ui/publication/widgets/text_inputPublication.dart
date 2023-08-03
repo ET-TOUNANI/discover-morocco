@@ -1,8 +1,7 @@
-
 import 'package:discover_morocco/views/ui/publication/bloc/publication_cubit.dart';
+import 'package:discover_morocco/views/widgets/icon_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:discover_morocco/views/widgets/icon_text_field.dart';
 
 class TextFormInput extends StatelessWidget {
   final String label;
@@ -15,19 +14,18 @@ class TextFormInput extends StatelessWidget {
   final Function(String, BuildContext, PublicationState) onChanged;
   final String? Function(BuildContext, PublicationState) getError;
   final bool height;
-  const TextFormInput({
-    super.key,
-    required this.label,
-    required this.hint,
-    required this.buildWhen,
-    required this.textFieldKey,
-    required this.keyboardType,
-    required this.obscureText,
-    required this.onChanged,
-    required this.getError,
-    required this.icon,
-    this.height=false
-  });
+  const TextFormInput(
+      {super.key,
+      required this.label,
+      required this.hint,
+      required this.buildWhen,
+      required this.textFieldKey,
+      required this.keyboardType,
+      required this.obscureText,
+      required this.onChanged,
+      required this.getError,
+      required this.icon,
+      this.height = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,6 @@ class TextFormInput extends StatelessWidget {
     return BlocBuilder<PublicationCubit, PublicationState>(
       buildWhen: buildWhen,
       builder: (context, state) {
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -53,8 +50,8 @@ class TextFormInput extends StatelessWidget {
                 textFieldKey: textFieldKey,
                 icon: icon,
                 hint: hint,
-                multiline:height,
-                height: (height)?170:50,
+                multiline: height,
+                height: (height) ? 170 : 50,
                 keyboardType: keyboardType,
                 obscureText: obscureText,
                 backgroundColor: Colors.grey.shade100,

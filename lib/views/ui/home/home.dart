@@ -1,9 +1,5 @@
 import 'package:badges/badges.dart' as b;
 import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/item.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
@@ -11,7 +7,13 @@ import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../business_logic/services/Auth_service.dart';
 import '../publication/view/list_Publication.dart';
 import 'explore/explore.dart';
 import 'search/search.dart';
@@ -29,18 +31,23 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   //late AppLocalizations _localizations;
   late ThemeData _theme;
 
-  bool idAdmin=true;
+  bool idAdmin = false;
 
   @override
   void didChangeDependencies() {
     // _localizations = AppLocalizations.of(context)!;
     _theme = Theme.of(context);
-
+    checkUserType();
     super.didChangeDependencies();
   }
 
   void onNotificationPressed() {
     Navigator.of(context).pushNamed(NotificationView.routeName);
+  }
+
+  void checkUserType() async {
+    idAdmin = await context.read<AuthenticationRepository>().isAdmin();
+    setState(() {});
   }
 
   void onButtomNavigatorExplorePressed() {
@@ -118,15 +125,16 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
               child: const Icon(Icons.explore),
             ),
           ],
-          tabs:  [
-            if(idAdmin)const FloatingBottomNavbarItem(
-              icon: Icons.dashboard,
-              text: "Dashboard",
-            ),
+          tabs: [
             const FloatingBottomNavbarItem(
               icon: Icons.home_rounded,
               text: "Home",
             ),
+            if (idAdmin)
+              const FloatingBottomNavbarItem(
+                icon: Icons.dashboard,
+                text: "Dashboard",
+              ),
             const FloatingBottomNavbarItem(
               icon: Icons.search,
               text: "Search",
@@ -136,12 +144,12 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
               text: "Publications",
             ),
           ],
-          child:  TabBarView(
+          child: TabBarView(
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
             children: [
-              if(idAdmin)const Dashboard(),
               const ExploreView(),
+              if (idAdmin) const DashboardProvider(),
               const SearchView(),
               const ListPublication()
             ],

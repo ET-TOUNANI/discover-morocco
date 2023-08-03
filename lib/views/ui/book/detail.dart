@@ -1,8 +1,9 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class DetailView extends StatelessWidget {
   static const routeName = '/detail';
@@ -36,8 +37,8 @@ class DetailView extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     //final localizations = AppLocalizations.of(context);
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    final model =
-        snapList.where((element) => element['id'] == args['id']).first;
+    final model = snapList.first;
+    //snapList.where((element) => element['id'] == args['id']).first;
     final buttonSize = Size(min(150, mediaQuery.size.width * 0.4), 40);
 
     return Scaffold(

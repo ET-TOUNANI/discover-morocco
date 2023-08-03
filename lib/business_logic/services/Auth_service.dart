@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:discover_morocco/business_logic/models/cache.dart';
+import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:discover_morocco/business_logic/models/cache.dart';
 
 import '../models/authentication/failures/failures.dart';
 import '../models/authentication/models/enums/signin_method.dart';
@@ -228,10 +229,11 @@ class AuthenticationRepository {
       throw LogOutFailure();
     }
   }
+
   Future<bool> isAdmin() async {
     try {
-      if(_firebaseAuth.currentUser != null){
-        return _firebaseAuth.currentUser?.uid == "admin_uid";
+      if (_firebaseAuth.currentUser != null) {
+        return _firebaseAuth.currentUser?.uid == Constant.adminId;
       }
       return false;
     } on firebase_auth.FirebaseAuthException catch (e) {

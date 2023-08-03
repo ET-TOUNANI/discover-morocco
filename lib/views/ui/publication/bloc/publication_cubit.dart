@@ -12,24 +12,19 @@ import '../../../../business_logic/services/db_service.dart';
 
 part 'publication_state.dart';
 
-
 class PublicationCubit extends Cubit<PublicationState> {
   PublicationCubit(
-      this.authenticationRepository, this.dbService,
-      ) : super(const PublicationState(
-      title: '',
-      description:'',
-      image:'',
-      video:''
-  ));
+    this.authenticationRepository,
+    this.dbService,
+  ) : super(const PublicationState(
+            title: '', description: '', image: '', video: ''));
   final AuthenticationRepository authenticationRepository;
   final DbService dbService;
-
 
   Future<void> createPub() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      if(state.title==''|| state.image==''|| state.video==''){
+      if (state.title == '' || state.image == '' || state.video == '') {
         emit(
           state.copyWith(
             errorMessage: "Please fill all fields before submission.",
@@ -43,10 +38,12 @@ class PublicationCubit extends Cubit<PublicationState> {
         imageUrl: state.image,
         video: state.video,
         state: PubState.pending,
+        description: state.description,
         id: const Uuid().v4(),
+        user: authenticationRepository.currentUser,
       );
-      final res=await dbService.createPub(publication);
-      if(res) {
+      final res = await dbService.createPub(publication);
+      if (res) {
         emit(
           state.copyWith(
             title: '',
@@ -58,13 +55,12 @@ class PublicationCubit extends Cubit<PublicationState> {
         );
       } else {
         emit(
-        state.copyWith(
-          errorMessage: "An unknown exception occurred.",
-          status: FormzStatus.submissionFailure,
-        ),
-      );
+          state.copyWith(
+            errorMessage: "An unknown exception occurred.",
+            status: FormzStatus.submissionFailure,
+          ),
+        );
       }
-
     } on AddFailure catch (e) {
       emit(
         state.copyWith(
@@ -76,6 +72,7 @@ class PublicationCubit extends Cubit<PublicationState> {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
+
   void titleChanged(String value) {
     emit(
       state.copyWith(
@@ -84,29 +81,31 @@ class PublicationCubit extends Cubit<PublicationState> {
       ),
     );
   }
+
   void descriptionChanged(String value) {
     emit(
       state.copyWith(
-          description: value,
-        status: FormzStatus.valid,
-      ),
-    );
-  }
-  void imageChanged(String value) {
-    emit(
-      state.copyWith(
-          image: value,
-        status: FormzStatus.valid,
-      ),
-    );
-  }
-  void videoChanged(String value) {
-    emit(
-      state.copyWith(
-          video: value,
+        description: value,
         status: FormzStatus.valid,
       ),
     );
   }
 
+  void imageChanged(String value) {
+    emit(
+      state.copyWith(
+        image: value,
+        status: FormzStatus.valid,
+      ),
+    );
+  }
+
+  void videoChanged(String value) {
+    emit(
+      state.copyWith(
+        video: value,
+        status: FormzStatus.valid,
+      ),
+    );
+  }
 }

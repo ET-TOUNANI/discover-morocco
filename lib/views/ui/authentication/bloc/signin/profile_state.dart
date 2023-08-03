@@ -5,9 +5,9 @@ class ProfileState extends Equatable {
     this.email = const Email.pure(),
     this.password = const Password.pure(),
     this.status = FormzStatus.pure,
-    this.name='',
-    this.phone='',
-    this.photo="assets/mock/profile.png",
+    this.name = '',
+    this.phone = '',
+    this.photo = "assets/mock/profile.png",
     this.errorMessage,
   });
 
@@ -20,23 +20,22 @@ class ProfileState extends Equatable {
   final String? errorMessage;
 
   @override
-  List<Object> get props => [email, password, status,photo,phone,name];
+  List<Object> get props => [email, password, status, photo, phone, name];
 
-  ProfileState copyWith({
-    Email? email,
-    Password? password,
-    String? name,
-    String? phone,
-    String? photo,
-    FormzStatus? status,
-    String? errorMessage
-  }) {
+  ProfileState copyWith(
+      {Email? email,
+      Password? password,
+      String? name,
+      String? phone,
+      String? photo,
+      FormzStatus? status,
+      String? errorMessage}) {
     return ProfileState(
       email: email ?? this.email,
       password: password ?? this.password,
       status: status ?? this.status,
-      name: name ??this.name,
-      phone: phone??this.phone,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
       photo: photo ?? this.photo,
       errorMessage: errorMessage ?? this.errorMessage,
     );

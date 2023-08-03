@@ -10,17 +10,14 @@ class SignInAnonymouslyFailure extends SignInFailure implements Exception {
   /// Create an authentication message
   /// from a firebase authentication exception code.
   @override
-  factory SignInAnonymouslyFailure.fromCode(
-    String code
-  ) {
+  factory SignInAnonymouslyFailure.fromCode(String code) {
     switch (code) {
       case 'operation-not-allowed':
         return SignInAnonymouslyFailure(
           fails['failureAnonymousNotEnabled']!,
         );
       default:
-        return SignInFailure.fromCode(code)
-            as SignInAnonymouslyFailure;
+        return SignInFailure.fromCode(code) as SignInAnonymouslyFailure;
     }
   }
 }

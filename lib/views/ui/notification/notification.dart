@@ -53,8 +53,7 @@ class NotificationView extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () async {
-                  },
+                  onTap: () async {},
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: NotificationItem(

@@ -96,7 +96,7 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 children: [
                   // -- IMAGE with ICON
-                 const Picture(),
+                  const Picture(),
                   const SizedBox(height: 20),
 
                   // -- Form Fields
@@ -115,9 +115,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () => {
-
-                            },
+                            onPressed: () => {},
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: theme.primaryColor,
                                 side: BorderSide.none,

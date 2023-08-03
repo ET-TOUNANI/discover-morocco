@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/screen_type.dart';
 import 'package:discover_morocco/views/ui/extensions/enum_extension.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'filter.dart';
 

@@ -1,10 +1,7 @@
 import 'dart:math';
 
-import 'package:discover_morocco/business_logic/models/models/publication.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/bloc_status.dart';
-import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
+import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:discover_morocco/business_logic/services/db_service.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/home/explore/widgets/snap_list.dart';
@@ -13,6 +10,9 @@ import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dar
 import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 import 'package:discover_morocco/views/widgets/medium_place_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import 'bloc/explore_bloc.dart';
 
@@ -63,12 +63,18 @@ class _ExploreViewState extends State<ExploreView> {
           builder: (context, state) {
             switch (state.categoriesStatus) {
               case BlocStatus.success:
+                if (state.categories.isEmpty) {
+                  return Lottie.asset(
+                    "assets/mock/noData.json",
+                    width: _mediaQuery.size.width - 40,
+                    height: _snapListSize.height / 1.5,
+                  );
+                }
                 return SnapList(
                   models: state.categories,
                   height: _snapListSize.height,
                   width: _snapListSize.width,
-                  onPressed:
-                      onCategoryPressed ,
+                  onPressed: onCategoryPressed,
                 );
               case BlocStatus.initial:
                 return SizedBox(
@@ -81,9 +87,17 @@ class _ExploreViewState extends State<ExploreView> {
                   width: _snapListSize.width,
                 );
               case BlocStatus.failure:
-                return const Text('Error');
+                return Lottie.asset(
+                  "assets/mock/noData.json",
+                  width: _mediaQuery.size.width - 40,
+                  height: _snapListSize.height / 1.5,
+                );
               default:
-                return const Text('Error');
+                return Lottie.asset(
+                  "assets/mock/noData.json",
+                  width: _mediaQuery.size.width - 40,
+                  height: _snapListSize.height / 1.5,
+                );
             }
           },
         ),
@@ -98,11 +112,12 @@ class _ExploreViewState extends State<ExploreView> {
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Headline(text: "Home"),
               _categories(),
               const Headline(text: "Popular"),
               SingleChildScrollView(
@@ -125,10 +140,9 @@ class _ExploreViewState extends State<ExploreView> {
                               onActionTab: () =>
                                   onPlaceBookmarkPressed(e['id']!),
                               price: random.nextInt(400) + 100,
-                              
                               title: e['title']!,
                               description: e['description']!.substring(0, 100),
-                              assetImage:e['imageUrl']!,
+                              assetImage: e['imageUrl']!,
                               action: const Icon(
                                 Icons.bookmark_border_rounded,
                                 color: Colors.black,

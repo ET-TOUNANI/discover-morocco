@@ -3,12 +3,12 @@ part of 'publication_cubit.dart';
 @immutable
 class PublicationState extends Equatable {
   const PublicationState({
-    this.title='',
-    this.description='',
-    this.image='',
+    this.title = '',
+    this.description = '',
+    this.image = '',
     this.status = FormzStatus.pure,
     this.errorMessage,
-    this.video='',
+    this.video = '',
   });
 
   final String title;
@@ -18,9 +18,8 @@ class PublicationState extends Equatable {
   final FormzStatus status;
   final String? errorMessage;
 
-
   @override
-  List<Object> get props => [title,description,image,video,status];
+  List<Object> get props => [title, description, image, video, status];
 
   PublicationState copyWith({
     String? title,

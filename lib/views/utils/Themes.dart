@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/brightness.dart';
+import 'package:flutter/material.dart';
 
 class Themes {
   static const kWhiteText = TextStyle(

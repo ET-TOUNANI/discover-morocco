@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:discover_morocco/views/ui/chat/bloc/chat/chat_bloc.dart';
 import 'package:discover_morocco/views/ui/chat/widgets/chatgpt_answer_widget.dart';
 import 'package:discover_morocco/views/ui/chat/widgets/user_question_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class Messages extends StatelessWidget {
   Messages({super.key});

@@ -1,8 +1,7 @@
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/views/ui/authentication/bloc/bloc.dart';
 import 'package:discover_morocco/views/widgets/icon_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TextFormInput extends StatelessWidget {
   final String label;

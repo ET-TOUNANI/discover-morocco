@@ -22,14 +22,11 @@ class BackgroundVideoPlayer extends BaseBackgroundVideoPlayer {
 }
 
 class _BackgroundVideoPlayerState extends State<BackgroundVideoPlayer> {
-
-
   late VideoPlayerController _videoController;
   late Future _initializeVideoPlayerFuture;
 
   @override
   void didChangeDependencies() {
-
     initiateVideoPlayer();
 
     super.didChangeDependencies();

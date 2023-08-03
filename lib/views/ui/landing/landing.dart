@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:discover_morocco/views/ui/authentication/page/signin.dart';
 import 'package:discover_morocco/views/ui/landing/widgets/custom_shape.dart';
 import 'package:discover_morocco/views/widgets/background_video_player/base.dart';
 import 'package:discover_morocco/views/widgets/background_video_player/video_player.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'custom_shape_content.dart';
 
