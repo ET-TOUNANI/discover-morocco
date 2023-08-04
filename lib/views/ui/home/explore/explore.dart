@@ -119,6 +119,7 @@ class _ExploreViewState extends State<ExploreView> {
             children: [
               const Headline(text: "Home"),
               _categories(),
+              /*
               const Headline(text: "Popular"),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -134,7 +135,7 @@ class _ExploreViewState extends State<ExploreView> {
                             MediumPlaceCard(
                               imageHeroTag: ValueKey('col_${e['id']}'),
                               onTab: () => onPlaceCardPressed(
-                                e['id']!,
+                                e,
                                 ValueKey('col_${e['id']}'),
                               ),
                               onActionTab: () =>
@@ -154,7 +155,7 @@ class _ExploreViewState extends State<ExploreView> {
                         .toList(),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
@@ -162,11 +163,11 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
-  Future<void> onPlaceCardPressed(String id, Object imageHeroTag) async {
+  Future<void> onPlaceCardPressed(Publication pub, Object imageHeroTag) async {
     Navigator.of(context).pushNamed(
       DetailView.routeName,
       arguments: {
-        'id': id,
+        'pub': pub,
         'imageHeroTag': imageHeroTag,
       },
     );

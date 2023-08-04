@@ -7,6 +7,7 @@ import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,31 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     // _localizations = AppLocalizations.of(context)!;
     _theme = Theme.of(context);
     checkUserType();
+    _configureFirebaseMessaging();
     super.didChangeDependencies();
+  }
+/*
+
+ */
+  void _configureFirebaseMessaging() {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Received message: ${message.notification?.title}');
+
+      // Handle the incoming message here (show notification, update UI, etc.)
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Message opened app: ${message.notification?.title}');
+
+      // Handle the notification when the user taps on it and the app is in the foreground.
+    });
+  }
+
+// Function to handle background messages (when the app is terminated).
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    print('Handling a background message: ${message.messageId}');
   }
 
   void onNotificationPressed() {

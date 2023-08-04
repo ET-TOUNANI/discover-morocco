@@ -14,6 +14,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../business_logic/services/push_notification_service.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -181,7 +183,9 @@ class _LoginViewState extends State<LoginView> {
         if (state.status.isSubmissionSuccess) {
           final isFIrstTime = await _isFirstTimeSignIn();
           if (isFIrstTime) {
+            requestNotificationPermission();
             Navigator.of(context).popAndPushNamed(FilterView.routeName);
+
           } else {
             Navigator.of(context).pushNamed(MainView.routeName);
           }

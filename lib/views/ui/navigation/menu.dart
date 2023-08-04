@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 
 import '../authentication/page/signin.dart';
-import '../authentication/view/singin.dart';
-import '../landing/landing.dart';
 
 class NavigationMenu extends StatelessWidget {
   static const routeName = '/navigation';

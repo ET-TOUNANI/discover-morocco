@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +36,8 @@ class DetailView extends StatelessWidget {
     final bed = random.nextInt(3) + 1;
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
-    //final localizations = AppLocalizations.of(context);
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    final model = snapList.first;
-    //snapList.where((element) => element['id'] == args['id']).first;
+    final Publication model = args['pub'];
     final buttonSize = Size(min(150, mediaQuery.size.width * 0.4), 40);
 
     return Scaffold(
@@ -67,7 +66,7 @@ class DetailView extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.asset(
-                            model['imageUrl']!,
+                            model.imageUrl,
                             height: mediaQuery.size.height * 0.5,
                             fit: BoxFit.cover,
                           ),
@@ -120,7 +119,7 @@ class DetailView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsetsDirectional.only(end: 16),
                       child: Text(
-                        model['title']!,
+                        model.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.headlineSmall?.copyWith(
@@ -134,7 +133,7 @@ class DetailView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SvgPicture.asset(
                         'assets/images/heart_solid.svg',
-                        semanticsLabel: 'manrope Logo',
+                        semanticsLabel: 'heart Logo',
                         width: 24,
                         height: 24,
                         color: Colors.red.shade800,
@@ -175,7 +174,7 @@ class DetailView extends StatelessWidget {
               padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  model['description']!,
+                  model.description ??'',
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -244,7 +243,7 @@ class DetailView extends StatelessWidget {
                 ),
               ),
             ),
-            SliverPadding(
+             SliverPadding(
               padding: const EdgeInsets.only(
                 left: 24,
                 right: 24,
@@ -254,6 +253,7 @@ class DetailView extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: Row(
                   children: [
+
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +282,7 @@ class DetailView extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        "Book Now",
+                        "Add to my plan",
                       ),
                     )
                   ],

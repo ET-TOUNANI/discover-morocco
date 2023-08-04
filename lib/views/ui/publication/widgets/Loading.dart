@@ -12,16 +12,21 @@ class Loading extends StatelessWidget {
     return BlocBuilder<PubliacationBloc, WaitingPubState>(
       buildWhen: (previous, current) =>
           current.pubUpdateStatus != previous.pubUpdateStatus,
-      builder: (context, state) => state.pubUpdateStatus == BlocStatus.loading
-          ? Container(
+      builder: (context, state) {
+        if (state.pubUpdateStatus == BlocStatus.loading) {
+          return Container(
               color: Colors.black54,
               child: const Center(
                 child: CircularProgressIndicator.adaptive(
                   backgroundColor: Colors.white,
                 ),
               ),
-            )
-          : const SizedBox(),
+            );
+        }
+        else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }

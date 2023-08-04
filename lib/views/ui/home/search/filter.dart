@@ -227,7 +227,24 @@ class _FilterViewState extends State<FilterView> {
                       value: "Casablanca",
                       onChanged: (value) {},
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          isDense: true,
+                          alignLabelWithHint: true,
+                        ),
+                        onTap: () async => await showDialog(
+                            context: context,
+                            builder: (_) => DatePickerDialog(
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(DateTime.now().year + 2),
+                                ))),
+                  ),
                 ],
               ),
             ),
@@ -269,7 +286,7 @@ class _FilterViewState extends State<FilterView> {
                       borderRadius: BorderRadius.circular(32.0),
                     ),
                   ),
-                  child: const Text("Apply"),
+                  child: const Text("Add to my plan"),
                 ),
               ],
             ),

@@ -128,7 +128,7 @@ class _IconTextFieldState extends State<IconTextField> {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: 16, vertical: (widget.multiline) ? 10 : 0),
-              child: TextField(
+              child: TextFormField(
                 focusNode: focusNode,
                 obscureText: widget.obscureText,
                 keyboardType: (widget.multiline)

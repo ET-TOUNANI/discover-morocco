@@ -12,6 +12,20 @@ class PubEventListFetched extends PubEvent {
   @override
   List<Object?> get props => [];
 }
+class DeletePubEvent extends PubEvent {
+  final Publication pub;
+
+  DeletePubEvent({required this.pub});
+  @override
+  List<Object?> get props => [pub];
+}
+class DeletePubWaitingEvent extends PubEvent {
+  final Publication pub;
+
+  DeletePubWaitingEvent({required this.pub});
+  @override
+  List<Object?> get props => [pub];
+}
 
 class RejectPubEvent extends PubEvent {
   final Publication pub;

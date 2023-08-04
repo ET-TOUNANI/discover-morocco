@@ -10,12 +10,21 @@ class DbService {
 
   Future<bool> createPub(Publication publication) async {
     try {
-      await _db.collection('publications').add(publication.toJson());
+      // Use the publication's ID as the document ID
+      final publicationId = publication.id;
+
+      // Get the reference to the document using the publication ID
+      final pubRef = _db.collection('publications').doc(publicationId);
+
+      // Set the data for the document
+      await pubRef.set(publication.toJson());
+
       return true;
     } catch (e) {
       throw Exception(e);
     }
   }
+
 
   Future<List<Publication>> getPublicationsByUser(UserModel user) async {
     try {
@@ -68,10 +77,14 @@ class DbService {
     }
   }
 
-//TODO: Delete Pub by ID
   Future<bool> deletePub(Publication pub) async {
     try {
-      // TODO : how to delete from firestore
+      // Get the reference to the document using the publication ID
+      final pubRef = FirebaseFirestore.instance.collection("publications").doc(pub.id);
+
+      // Use the delete() method to delete the document
+      await pubRef.delete();
+
       return true;
     } catch (e) {
       throw Exception(e);
@@ -80,11 +93,16 @@ class DbService {
 
   Future<bool> updatePub(Publication pub) async {
     try {
-      await _db.collection("publications").add(pub.toJson());
+      // Get the reference to the document using the publication ID
+      final pubRef = _db.collection("publications").doc(pub.id);
+
+      // Use set with merge option to update the existing document
+      await pubRef.set(pub.toJson(), SetOptions(merge: true));
+
       return true;
     } catch (e) {
       throw Exception(e);
     }
   }
-//TODO: update an pub
+
 }

@@ -55,18 +55,17 @@ class _DashboardState extends State<Dashboard> {
     super.didChangeDependencies();
   }
 
-  Future<void> onPlaceCardPressed(String id, Object imageHeroTag) async {
+  Future<void> onPlaceCardPressed(Publication pub, Object imageHeroTag) async {
     Navigator.of(context).pushNamed(
       DetailView.routeName,
       arguments: {
-        'id': id,
+        'pub': pub,
         'imageHeroTag': imageHeroTag,
       },
     );
   }
 
   Future<void> onPlaceBookmarkPressed(String id) async {}
-// TODO: Send notification to user
   Future<void> onRejectPressed(Publication pub) async {
     await showDialog(
         context: context,
@@ -103,18 +102,48 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> onApprovePressed(Publication pub) async {
     context.read<PubliacationBloc>().add(ApprovePubEvent(pub: pub));
-
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         const SnackBar(
           backgroundColor: Colors.green,
-          content: Text("Publication has been Approved"),
+          content: Text("Operation done"),
         ),
       );
   }
 
-  Future<void> onBookingTab(String id) async {}
+  Future<void> onDeletePressed(Publication pub) async {
+
+    await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text("Confirmation"),
+          titleTextStyle: const TextStyle(fontSize: 20),
+          content: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Text(
+              "Are you sure, you want to delete this publication ?",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                context.read<PubliacationBloc>().add(DeletePubWaitingEvent(pub: pub));
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  side: BorderSide.none),
+              child: const Text("Yes"),
+            ),
+            OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("No")),
+          ],
+        ));
+  }
 
   Widget _waitingPub() => SizedBox(
         height: _snapListSize.height,
@@ -125,48 +154,51 @@ class _DashboardState extends State<Dashboard> {
           builder: (context, state) {
             switch (state.waitingPubStatus) {
               case BlocStatus.success:
-                return Wrap(
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (state.publications.isEmpty)
-                        Lottie.asset(
-                          "assets/mock/noData.json",
-                          width: _mediaQuery.size.width - 40,
-                          height: _mediaQuery.size.height / 3,
-                        ),
-                      ...state.publications
-                          .map(
-                            (e) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              child: RowPlaceCard(
-                                imageHeroTag: ValueKey('row_${e.id}'),
-                                title: e.title,
-                                description: e.description,
-                                networkImage: e.imageUrl,
-                                onTab: () => onPlaceCardPressed(
-                                  e.id,
-                                  ValueKey('row_${e.id}'),
+                return SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (state.publications.isEmpty)
+                          Lottie.asset(
+                            "assets/mock/noData.json",
+                            width: _mediaQuery.size.width - 40,
+                            height: _mediaQuery.size.height / 3,
+                          ),
+                        ...state.publications
+                            .map(
+                              (e) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                child: RowPlaceCard(
+                                  imageHeroTag: ValueKey('row_${e.id}'),
+                                  title: e.title,
+                                  description: e.description,
+                                  networkImage: e.imageUrl,
+                                  onTab: () => onPlaceCardPressed(
+                                    e,
+                                    ValueKey('row_${e.id}'),
+                                  ),
+                                  onActionTab: () => onPlaceBookmarkPressed(e.id),
+                                  onBookingTab: () => onDeletePressed(e),
+                                  action: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
+                                  onApproveTab: () => onApprovePressed(e),
+                                  onRejectTab: () => onRejectPressed(e),
                                 ),
-                                onActionTab: () => onPlaceBookmarkPressed(e.id),
-                                onBookingTab: () => onBookingTab(e.id),
-                                action: const Icon(
-                                  Icons.close,
-                                  color: Colors.black,
-                                  size: 18,
-                                ),
-                                onApproveTab: () => onApprovePressed(e),
-                                onRejectTab: () => onRejectPressed(e),
                               ),
-                            ),
-                          )
-                          .toList()
-                    ]);
+                            )
+                            .toList()
+                      ]),
+                );
 
               case BlocStatus.initial:
                 return SizedBox(
                   height: _snapListSize.height,
                   width: _snapListSize.width,
+                  child: const Center(child: CircularProgressIndicator(),),
                 );
               case BlocStatus.loading:
                 return SnapListShimmer(

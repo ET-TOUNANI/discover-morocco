@@ -22,6 +22,8 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
     on<PubEventListFetched>(_onPubListFetched);
     on<ApprovePubEvent>(_onApprove);
     on<RejectPubEvent>(_onReject);
+    on<DeletePubEvent>(_onDelete);
+    on<DeletePubWaitingEvent>(_onDeleteWaiting);
   }
 
   final DbService _repository;
@@ -47,8 +49,10 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
           likes: event.pub.likes);
       final res = await _repository.updatePub(pub);
       if (res) {
+        List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();
         emit(
           state.copyWith(
+            publications: pubs,
             pubUpdateStatus: BlocStatus.success,
           ),
         );
@@ -80,8 +84,10 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
           likes: event.pub.likes);
       final res = await _repository.updatePub(pub);
       if (res) {
+        List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();
         emit(
           state.copyWith(
+            publications: pubs,
             pubUpdateStatus: BlocStatus.success,
           ),
         );
@@ -90,6 +96,50 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
       }
     } catch (e) {
       emit(state.copyWith(pubUpdateStatus: BlocStatus.failure));
+    }
+  }
+
+  Future<void> _onDelete(
+      DeletePubEvent event,
+      Emitter<WaitingPubState> emit,
+      ) async {
+    emit(state.copyWith(pubListStatus: BlocStatus.initial));
+    try {
+      final res = await _repository.deletePub(event.pub);
+      if (res) {
+        List<Publication> pubs=state.publicationsByUser.skipWhile((value) => value.id==event.pub.id).toList();
+        emit(
+          state.copyWith(
+            publicationsByUser: pubs,
+            pubListStatus: BlocStatus.success,
+          ),
+        );
+      } else {
+        emit(state.copyWith(pubListStatus: BlocStatus.failure));
+      }
+    } catch (e) {
+      emit(state.copyWith(pubListStatus: BlocStatus.failure));
+    }
+  }Future<void> _onDeleteWaiting(
+      DeletePubWaitingEvent event,
+      Emitter<WaitingPubState> emit,
+      ) async {
+    emit(state.copyWith(waitingPubStatus: BlocStatus.initial));
+    try {
+      final res = await _repository.deletePub(event.pub);
+      if (res) {
+        List<Publication> pubs=state.publications.skipWhile((value) => value.id==event.pub.id).toList();
+        emit(
+          state.copyWith(
+            publications: pubs,
+            waitingPubStatus: BlocStatus.success,
+          ),
+        );
+      } else {
+        emit(state.copyWith(waitingPubStatus: BlocStatus.failure));
+      }
+    } catch (e) {
+      emit(state.copyWith(waitingPubStatus: BlocStatus.failure));
     }
   }
 

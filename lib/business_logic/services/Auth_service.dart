@@ -255,4 +255,6 @@ extension on firebase_auth.User {
       emailVerified: emailVerified,
     );
   }
+
+// TODO: DOc user from firebase auth with the UID so u can add and update his infos
 }
