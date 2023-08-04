@@ -1,11 +1,11 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:discover_morocco/business_logic/models/authentication/failures/failures.dart';
 import 'package:discover_morocco/business_logic/models/authentication/models/enums/signin_method.dart';
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/formz/email.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/formz/password.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 part 'signin_state.dart';
 
@@ -25,6 +25,7 @@ class SignInCubit extends Cubit<SignInState> {
       ),
     );
   }
+
   void passwordChanged(String value) {
     final password = Password.dirty(value);
     emit(
@@ -36,7 +37,7 @@ class SignInCubit extends Cubit<SignInState> {
   }
 
   Future<void> sendEmailVerification() async {
-     await authenticationRepository.fetchSignInMethodsForEmail(
+    await authenticationRepository.fetchSignInMethodsForEmail(
         email: authenticationRepository.currentUser.email!);
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {

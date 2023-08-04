@@ -86,7 +86,7 @@ class SnapList extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SingleChildScrollView(
                                 child: Text(
-                                  model.description??'',
+                                  model.description ?? '',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.white,
                                   ),

@@ -1,10 +1,5 @@
 import 'dart:io';
 
-import 'package:discover_morocco/views/ui/home/search/filter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:formz/formz.dart';
 import 'package:discover_morocco/views/ui/authentication/bloc/bloc.dart';
 //import 'package:discover_morocco/views/ui/authentication/page/auth_code.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/external_login_devider.dart';
@@ -12,7 +7,14 @@ import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/tex
 import 'package:discover_morocco/views/ui/authentication/widgets/outline_icon_button.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/singin_button.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
+import 'package:discover_morocco/views/ui/home/search/filter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formz/formz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../business_logic/services/push_notification_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -163,10 +165,22 @@ class _LoginViewState extends State<LoginView> {
 
     return isFirstTime;
   }
+  _go(bool firstTime){
+    if (firstTime) {
+      requestNotificationPermission();
+      Navigator.of(context).popAndPushNamed(FilterView.routeName,arguments: {
+        'firstTime': firstTime,
+      },);
+
+    } else {
+      Navigator.of(context).pushNamed(MainView.routeName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignInCubit, SignInState>(
-      listener: (context, state)async {
+      listener: (context, state) async {
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -178,12 +192,8 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (state.status.isSubmissionSuccess) {
-         final isFIrstTime = await _isFirstTimeSignIn();
-          if (isFIrstTime) {
-            Navigator.of(context).popAndPushNamed(FilterView.routeName);
-          } else  {
-            Navigator.of(context).pushNamed(MainView.routeName);
-          }
+          final isFirstTime = await _isFirstTimeSignIn();
+          _go(isFirstTime);
         }
       },
       child: Stack(
@@ -210,7 +220,7 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           Container(
                             padding:
-                                const EdgeInsets.only(top: 24.0,bottom: 10),
+                                const EdgeInsets.only(top: 24.0, bottom: 10),
                             alignment: Alignment.center,
                             child: SvgPicture.asset(
                               'assets/images/logo_black.svg',
@@ -221,15 +231,18 @@ class _LoginViewState extends State<LoginView> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 50.0),
                             child: Center(
-                              child: Text("Discover Morocco", style: theme.textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 21,
-                              color: Colors.grey.shade500,
-                              ),),
+                              child: Text(
+                                "Discover Morocco",
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 21,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
                             ),
                           ),
                           Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [

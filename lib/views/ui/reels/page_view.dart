@@ -1,15 +1,14 @@
 import 'dart:math';
 
+import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/extensions/number_extention.dart';
+import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import 'package:discover_morocco/views/ui/book/detail.dart';
-import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../business_logic/models/models/publication.dart';
-
 
 class TiktokPageView extends StatefulWidget {
   final Publication model;

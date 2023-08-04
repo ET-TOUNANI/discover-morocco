@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:discover_morocco/business_logic/models/chat_model.dart';
 import 'package:discover_morocco/business_logic/services/Chat_gpt_api.dart';
 import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
+import 'package:meta/meta.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -23,7 +23,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(ChatSuccess(answers: answers, questions: state.questions));
       } catch (e) {
         answers.removeLast();
-        answers.add("We are currently facing a technical issue. Please try again after sometime.");
+        answers.add(
+            "We are currently facing a technical issue. Please try again after sometime.");
         emit(ChatError(answers: answers, questions: state.questions));
       }
     });

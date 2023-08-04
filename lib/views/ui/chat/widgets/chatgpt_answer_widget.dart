@@ -1,6 +1,6 @@
+import 'package:discover_morocco/views/utils/Themes.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:discover_morocco/views/utils/Themes.dart';
 
 class ChatGptAnswerWidget extends StatelessWidget {
   final String answer;
@@ -28,7 +28,7 @@ class ChatGptAnswerWidget extends StatelessWidget {
           children: [
             Flexible(
               child: Padding(
-                padding:  const EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     left: 15, top: 2, right: 28, bottom: 6),
                 child: Container(
                   padding: const EdgeInsets.all(

@@ -1,6 +1,7 @@
 class Constant {
   static const String BASE_URL = "https://beta.purgpt.xyz/openai";
   static const String currentModel = "gpt-3.5-turbo-16k";
+  static const String adminId = "gE9TkSESqWVpWDnn4vMOb0CjWbJ3";
 }
 
 const fails = {

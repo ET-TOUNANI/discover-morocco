@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:discover_morocco/business_logic/models/authentication/models/enums/status.dart';
+import 'package:discover_morocco/business_logic/models/authentication/models/user.dart';
+import 'package:discover_morocco/business_logic/models/models/enums/brightness.dart';
+import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:discover_morocco/business_logic/models/authentication/models/enums/status.dart';
-import 'package:discover_morocco/business_logic/models/authentication/models/user.dart';
-import 'package:discover_morocco/business_logic/models/models/enums/brightness.dart';
-import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';

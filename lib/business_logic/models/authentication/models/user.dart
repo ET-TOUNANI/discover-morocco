@@ -10,6 +10,7 @@ class UserModel extends Equatable {
     this.email,
     this.name,
     this.photo,
+    this.fcmToken,
     this.isAnonymous,
     this.emailVerified,
   });
@@ -20,6 +21,7 @@ class UserModel extends Equatable {
   final String? photo;
   final bool? isAnonymous;
   final bool? emailVerified;
+  final String? fcmToken;
 
   /// Empty user which represents an unauthenticated user.
   static const empty = UserModel(id: '');

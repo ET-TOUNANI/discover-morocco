@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:discover_morocco/views/ui/chat/widgets/ButtonNavigationBar.dart';
 import 'package:discover_morocco/views/ui/chat/widgets/Messages.dart';
 import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Chat extends StatelessWidget {
   static const routeName = '/chat';
-   const Chat({Key? key}) : super(key: key);
+  const Chat({Key? key}) : super(key: key);
 
   void onNotificationPressed(BuildContext context) {
     Navigator.of(context).pop();
@@ -19,7 +19,6 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -42,7 +41,7 @@ class Chat extends StatelessWidget {
                   height: 42,
                   fit: BoxFit.cover,
                   child: InkWell(
-                    onTap: ()=>onProfilePicturePressed(context),
+                    onTap: () => onProfilePicturePressed(context),
                   ),
                 ),
               ),
@@ -53,7 +52,7 @@ class Chat extends StatelessWidget {
               Icons.keyboard_backspace_outlined,
               size: 30.0,
             ),
-            onTap: ()=>onNotificationPressed(context),
+            onTap: () => onNotificationPressed(context),
             padding: const EdgeInsetsDirectional.only(start: 4),
           ),
           elevation: 0,
@@ -66,5 +65,3 @@ class Chat extends StatelessWidget {
         ));
   }
 }
-
-

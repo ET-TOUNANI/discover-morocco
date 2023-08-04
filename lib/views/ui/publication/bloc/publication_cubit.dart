@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:discover_morocco/business_logic/models/authentication/failures/add_failure.dart';
+import 'package:discover_morocco/business_logic/models/authentication/models/models.dart';
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:equatable/equatable.dart';
@@ -9,27 +10,23 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../business_logic/models/models/enums/PubState.dart';
 import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/push_notification_service.dart';
 
 part 'publication_state.dart';
 
-
 class PublicationCubit extends Cubit<PublicationState> {
   PublicationCubit(
-      this.authenticationRepository, this.dbService,
-      ) : super(const PublicationState(
-      title: '',
-      description:'',
-      image:'',
-      video:''
-  ));
+    this.authenticationRepository,
+    this.dbService,
+  ) : super(const PublicationState(
+            title: '', description: '', image: '', video: ''));
   final AuthenticationRepository authenticationRepository;
   final DbService dbService;
-
 
   Future<void> createPub() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      if(state.title==''|| state.image==''|| state.video==''){
+      if (state.title == '' || state.image == '' || state.video == '') {
         emit(
           state.copyWith(
             errorMessage: "Please fill all fields before submission.",
@@ -37,16 +34,34 @@ class PublicationCubit extends Cubit<PublicationState> {
           ),
         );
       }
+      String token="";
+
+      await firebaseMessaging.getToken().then((tkn) {
+        token=tkn??"";
+
+        // Save the token to your server/database to send targeted notifications.
+      });
+      UserModel user=UserModel(
+        id: authenticationRepository.currentUser.id,
+        photo:  authenticationRepository.currentUser.photo,
+        name:  authenticationRepository.currentUser.name,
+        email:  authenticationRepository.currentUser.email,
+        fcmToken: token ,
+        emailVerified: authenticationRepository.currentUser.emailVerified ,
+        isAnonymous:  authenticationRepository.currentUser.isAnonymous
+      );
 
       Publication publication = Publication(
         title: state.title,
         imageUrl: state.image,
         video: state.video,
         state: PubState.pending,
+        description: state.description,
         id: const Uuid().v4(),
+        user: user,
       );
-      final res=await dbService.createPub(publication);
-      if(res) {
+      final res = await dbService.createPub(publication);
+      if (res) {
         emit(
           state.copyWith(
             title: '',
@@ -58,13 +73,12 @@ class PublicationCubit extends Cubit<PublicationState> {
         );
       } else {
         emit(
-        state.copyWith(
-          errorMessage: "An unknown exception occurred.",
-          status: FormzStatus.submissionFailure,
-        ),
-      );
+          state.copyWith(
+            errorMessage: "An unknown exception occurred.",
+            status: FormzStatus.submissionFailure,
+          ),
+        );
       }
-
     } on AddFailure catch (e) {
       emit(
         state.copyWith(
@@ -76,6 +90,7 @@ class PublicationCubit extends Cubit<PublicationState> {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
+
   void titleChanged(String value) {
     emit(
       state.copyWith(
@@ -84,29 +99,31 @@ class PublicationCubit extends Cubit<PublicationState> {
       ),
     );
   }
+
   void descriptionChanged(String value) {
     emit(
       state.copyWith(
-          description: value,
-        status: FormzStatus.valid,
-      ),
-    );
-  }
-  void imageChanged(String value) {
-    emit(
-      state.copyWith(
-          image: value,
-        status: FormzStatus.valid,
-      ),
-    );
-  }
-  void videoChanged(String value) {
-    emit(
-      state.copyWith(
-          video: value,
+        description: value,
         status: FormzStatus.valid,
       ),
     );
   }
 
+  void imageChanged(String value) {
+    emit(
+      state.copyWith(
+        image: value,
+        status: FormzStatus.valid,
+      ),
+    );
+  }
+
+  void videoChanged(String value) {
+    emit(
+      state.copyWith(
+        video: value,
+        status: FormzStatus.valid,
+      ),
+    );
+  }
 }

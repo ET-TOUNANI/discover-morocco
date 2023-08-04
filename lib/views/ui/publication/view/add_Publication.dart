@@ -17,7 +17,8 @@ class PublicationProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PublicationCubit(context.read<AuthenticationRepository>(),context.read<DbService>()),
+      create: (_) => PublicationCubit(
+          context.read<AuthenticationRepository>(), context.read<DbService>()),
       child: const AddPublication(),
     );
   }
@@ -82,7 +83,7 @@ class _AddPublicationState extends State<AddPublication> {
         icon: Icons.image,
       );
   Widget _videoInput() => TextFormInput(
-        buildWhen: (previous, current) => previous.video != current.video ,
+        buildWhen: (previous, current) => previous.video != current.video,
         label: "Video",
         hint: 'Paste video link here',
         textFieldKey: const Key('Add_Publication_videoInput_textField'),
@@ -120,7 +121,7 @@ class _AddPublicationState extends State<AddPublication> {
                 content: Text("Publication has been created"),
               ),
             );
-          Navigator.pushNamed(context, MainView.routeName);
+          Navigator.popAndPushNamed(context, MainView.routeName);
         }
       },
       child: Stack(

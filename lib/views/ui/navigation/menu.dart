@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 
+import '../authentication/page/signin.dart';
+
 class NavigationMenu extends StatelessWidget {
   static const routeName = '/navigation';
 
@@ -13,33 +15,42 @@ class NavigationMenu extends StatelessWidget {
     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text("LOGOUT"),
-          titleTextStyle: const TextStyle(fontSize: 20),
-          content:  Padding(
-            padding:const EdgeInsets.symmetric(vertical: 15.0),
-            child:
-            Text("Are you sure, you want to Logout?",style: Theme.of(context).textTheme.bodyMedium,),
-
-          ),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            ElevatedButton(
-              onPressed: () => context.read<SettingsBloc>().add(const AppLogoutRequested()),
-              style: ElevatedButton.styleFrom(backgroundColor:Theme.of(context).primaryColor, side: BorderSide.none),
-              child: const Text("Yes"),
-            ),
-            OutlinedButton(onPressed: () => Navigator.pop(context), child: const Text("No")),
-          ],
-        ));
-
+              title: const Text("LOGOUT"),
+              titleTextStyle: const TextStyle(fontSize: 20),
+              content: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: Text(
+                  "Are you sure, you want to Logout?",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              actionsAlignment: MainAxisAlignment.center,
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    context
+                        .read<SettingsBloc>()
+                        .add(const AppLogoutRequested());
+                    Navigator.popAndPushNamed(context, SingInPage.routeName);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      side: BorderSide.none),
+                  child: const Text("Yes"),
+                ),
+                OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("No")),
+              ],
+            ));
   }
 
-  void onProfilePressed(BuildContext context)  {
+  void onProfilePressed(BuildContext context) {
     //context.read<SettingsBloc>().add(const ());
     Navigator.pushNamed(context, Profile.routeName);
   }
 
-  void createPupPressed(BuildContext context)  {
+  void createPupPressed(BuildContext context) {
     //context.read<SettingsBloc>().add(const ());
     Navigator.pushNamed(context, PublicationProvider.routeName);
   }
@@ -82,11 +93,12 @@ class NavigationMenu extends StatelessWidget {
                 ),
               ),
               const Divider(indent: 24, endIndent: 24),
-               Padding(
-                padding:const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: InkWell(
-                  onTap: ()=>createPupPressed(context),
-                  child:const ListTile(
+                  onTap: () => createPupPressed(context),
+                  child: const ListTile(
                     leading: Icon(Icons.public),
                     title: Text("Create new publication"),
                     trailing: Icon(Icons.arrow_forward_ios_rounded),
@@ -128,7 +140,6 @@ class NavigationMenu extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }

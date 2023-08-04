@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:discover_morocco/business_logic/models/chat_model.dart';
 import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChatGptAPI {
   late Dio dio;

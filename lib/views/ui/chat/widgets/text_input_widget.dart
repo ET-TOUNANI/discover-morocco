@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:discover_morocco/views/utils/Themes.dart';
+import 'package:flutter/material.dart';
 
 class TextInputWidget extends StatelessWidget {
   final TextEditingController textController;

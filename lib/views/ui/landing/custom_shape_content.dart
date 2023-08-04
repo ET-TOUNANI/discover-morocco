@@ -22,16 +22,21 @@ class CustomShapeContentWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                  'assets/images/logo_black.svg',
-                  height: 75,
-                  semanticsLabel: 'Discover Morocco',
+                'assets/images/logo_black.svg',
+                height: 75,
+                semanticsLabel: 'Discover Morocco',
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Text(
+                "Discover \nMorocco",
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 21,
+                  color: Colors.black,
                 ),
-             const SizedBox(width: 20,),
-              Text("Discover \nMorocco", style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 21,
-                color: Colors.black,
-              ),)
+              )
             ],
           ),
           Padding(

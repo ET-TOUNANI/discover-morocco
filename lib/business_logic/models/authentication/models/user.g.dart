@@ -11,6 +11,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       email: json['email'] as String?,
       name: json['name'] as String?,
       photo: json['photo'] as String?,
+      fcmToken: json['fcmToken'] as String?,
       isAnonymous: json['isAnonymous'] as bool?,
       emailVerified: json['emailVerified'] as bool?,
     );
@@ -22,4 +23,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'photo': instance.photo,
       'isAnonymous': instance.isAnonymous,
       'emailVerified': instance.emailVerified,
+      'fcmToken': instance.fcmToken,
     };

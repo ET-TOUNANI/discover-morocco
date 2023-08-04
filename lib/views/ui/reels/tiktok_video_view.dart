@@ -1,9 +1,9 @@
-
 import 'package:discover_morocco/business_logic/models/models/enums/PubState.dart';
-import 'package:flutter/material.dart';
 import 'package:discover_morocco/views/ui/reels/page_view.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
+import 'package:flutter/material.dart';
 
+import '../../../business_logic/models/authentication/models/user.dart';
 import '../../../business_logic/models/models/publication.dart';
 
 class TiktokVideoView extends StatefulWidget {
@@ -52,7 +52,6 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -69,15 +68,15 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
             .map(
               (e) => TiktokPageView(
                 Publication(
-                  id: e['id']!,
-                  title: e['title']!,
-                  imageUrl: e['imageUrl']!,
-                  video: e['video']!,
-                  description: e['description'],
-                  likes: e["likes"]! as int,
-                  comments: e["comments"]! as int,
-                  state: e['state']! as PubState,
-                ),
+                    id: e['id']!,
+                    title: e['title']!,
+                    imageUrl: e['imageUrl']!,
+                    video: e['video']!,
+                    description: e['description'],
+                    likes: e["likes"]! as int,
+                    comments: e["comments"]! as int,
+                    state: e['state']! as PubState,
+                    user: e['user']! as UserModel),
               ),
             )
             .toList(),

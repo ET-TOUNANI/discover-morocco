@@ -57,7 +57,8 @@ class IconTextField extends StatefulWidget {
     this.iconCallback,
     this.height = 50,
     this.dividerIntent = 0,
-    this.hint, required this.multiline,
+    this.hint,
+    required this.multiline,
   }) : icon = SizedBox(
           height: height,
           width: 60,
@@ -125,14 +126,17 @@ class _IconTextFieldState extends State<IconTextField> {
           ),
           Expanded(
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 16,vertical: (widget.multiline)?10:0),
-              child: TextField(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 16, vertical: (widget.multiline) ? 10 : 0),
+              child: TextFormField(
                 focusNode: focusNode,
                 obscureText: widget.obscureText,
-                keyboardType: (widget.multiline)?TextInputType.multiline:widget.keyboardType,
+                keyboardType: (widget.multiline)
+                    ? TextInputType.multiline
+                    : widget.keyboardType,
                 onChanged: widget.onChanged,
                 minLines: 1,
-                maxLines: (widget.multiline)?10:1,
+                maxLines: (widget.multiline) ? 10 : 1,
                 decoration: InputDecoration(
                   hintText: widget.hint,
                   border: InputBorder.none,
