@@ -165,6 +165,17 @@ class _LoginViewState extends State<LoginView> {
 
     return isFirstTime;
   }
+  _go(bool firstTime){
+    if (firstTime) {
+      requestNotificationPermission();
+      Navigator.of(context).popAndPushNamed(FilterView.routeName,arguments: {
+        'firstTime': firstTime,
+      },);
+
+    } else {
+      Navigator.of(context).pushNamed(MainView.routeName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +192,8 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (state.status.isSubmissionSuccess) {
-          final isFIrstTime = await _isFirstTimeSignIn();
-          if (isFIrstTime) {
-            requestNotificationPermission();
-            Navigator.of(context).popAndPushNamed(FilterView.routeName);
-
-          } else {
-            Navigator.of(context).pushNamed(MainView.routeName);
-          }
+          final isFirstTime = await _isFirstTimeSignIn();
+          _go(isFirstTime);
         }
       },
       child: Stack(

@@ -15,3 +15,5 @@ void requestNotificationPermission() async {
     print('User declined notification permission.');
   }
 }
+
+// TODO : SEND MAIL instead of notif

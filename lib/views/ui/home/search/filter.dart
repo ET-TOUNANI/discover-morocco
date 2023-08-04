@@ -3,6 +3,8 @@ import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 
+import '../plan/myPlan.dart';
+
 class FilterView extends StatefulWidget {
   static const routeName = '/home/search/filter';
   const FilterView({super.key});
@@ -15,12 +17,14 @@ class _FilterViewState extends State<FilterView> {
   //late AppLocalizations _localizations;
   late MediaQueryData _mediaQuery;
   late ThemeData _theme;
+  late TextEditingController textController;
 
   @override
   void didChangeDependencies() {
     // _localizations = AppLocalizations.of(context)!;
     _mediaQuery = MediaQuery.of(context);
     _theme = Theme.of(context);
+    textController=TextEditingController(text: "2023-12-10");
     super.didChangeDependencies();
   }
 
@@ -105,6 +109,8 @@ class _FilterViewState extends State<FilterView> {
   Widget build(BuildContext context) {
     final buttonSize = Size(min(150, _mediaQuery.size.width * 0.4), 50);
 
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final bool isFirstTime = args['firstTime'];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Filters"),
@@ -229,21 +235,71 @@ class _FilterViewState extends State<FilterView> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.zero,
-                          isDense: true,
-                          alignLabelWithHint: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 20),
+                    child: Container(
+                      padding: const EdgeInsetsDirectional.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color:  Colors.grey,
                         ),
-                        onTap: () async => await showDialog(
-                            context: context,
-                            builder: (_) => DatePickerDialog(
+                        borderRadius: BorderRadius.circular(32),
+
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () async => await showDialog(
+                                context: context,
+                                builder: (_) => DatePickerDialog(
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(DateTime.now().year + 2),
-                                ))),
+                                  onDatePickerModeChange: (value) => setState(() {
+                                    textController=TextEditingController(text: "$value");
+                                  }),
+                                )),
+                            borderRadius: const BorderRadiusDirectional.only(
+                              topStart: Radius.circular(32),
+                              bottomStart: Radius.circular(32),
+                            ).resolve(Directionality.of(context)),
+                            child: IconTheme.merge(
+                                data: IconThemeData(
+                                  color: _theme.primaryColor,
+                                ),
+                                child: const Icon(Icons.date_range)),
+                          ),
+                          const VerticalDivider(
+                            color: Colors.black,
+                            thickness: 0.5,
+                            width: 0,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,),
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: textController,
+                                onTap: ()async => await showDialog(
+                                    context: context,
+                                    builder: (_) => DatePickerDialog(
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(DateTime.now().year + 2),
+                                    )),
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
+                                  isDense: true,
+                                  alignLabelWithHint: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -275,10 +331,11 @@ class _FilterViewState extends State<FilterView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Save chosen filter
-                    //and go back to MainView
-
-                    Navigator.pushNamed(context, MainView.routeName);
+                    if (isFirstTime) {
+                      Navigator.of(context).popAndPushNamed(MainView.routeName);
+                    } else {
+                      Navigator.of(context).pushNamed(MyPlanView.routeName);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: buttonSize,
@@ -296,3 +353,6 @@ class _FilterViewState extends State<FilterView> {
     );
   }
 }
+// TODO : ADD PLACE and PLAN TO UML Diagram
+// TODO : when create pub he need to choose a place (ville, categories)
+// TODO : Plan ( Place , date)

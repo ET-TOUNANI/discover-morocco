@@ -112,7 +112,11 @@ class _SearchViewState extends State<SearchView> {
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed(FilterView.routeName);
+                                .pushNamed(FilterView.routeName,
+                                arguments: {
+                                'firstTime': false,
+                                }
+                            );
                           },
                           splashColor: Colors.orange,
                           customBorder: const CircleBorder(),
