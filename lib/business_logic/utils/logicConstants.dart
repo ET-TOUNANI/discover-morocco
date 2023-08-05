@@ -3,52 +3,54 @@ import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import '../models/models/place_category.dart';
 
 class Constant {
-  static const String BASE_URL = "https://beta.purgpt.xyz/openai";
+  static const String baseUrl = "https://beta.purgpt.xyz/openai";
+  static const String fcmBaseUrl = "https://fcm.googleapis.com/v1/projects/tourism-assistant-551b3";
   static const String currentModel = "gpt-3.5-turbo-16k";
   static const String adminId = "gE9TkSESqWVpWDnn4vMOb0CjWbJ3";
+  static const String deviceIdAdmin = "_____";
 }
 
-List<CategoryModel>categories=[
+List<CategoryModel> categories = [
   {
-    "id":"1",
+    "id": "1",
     "title": "Mountain",
     "image": "filter_mountain.jpg",
   },
   {
-    "id":"2",
+    "id": "2",
     "title": "Beach",
     "image": "filter_beach.jpg",
   },
   {
-    "id":"3",
+    "id": "3",
     "title": "Desert",
     "image": "filter_desert.jpg",
   },
   {
-    "id":"4",
+    "id": "4",
     "title": "Forest",
     "image": "filter_forest.jpg",
   },
   {
-    "id":"5",
+    "id": "5",
     "title": "Sea",
     "image": "filter_sea.jpg",
   },
   {
-    "id":"6",
+    "id": "6",
     "title": "Religious",
     "image": "filter_religious.jpeg",
   }
 ].map((e) => CategoryModel.fromJson(e)).toList();
-List<DestinationModel> destinations=[
+List<DestinationModel> destinations = [
   {
     'id': '1',
     'city': 'Casablanca',
     'categories': [
       {
-        'id':categories.first.id,
-        'image':categories.first.image,
-        'title':categories.first.title,
+        'id': categories.first.id,
+        'image': categories.first.image,
+        'title': categories.first.title,
       }
     ]
   },
@@ -57,9 +59,9 @@ List<DestinationModel> destinations=[
     'city': 'Agadir',
     'categories': [
       {
-        'id':categories.last.id,
-        'image':categories.last.image,
-        'title':categories.last.title,
+        'id': categories.last.id,
+        'image': categories.last.image,
+        'title': categories.last.title,
       }
     ]
   }

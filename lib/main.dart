@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'business_logic/models/authentication/models/enums/status.dart';
 import 'business_logic/services/Auth_service.dart';
 import 'business_logic/services/db_service.dart';
+import 'business_logic/services/push_notification_service.dart';
 import 'config/router_config.dart';
 import 'firebase_options.dart';
 
@@ -29,10 +30,7 @@ void main() async {
   await dotenv.load();
   sharesPreferences = await SharedPreferences.getInstance();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  if (Platform.isLinux || Platform.isWindows) {
-    DartVLC.initialize();
-  }
+  initNotification();
   runApp(const TourismApp());
 }
 // category

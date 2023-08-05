@@ -11,11 +11,11 @@ class ChatGptAPI {
 
   ChatGptAPI() {
     BaseOptions options = BaseOptions(
-        baseUrl: Constant.BASE_URL,
+        baseUrl: Constant.baseUrl,
         contentType: "application/json",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': 'Bearer ${dotenv.get('apiKey')}'
+          'Authorization': 'Bearer ${dotenv.get('API_KEY')}'
         });
 
     dio = Dio(options);
@@ -24,7 +24,7 @@ class ChatGptAPI {
   Future<ChatModel> sendMessage(
       {required String message, required String modelId}) async {
     try {
-      var response = await dio.post("${Constant.BASE_URL}/chat/completions",
+      var response = await dio.post("${Constant.baseUrl}/chat/completions",
           data: jsonEncode({
             "messages": [
               {"role": "user", "content": message}

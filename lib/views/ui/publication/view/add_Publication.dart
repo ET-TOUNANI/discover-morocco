@@ -1,15 +1,14 @@
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:discover_morocco/business_logic/services/db_service.dart';
+import 'package:discover_morocco/business_logic/services/push_notification_service.dart';
 import 'package:discover_morocco/views/ui/publication/bloc/publication_cubit.dart';
 import 'package:discover_morocco/views/ui/publication/widgets/dropdown_destination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
 import '../../home/home.dart';
 import '../widgets/text_inputPublication.dart';
-// Provider for PublicationCubit
 
 class PublicationProvider extends StatelessWidget {
   static const routeName = '/Add_Publication';
@@ -19,7 +18,7 @@ class PublicationProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PublicationCubit(
-          context.read<AuthenticationRepository>(), context.read<DbService>()),
+          context.read<AuthenticationRepository>(), context.read<DbService>(),context.read<FirebaseApi>()),
       child: const AddPublication(),
     );
   }

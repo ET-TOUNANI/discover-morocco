@@ -7,6 +7,7 @@ import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   void onChatBotPressed() {
     Navigator.of(context).pushNamed(Chat.routeName);
   }
+
 
   @override
   Widget build(BuildContext context) {

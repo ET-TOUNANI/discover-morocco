@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
+import 'package:discover_morocco/business_logic/services/push_notification_service.dart';
 import 'package:discover_morocco/views/ui/admin/bloc/pub_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,7 +115,7 @@ class _ListPublicationState extends State<ListPublication> {
     return BlocProvider(
       create: (blocProviderContext) => PubliacationBloc(
           blocProviderContext.read<DbService>(),
-          blocProviderContext.read<AuthenticationRepository>())
+          blocProviderContext.read<AuthenticationRepository>(),blocProviderContext.read<FirebaseApi>(),)
         ..add(PubEventListFetched()),
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,

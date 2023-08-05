@@ -14,7 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../business_logic/services/push_notification_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -33,7 +32,6 @@ class _LoginViewState extends State<LoginView> {
     //localizations = AppLocalizations.of(context)!;
     mediaQuery = MediaQuery.of(context);
     theme = Theme.of(context);
-
     super.didChangeDependencies();
   }
 

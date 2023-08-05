@@ -12,6 +12,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../business_logic/models/models/enums/bloc_status.dart';
 import '../../../../business_logic/services/Auth_service.dart';
 import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/push_notification_service.dart';
 import '../../home/explore/widgets/snap_list_shimmer.dart';
 import '../../publication/widgets/Loading.dart';
 import '../bloc/pub_bloc.dart';
@@ -25,7 +26,7 @@ class DashboardProvider extends StatelessWidget {
     return BlocProvider(
       create: (blocProviderContext) => PubliacationBloc(
           blocProviderContext.read<DbService>(),
-          blocProviderContext.read<AuthenticationRepository>())
+          blocProviderContext.read<AuthenticationRepository>(),blocProviderContext.read<FirebaseApi>(),)
         ..add(WaitingPubEventFetched()),
       child: const Dashboard(),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:discover_morocco/business_logic/services/push_notification_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -17,6 +18,7 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
   PubliacationBloc(
     this._repository,
     this.authenticationRepository,
+    this.firebaseApi,
   ) : super(const WaitingPubState()) {
     on<WaitingPubEventFetched>(_onWaitingPubFetched);
     on<PubEventListFetched>(_onPubListFetched);
@@ -27,6 +29,7 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
   }
 
   final DbService _repository;
+  final FirebaseApi firebaseApi;
   final AuthenticationRepository authenticationRepository;
 
   Future<void> _onApprove(
@@ -52,6 +55,8 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
       );
       final res = await _repository.updatePub(pub);
       if (res) {
+        await firebaseApi.sendMessage(title: 'Publication Accepted',
+            body: 'Your publication "${pub.title}" has been accepted!', userDeviceToken: pub.user.fcmToken??"");
         List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();
         emit(
           state.copyWith(
@@ -88,6 +93,8 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
           destination: event.pub.destination);
       final res = await _repository.updatePub(pub);
       if (res) {
+        await firebaseApi.sendMessage(title: 'Publication Rejected',
+            body: 'Your publication "${pub.title}" has been rejected.', userDeviceToken: pub.user.fcmToken??"");
         List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();
         emit(
           state.copyWith(

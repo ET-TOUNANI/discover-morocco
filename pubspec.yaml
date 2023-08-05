@@ -35,8 +35,12 @@ dependencies:
 
   firebase_core: ^2.3.0
   firebase_auth: ^4.2.1
+  firebase_messaging:
   cloud_firestore: ^4.1.0
   google_sign_in: ^6.1.4
+  flutter_local_notifications:
+
+
 
   dart_vlc: ^0.4.0
   video_player: ^2.4.8
@@ -49,7 +53,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   test: ^1.16.0
-  dependency_validator:
+  #dependency_validator:
   #device_preview: ^1.1.0
   #flutter_launcher_icons: ^0.13.1
   #flutter_native_splash: ^2.3.1

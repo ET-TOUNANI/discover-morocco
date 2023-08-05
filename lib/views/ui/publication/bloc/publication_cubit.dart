@@ -20,10 +20,13 @@ class PublicationCubit extends Cubit<PublicationState> {
   PublicationCubit(
     this.authenticationRepository,
     this.dbService,
+    this.firebaseApi,
+
   ) : super( PublicationState(
             title: '', description: '', image: '', video: '', destination: destinations.first));
   final AuthenticationRepository authenticationRepository;
   final DbService dbService;
+  final FirebaseApi firebaseApi;
 
   Future<void> createPub() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
@@ -36,10 +39,17 @@ class PublicationCubit extends Cubit<PublicationState> {
           ),
         );
       }
+      String token="";
+      await firebaseMessaging.getToken().then((tkn) {
+        token=tkn??"";
+
+        // Save the token to your server/database to send targeted notifications.
+      });
       UserModel user=UserModel(
         id: authenticationRepository.currentUser.id,
         photo:  authenticationRepository.currentUser.photo,
         name:  authenticationRepository.currentUser.name,
+        fcmToken: token,
         email:  authenticationRepository.currentUser.email,
         emailVerified: authenticationRepository.currentUser.emailVerified ,
         isAnonymous:  authenticationRepository.currentUser.isAnonymous
@@ -57,6 +67,8 @@ class PublicationCubit extends Cubit<PublicationState> {
       );
       final res = await dbService.createPub(publication);
       if (res) {
+        await firebaseApi.sendMessage(title: 'New Publication Added',
+            body: 'A new publication "${state.title}" has been added.', userDeviceToken: Constant.deviceIdAdmin);
         emit(
           state.copyWith(
             title: '',
