@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../models/ongoing_trip.dart';
+
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UserModel extends Equatable {
   const UserModel({
     required this.id,
@@ -13,6 +15,7 @@ class UserModel extends Equatable {
     this.fcmToken,
     this.isAnonymous,
     this.emailVerified,
+    this.trip,
   });
 
   final String id;
@@ -22,6 +25,7 @@ class UserModel extends Equatable {
   final bool? isAnonymous;
   final bool? emailVerified;
   final String? fcmToken;
+  final OngoingTripModel? trip;
 
   /// Empty user which represents an unauthenticated user.
   static const empty = UserModel(id: '');

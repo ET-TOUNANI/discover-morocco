@@ -11,6 +11,8 @@ Publication _$PublicationFromJson(Map<String, dynamic> json) => Publication(
       id: json['id'] as String,
       title: json['title'] as String,
       user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      destination: DestinationModel.fromJson(
+          json['destination'] as Map<String, dynamic>),
       imageUrl: json['imageUrl'] as String,
       video: json['video'] as String,
       isLiked: json['isLiked'] as bool? ?? false,
@@ -28,6 +30,7 @@ Map<String, dynamic> _$PublicationToJson(Publication instance) =>
       'imageUrl': instance.imageUrl,
       'video': instance.video,
       'state': _$PubStateEnumMap[instance.state]!,
+      'destination': instance.destination.toJson(),
       'likes': instance.likes,
       'comments': instance.comments,
       'isLiked': instance.isLiked,

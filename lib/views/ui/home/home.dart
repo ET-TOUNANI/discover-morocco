@@ -7,7 +7,6 @@ import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +16,7 @@ import 'package:lottie/lottie.dart';
 import '../../../business_logic/services/Auth_service.dart';
 import '../publication/view/list_Publication.dart';
 import 'explore/explore.dart';
-import 'search/search.dart';
+import 'plan/trip.dart';
 
 class MainView extends StatefulWidget {
   static const routeName = '/home';
@@ -39,31 +38,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     // _localizations = AppLocalizations.of(context)!;
     _theme = Theme.of(context);
     checkUserType();
-    _configureFirebaseMessaging();
     super.didChangeDependencies();
-  }
-/*
-
- */
-  void _configureFirebaseMessaging() {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Received message: ${message.notification?.title}');
-
-      // Handle the incoming message here (show notification, update UI, etc.)
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Message opened app: ${message.notification?.title}');
-
-      // Handle the notification when the user taps on it and the app is in the foreground.
-    });
-  }
-
-// Function to handle background messages (when the app is terminated).
-  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print('Handling a background message: ${message.messageId}');
   }
 
   void onNotificationPressed() {
@@ -138,12 +113,12 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
         backgroundColor: _theme.canvasColor,
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 3,
         child: FloatingBottomNavbar(
           color: _theme.primaryColor,
           unselectedColor: Colors.white,
           start: 30,
-          end: 3,
+          end: 2,
           actions: [
             FloatingBottomNavbarAction(
               onTap: onButtomNavigatorExplorePressed,
@@ -155,17 +130,17 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
               icon: Icons.home_rounded,
               text: "Home",
             ),
-            if (idAdmin)
+             (idAdmin)?
               const FloatingBottomNavbarItem(
                 icon: Icons.dashboard,
                 text: "Dashboard",
-              ),
-            const FloatingBottomNavbarItem(
-              icon: Icons.search,
-              text: "Search",
+              ):
+              const FloatingBottomNavbarItem(
+              icon: Icons.account_tree,
+              text: "Trip",
             ),
             const FloatingBottomNavbarItem(
-              icon: Icons.list,
+              icon: Icons.list_alt,
               text: "Publications",
             ),
           ],
@@ -174,8 +149,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
             physics: const BouncingScrollPhysics(),
             children: [
               const ExploreView(),
-              if (idAdmin) const DashboardProvider(),
-              const SearchView(),
+               (idAdmin)? const DashboardProvider()
+                :const TripView(),
               const ListPublication()
             ],
           ),

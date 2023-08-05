@@ -7,7 +7,7 @@ import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/tex
 import 'package:discover_morocco/views/ui/authentication/widgets/outline_icon_button.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/singin_button.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
-import 'package:discover_morocco/views/ui/home/search/filter.dart';
+import 'package:discover_morocco/views/ui/home/plan/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -154,27 +154,8 @@ class _LoginViewState extends State<LoginView> {
             state.password.invalid ? 'invalid password' : null,
         icon: Icons.lock_outline_rounded,
       );
-  Future<bool> _isFirstTimeSignIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
-
-    if (isFirstTime) {
-      // If it's the first time, set the flag to false for future runs
-      await prefs.setBool('isFirstTime', false);
-    }
-
-    return isFirstTime;
-  }
-  _go(bool firstTime){
-    if (firstTime) {
-      requestNotificationPermission();
-      Navigator.of(context).popAndPushNamed(FilterView.routeName,arguments: {
-        'firstTime': firstTime,
-      },);
-
-    } else {
-      Navigator.of(context).pushNamed(MainView.routeName);
-    }
+  _go(){
+      Navigator.of(context).popAndPushNamed(MainView.routeName);
   }
 
   @override
@@ -192,8 +173,7 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (state.status.isSubmissionSuccess) {
-          final isFirstTime = await _isFirstTimeSignIn();
-          _go(isFirstTime);
+          _go();
         }
       },
       child: Stack(

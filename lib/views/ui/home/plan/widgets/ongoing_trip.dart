@@ -84,7 +84,7 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                                     start: 8.0,
                                   ),
                                   child: Text(
-                                    widget.model.location,
+                                    widget.model.destination.city,
                                     maxLines: 1,
                                     softWrap: false,
                                     overflow: TextOverflow.clip,

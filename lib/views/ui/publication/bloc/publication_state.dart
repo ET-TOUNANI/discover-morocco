@@ -9,6 +9,7 @@ class PublicationState extends Equatable {
     this.status = FormzStatus.pure,
     this.errorMessage,
     this.video = '',
+    required this.destination
   });
 
   final String title;
@@ -17,9 +18,10 @@ class PublicationState extends Equatable {
   final String video;
   final FormzStatus status;
   final String? errorMessage;
+  final DestinationModel destination;
 
   @override
-  List<Object> get props => [title, description, image, video, status];
+  List<Object> get props => [title, description, image, video, status,destination];
 
   PublicationState copyWith({
     String? title,
@@ -28,6 +30,7 @@ class PublicationState extends Equatable {
     String? video,
     String? errorMessage,
     FormzStatus? status,
+    DestinationModel? destination,
   }) {
     return PublicationState(
       title: title ?? this.title,
@@ -36,6 +39,7 @@ class PublicationState extends Equatable {
       video: video ?? this.video,
       errorMessage: errorMessage ?? this.errorMessage,
       status: status ?? this.status,
+      destination: destination ?? this.destination,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/PubState.dart';
 import 'package:discover_morocco/views/ui/reels/page_view.dart';
 import 'package:discover_morocco/views/utils/constants.dart';
@@ -76,7 +77,10 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
                     likes: e["likes"]! as int,
                     comments: e["comments"]! as int,
                     state: e['state']! as PubState,
-                    user: e['user']! as UserModel),
+                    user: e['user']! as UserModel,
+                    destination: e['destination']! as DestinationModel,
+
+                ),
               ),
             )
             .toList(),

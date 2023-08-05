@@ -46,7 +46,10 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
           description: event.pub.description,
           isLiked: event.pub.isLiked,
           isPublished: true,
-          likes: event.pub.likes);
+          likes: event.pub.likes,
+        destination: event.pub.destination
+
+      );
       final res = await _repository.updatePub(pub);
       if (res) {
         List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();
@@ -81,7 +84,8 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
           description: event.pub.description,
           isLiked: event.pub.isLiked,
           isPublished: false,
-          likes: event.pub.likes);
+          likes: event.pub.likes,
+          destination: event.pub.destination);
       final res = await _repository.updatePub(pub);
       if (res) {
         List<Publication> pubs=state.publications.skipWhile((value) => value.id==pub.id).toList();

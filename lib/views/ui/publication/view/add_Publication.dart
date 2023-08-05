@@ -1,6 +1,7 @@
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:discover_morocco/business_logic/services/db_service.dart';
 import 'package:discover_morocco/views/ui/publication/bloc/publication_cubit.dart';
+import 'package:discover_morocco/views/ui/publication/widgets/dropdown_destination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -141,14 +142,17 @@ class _AddPublicationState extends State<AddPublication> {
                     // -- Form Fields
                     Form(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
-                            child: SvgPicture.asset(
-                              'assets/images/logo_black.svg',
-                              height: 70,
-                              semanticsLabel: 'Discover Morocco',
+                          const SizedBox(height: 30),
+                          Text(
+                            'City',
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                          const DropDownWidget(padding: 0,color:Colors.grey),
+                          const SizedBox(height: 10),
                           _titleInput(),
                           const SizedBox(height: 10),
                           _descriptionInput(),

@@ -6,7 +6,7 @@ import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:discover_morocco/views/ui/home/plan/myPlan.dart';
-import 'package:discover_morocco/views/ui/home/search/filter.dart';
+import 'package:discover_morocco/views/ui/home/plan/filter.dart';
 import 'package:discover_morocco/views/ui/landing/landing.dart';
 import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
@@ -24,7 +24,6 @@ class Routers {
         DashboardProvider.routeName: (_) => const DashboardProvider(),
         ListPublication.routeName: (_) => const ListPublication(),
         MainView.routeName: (_) => const MainView(),
-        MyPlanView.routeName: (_) => const MyPlanView(),
         NotificationView.routeName: (_) => const NotificationView(),
         NavigationMenu.routeName: (_) => const NavigationMenu(),
         FilterView.routeName: (_) => const FilterView(),

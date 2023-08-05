@@ -35,6 +35,7 @@ void main() async {
   }
   runApp(const TourismApp());
 }
+// category
 
 class TourismApp extends StatelessWidget {
   const TourismApp({Key? key}) : super(key: key);

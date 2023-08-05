@@ -1,46 +1,30 @@
-import 'package:discover_morocco/business_logic/models/models/enums/screen_type.dart';
-import 'package:discover_morocco/views/ui/extensions/enum_extension.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
-import 'package:discover_morocco/views/utils/constants.dart';
-import 'package:discover_morocco/views/widgets/headline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'filter.dart';
+import 'myPlan.dart';
 
-class SearchView extends StatefulWidget {
-  static const route = '/home/search';
-  const SearchView({super.key});
+class TripView extends StatefulWidget {
+  static const route = '/home/plan';
+  const TripView({super.key});
 
   @override
-  State<SearchView> createState() => _SearchViewState();
+  State<TripView> createState() => _TripViewState();
 }
 
-class _SearchViewState extends State<SearchView> {
-  //late AppLocalizations _localizations;
-  late MediaQueryData _mediaQuery;
+class _TripViewState extends State<TripView> {
   late ThemeData _theme;
 
   @override
   void didChangeDependencies() {
-    //_localizations = AppLocalizations.of(context)!;
-    _mediaQuery = MediaQuery.of(context);
     _theme = Theme.of(context);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final int crossAxisCount;
-    switch (_mediaQuery.getScreenType()) {
-      case ScreenType.extraLarge:
-      case ScreenType.large:
-      case ScreenType.medium:
-        crossAxisCount = 3;
-        break;
-      default:
-        crossAxisCount = 2;
-    }
+
 
     return SafeArea(
       bottom: false,
@@ -112,10 +96,7 @@ class _SearchViewState extends State<SearchView> {
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed(FilterView.routeName,
-                                arguments: {
-                                'firstTime': false,
-                                }
+                                .pushNamed(FilterView.routeName
                             );
                           },
                           splashColor: Colors.orange,
@@ -137,79 +118,7 @@ class _SearchViewState extends State<SearchView> {
                   ],
                 ),
               ),
-              const Headline(
-                text: "Recent", //_localizations.recent,
-                padding: EdgeInsets.only(
-                  bottom: 16,
-                  left: 24,
-                  right: 24,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Wrap(
-                  spacing: 8,
-                  children: snapList
-                      .map(
-                        (e) => Chip(
-                          elevation: 0,
-                          label: Text(e['title'] as String),
-                          backgroundColor: Colors.grey.shade100,
-                          deleteIconColor: Colors.grey.shade400,
-                          deleteIcon: const Icon(Icons.close),
-                          onDeleted: () {},
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-              const Headline(text: "Suggestions"),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  primary: false,
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 24.0,
-                  mainAxisSpacing: 24.0,
-                  childAspectRatio: 0.75,
-                  children: snapList
-                      .map(
-                        (e) => ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Image.asset(
-                                  e['imageUrl']!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Container(
-                                color: Colors.black26,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    e['title']!,
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        _theme.textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              )
+              const MyPlanView()
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:discover_morocco/business_logic/models/authentication/models/models.dart';
+import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,6 +15,7 @@ class Publication extends Equatable {
   final String imageUrl;
   final String video;
   final PubState state;
+  final DestinationModel destination;
 
   final int likes;
   final int comments;
@@ -26,6 +28,7 @@ class Publication extends Equatable {
     required this.id,
     required this.title,
     required this.user,
+    required this.destination,
     required this.imageUrl,
     required this.video,
     this.isLiked = false,

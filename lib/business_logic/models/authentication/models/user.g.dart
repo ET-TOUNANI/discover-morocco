@@ -14,6 +14,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       fcmToken: json['fcmToken'] as String?,
       isAnonymous: json['isAnonymous'] as bool?,
       emailVerified: json['emailVerified'] as bool?,
+      trip: json['trip'] == null
+          ? null
+          : OngoingTripModel.fromJson(json['trip'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -24,4 +27,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'isAnonymous': instance.isAnonymous,
       'emailVerified': instance.emailVerified,
       'fcmToken': instance.fcmToken,
+      'trip': instance.trip?.toJson(),
     };
