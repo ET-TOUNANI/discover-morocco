@@ -4,13 +4,14 @@ import 'package:discover_morocco/business_logic/models/authentication/models/mod
 import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
+import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../business_logic/models/models/enums/PubState.dart';
-import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/publication_service.dart';
 import '../../../../business_logic/services/push_notification_service.dart';
 import '../../../../business_logic/utils/logicConstants.dart';
 
@@ -20,13 +21,14 @@ class PublicationCubit extends Cubit<PublicationState> {
   PublicationCubit(
     this.authenticationRepository,
     this.dbService,
-    this.firebaseApi,
+    this.userService,
 
   ) : super( PublicationState(
             title: '', description: '', image: '', video: '', destination: destinations.first));
   final AuthenticationRepository authenticationRepository;
   final DbService dbService;
-  final FirebaseApi firebaseApi;
+  final UserService userService;
+  final FirebaseApi firebaseApi=FirebaseApi();
 
   Future<void> createPub() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
@@ -67,8 +69,10 @@ class PublicationCubit extends Cubit<PublicationState> {
       );
       final res = await dbService.createPub(publication);
       if (res) {
+        final admin=await userService.getUserById(Constant.adminId);
         await firebaseApi.sendMessage(title: 'New Publication Added',
-            body: 'A new publication "${state.title}" has been added.', userDeviceToken: Constant.deviceIdAdmin);
+            body: 'A new publication "${state.title}" has been added.',
+            userDeviceToken: admin?.fcmToken??"");
         emit(
           state.copyWith(
             title: '',

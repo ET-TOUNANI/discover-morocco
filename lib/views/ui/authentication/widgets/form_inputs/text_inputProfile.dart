@@ -13,6 +13,7 @@ class TextFormInput extends StatelessWidget {
   final bool obscureText;
   final Function(String, BuildContext, ProfileState) onChanged;
   final String? Function(BuildContext, ProfileState) getError;
+  final String initialValue;
 
   const TextFormInput({
     super.key,
@@ -24,7 +25,7 @@ class TextFormInput extends StatelessWidget {
     required this.obscureText,
     required this.onChanged,
     required this.getError,
-    required this.icon,
+    required this.icon, required this.initialValue,
   });
 
   @override
@@ -49,6 +50,7 @@ class TextFormInput extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: IconTextField.sizedIcon(
+
                 textFieldKey: textFieldKey,
                 icon: icon,
                 hint: hint,
@@ -60,6 +62,8 @@ class TextFormInput extends StatelessWidget {
                 deactiveColor: Colors.grey.shade300,
                 focusColor: theme.primaryColor.withOpacity(0.5),
                 onChanged: (value) => onChanged(value, context, state),
+                initialValue: initialValue,
+
               ),
             ),
             AnimatedCrossFade(

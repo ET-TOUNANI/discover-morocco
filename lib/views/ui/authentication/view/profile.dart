@@ -4,16 +4,34 @@ import 'package:discover_morocco/views/ui/authentication/widgets/Picture.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/text_inputProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
-class Profile extends StatefulWidget {
+import '../../../../business_logic/services/user_service.dart';
+
+class Profile extends StatelessWidget {
+
   static const routeName = '/profile';
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
 
   @override
-  State<Profile> createState() => _ProfileState();
+  Widget build(BuildContext context) {
+    return BlocProvider<ProfileCubit>(
+        create: (_) => ProfileCubit(
+      context.read<UserService>(),
+      context.read<AuthenticationRepository>(),
+    ),
+    child: const ProfileProvider());
+  }
 }
 
-class _ProfileState extends State<Profile> {
+class ProfileProvider extends StatefulWidget {
+  const ProfileProvider({super.key});
+
+  @override
+  State<ProfileProvider> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<ProfileProvider> {
   // late AppLocalizations localizations;
   late MediaQueryData mediaQuery;
   late ThemeData theme;
@@ -25,8 +43,8 @@ class _ProfileState extends State<Profile> {
 
     super.didChangeDependencies();
   }
-
-  Widget _emailInput() => TextFormInput(
+  Widget _emailInput() =>BlocBuilder<ProfileCubit, ProfileState>(
+  builder: (context, state) {return TextFormInput(
         buildWhen: (previous, current) => previous.email != current.email,
         label: "Email",
         hint: 'exmaple@email.com',
@@ -38,8 +56,11 @@ class _ProfileState extends State<Profile> {
         getError: (context, state) =>
             state.email.invalid ? 'invalid email' : null,
         icon: Icons.email_outlined,
-      );
-  Widget _nameInput() => TextFormInput(
+    initialValue: state.email.value,
+  );});
+
+  Widget _nameInput() => BlocBuilder<ProfileCubit, ProfileState>(
+  builder: (context, state) {return TextFormInput(
         buildWhen: (previous, current) => previous.name != current.name,
         label: "Name",
         hint: 'Mohammed...',
@@ -50,8 +71,10 @@ class _ProfileState extends State<Profile> {
             context.read<ProfileCubit>().nameChanged(name),
         getError: (context, state) => null,
         icon: Icons.info_outline,
-      );
-  Widget _phoneInput() => TextFormInput(
+    initialValue: state.name,
+  );});
+  Widget _phoneInput() => BlocBuilder<ProfileCubit, ProfileState>(
+  builder: (context, state) {return TextFormInput(
         buildWhen: (previous, current) => previous.phone != current.phone,
         label: "Phone",
         hint: '+2126999999',
@@ -61,8 +84,9 @@ class _ProfileState extends State<Profile> {
         onChanged: (phone, context, state) =>
             context.read<ProfileCubit>().phoneChanged(phone),
         getError: (context, state) => null,
-        icon: Icons.twenty_mp_sharp,
-      );
+        icon: Icons.phone,
+    initialValue: state.phone,
+      );});
   Widget _passwordInput() => TextFormInput(
         buildWhen: (previous, current) => previous.password != current.password,
         label: "Password",
@@ -75,66 +99,122 @@ class _ProfileState extends State<Profile> {
         getError: (context, state) =>
             state.password.invalid ? 'invalid password' : null,
         icon: Icons.lock_outline_rounded,
+        initialValue: '',
       );
+
+  Future<void> editProfilePressed(BuildContext context) async {
+    await context.read<ProfileCubit>().editProfile();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    //final controller = Get.put(ProfileController());
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Edit profile"),
-        elevation: 0,
-        backgroundColor: theme.canvasColor,
-      ),
-      body: BlocProvider<ProfileCubit>(
-          create: (_) => ProfileCubit(context.read<AuthenticationRepository>()
-              //AppLocalizations.of(context)!,
-              ),
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  // -- IMAGE with ICON
-                  const Picture(),
-                  const SizedBox(height: 20),
+    return BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) async {
+      if (state.status.isSubmissionFailure) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage ?? 'Please try again'),
+            ),
+          );
+      }
 
-                  // -- Form Fields
-                  Form(
-                    child: Column(
-                      children: [
-                        _nameInput(),
-                        const SizedBox(height: 10),
-                        _emailInput(),
-                        const SizedBox(height: 10),
-                        _phoneInput(),
-                        const SizedBox(height: 10),
-                        _passwordInput(),
-                        const SizedBox(height: 20),
-                        // -- Form Submit Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () => {},
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: theme.primaryColor,
-                                side: BorderSide.none,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                shape: const StadiumBorder()),
-                            child: Text("Edit Profile",
-                                style: theme.textTheme.bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold)),
-                          ),
+      if (state.status.isSubmissionSuccess) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text("Operation Done"),
+            ),
+          );
+      }
+    },
+    child: Stack(
+      fit: StackFit.expand,
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text("Edit profile"),
+            elevation: 0,
+            backgroundColor: theme.canvasColor,
+          ),
+          body:  SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      // -- IMAGE with ICON
+                      const Picture(),
+                      const SizedBox(height: 20),
+
+                      // -- Form Fields
+                      Form(
+                        child: Column(
+                          children: [
+                            _nameInput(),
+                            const SizedBox(height: 10),
+                            _emailInput(),
+                            const SizedBox(height: 10),
+                            _phoneInput(),
+                            const SizedBox(height: 10),
+                            _passwordInput(),
+                            const SizedBox(height: 20),
+                            // -- Form Submit Button
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed:()=> editProfilePressed(context),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: theme.primaryColor,
+                                    side: BorderSide.none,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 12),
+                                    shape: const StadiumBorder()),
+                                child: Text("Edit Profile",
+                                    style: theme.textTheme.bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              )
+        ),
+        BlocBuilder<ProfileCubit, ProfileState>(
+          buildWhen: (previous, current) => current.status != previous.status,
+          builder: (context, state) => state.status.isSubmissionInProgress
+              ? Container(
+            color: Colors.black54,
+            child: const Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: Colors.white,
               ),
             ),
-          )),
-    );
+          )
+              : const SizedBox(),
+        )
+      ],
+    ));
   }
 }
+
+/*
+BlocBuilder<ProfileCubit, ProfileState>(
+              buildWhen: (previous, current) => current.photo != previous.photo,
+              builder: (context, state) {
+                if (state.photo.isNotEmpty) {
+                  Uint8List bytes = base64Decode(state.photo);
+                  return Image.memory(bytes);
+                } else {
+                  return Image.asset('assets/mock/profile.png');
+                }
+              },
+            ),
+ */

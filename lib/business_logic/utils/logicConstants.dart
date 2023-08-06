@@ -7,7 +7,6 @@ class Constant {
   static const String fcmBaseUrl = "https://fcm.googleapis.com/v1/projects/tourism-assistant-551b3";
   static const String currentModel = "gpt-3.5-turbo-16k";
   static const String adminId = "gE9TkSESqWVpWDnn4vMOb0CjWbJ3";
-  static const String deviceIdAdmin = "_____";
 }
 
 List<CategoryModel> categories = [

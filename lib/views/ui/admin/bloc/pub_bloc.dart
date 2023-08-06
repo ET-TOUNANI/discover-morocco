@@ -9,7 +9,7 @@ import '../../../../business_logic/models/models/enums/PubState.dart';
 import '../../../../business_logic/models/models/enums/bloc_status.dart';
 import '../../../../business_logic/models/models/publication.dart';
 import '../../../../business_logic/services/Auth_service.dart';
-import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/publication_service.dart';
 
 part 'pub_event.dart';
 part 'pub_state.dart';
@@ -18,7 +18,6 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
   PubliacationBloc(
     this._repository,
     this.authenticationRepository,
-    this.firebaseApi,
   ) : super(const WaitingPubState()) {
     on<WaitingPubEventFetched>(_onWaitingPubFetched);
     on<PubEventListFetched>(_onPubListFetched);
@@ -29,7 +28,7 @@ class PubliacationBloc extends Bloc<PubEvent, WaitingPubState> {
   }
 
   final DbService _repository;
-  final FirebaseApi firebaseApi;
+  final FirebaseApi firebaseApi=FirebaseApi();
   final AuthenticationRepository authenticationRepository;
 
   Future<void> _onApprove(

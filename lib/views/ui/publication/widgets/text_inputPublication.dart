@@ -58,7 +58,7 @@ class TextFormInput extends StatelessWidget {
                 backgroundFocusColor: theme.primaryColor.withOpacity(0.02),
                 deactiveColor: Colors.grey.shade300,
                 focusColor: theme.primaryColor.withOpacity(0.5),
-                onChanged: (value) => onChanged(value, context, state),
+                onChanged: (value) => onChanged(value, context, state), initialValue: '',
               ),
             ),
           ],

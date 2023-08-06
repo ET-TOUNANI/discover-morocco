@@ -6,6 +6,12 @@
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
 		<string>Discover Morocco</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+        <string>Upload images for screen background</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Upload image from camera for screen background</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Post videos to profile</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>

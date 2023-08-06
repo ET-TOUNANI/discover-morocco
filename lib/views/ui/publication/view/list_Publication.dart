@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
-import 'package:discover_morocco/business_logic/services/push_notification_service.dart';
 import 'package:discover_morocco/views/ui/admin/bloc/pub_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../business_logic/models/models/enums/bloc_status.dart';
 import '../../../../business_logic/services/Auth_service.dart';
-import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/publication_service.dart';
 import '../../../widgets/headline.dart';
 import '../../../widgets/row_place_card.dart';
 import '../../book/detail.dart';
@@ -17,7 +16,7 @@ import '../../home/explore/widgets/snap_list_shimmer.dart';
 import '../../home/widgets/bottom_nav_bar/navbar.dart';
 
 class ListPublication extends StatefulWidget {
-  static const String routeName = '/home/listPublication';
+  static const String routeName = '/publication/list';
   const ListPublication({super.key});
 
   @override
@@ -115,7 +114,7 @@ class _ListPublicationState extends State<ListPublication> {
     return BlocProvider(
       create: (blocProviderContext) => PubliacationBloc(
           blocProviderContext.read<DbService>(),
-          blocProviderContext.read<AuthenticationRepository>(),blocProviderContext.read<FirebaseApi>(),)
+          blocProviderContext.read<AuthenticationRepository>())
         ..add(PubEventListFetched()),
       child: SingleChildScrollView(
         controller: InheritedDataProvider.of(context).scrollController,

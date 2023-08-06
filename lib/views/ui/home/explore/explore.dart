@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:discover_morocco/business_logic/models/models/enums/bloc_status.dart';
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
-import 'package:discover_morocco/business_logic/services/db_service.dart';
+import 'package:discover_morocco/business_logic/services/publication_service.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/home/explore/widgets/snap_list.dart';
 import 'package:discover_morocco/views/ui/home/explore/widgets/snap_list_shimmer.dart';

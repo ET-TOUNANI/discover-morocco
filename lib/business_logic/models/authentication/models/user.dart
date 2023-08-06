@@ -12,6 +12,7 @@ class UserModel extends Equatable {
     this.email,
     this.name,
     this.photo,
+    this.phone,
     this.fcmToken,
     this.isAnonymous,
     this.emailVerified,
@@ -22,6 +23,7 @@ class UserModel extends Equatable {
   final String? email;
   final String? name;
   final String? photo;
+  final String? phone;
   final bool? isAnonymous;
   final bool? emailVerified;
   final String? fcmToken;

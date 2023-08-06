@@ -1,4 +1,5 @@
 import 'package:discover_morocco/business_logic/services/Auth_service.dart';
+import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:discover_morocco/views/ui/authentication/bloc/signin/signin_bloc.dart';
 import 'package:discover_morocco/views/ui/authentication/view/singin.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class SingInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<SignInCubit>(
-        create: (_) => SignInCubit(context.read<AuthenticationRepository>()
-            //AppLocalizations.of(context)!,
+        create: (_) => SignInCubit(context.read<AuthenticationRepository>(),
+            context.read<UserService>()
             ),
         child: const LoginView(),
       ),

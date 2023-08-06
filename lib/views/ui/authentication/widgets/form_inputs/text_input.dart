@@ -60,6 +60,7 @@ class TextFormInput extends StatelessWidget {
                 deactiveColor: Colors.grey.shade300,
                 focusColor: theme.primaryColor.withOpacity(0.5),
                 onChanged: (value) => onChanged(value, context, state),
+                initialValue: '',
               ),
             ),
             AnimatedCrossFade(

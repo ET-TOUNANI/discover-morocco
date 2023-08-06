@@ -52,7 +52,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   }
 
   void onButtomNavigatorExplorePressed() {
-    Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
+    //Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
   }
 
   void onProfilePicturePressed() {

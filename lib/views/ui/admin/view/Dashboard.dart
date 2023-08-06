@@ -11,7 +11,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../business_logic/models/models/enums/bloc_status.dart';
 import '../../../../business_logic/services/Auth_service.dart';
-import '../../../../business_logic/services/db_service.dart';
+import '../../../../business_logic/services/publication_service.dart';
 import '../../../../business_logic/services/push_notification_service.dart';
 import '../../home/explore/widgets/snap_list_shimmer.dart';
 import '../../publication/widgets/Loading.dart';
@@ -26,7 +26,7 @@ class DashboardProvider extends StatelessWidget {
     return BlocProvider(
       create: (blocProviderContext) => PubliacationBloc(
           blocProviderContext.read<DbService>(),
-          blocProviderContext.read<AuthenticationRepository>(),blocProviderContext.read<FirebaseApi>(),)
+          blocProviderContext.read<AuthenticationRepository>())
         ..add(WaitingPubEventFetched()),
       child: const Dashboard(),
     );
@@ -66,7 +66,6 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Future<void> onPlaceBookmarkPressed(String id) async {}
   Future<void> onRejectPressed(Publication pub) async {
     await showDialog(
         context: context,
@@ -179,8 +178,8 @@ class _DashboardState extends State<Dashboard> {
                                     e,
                                     ValueKey('row_${e.id}'),
                                   ),
-                                  onActionTab: () => onPlaceBookmarkPressed(e.id),
-                                  onBookingTab: () => onDeletePressed(e),
+                                  onBookingTab: () =>onDeletePressed(e),
+                                  onActionTab: () => onDeletePressed(e),
                                   action: const Icon(
                                     Icons.delete,
                                     color: Colors.red,

@@ -13,11 +13,11 @@ class IconTextField extends StatefulWidget {
   final bool multiline;
 
   final bool obscureText;
-
   final Color? backgroundColor;
   final Color? backgroundFocusColor;
   final Color deactiveColor;
   final Color focusColor;
+  final String initialValue;
 
   final TextInputType? keyboardType;
 
@@ -39,7 +39,7 @@ class IconTextField extends StatefulWidget {
     this.iconCallback,
     this.height = 50,
     this.dividerIntent = 0,
-    this.hint,
+    this.hint, required this.initialValue,
   });
 
   IconTextField.sizedIcon({
@@ -58,7 +58,7 @@ class IconTextField extends StatefulWidget {
     this.height = 50,
     this.dividerIntent = 0,
     this.hint,
-    required this.multiline,
+    required this.multiline, required this.initialValue,
   }) : icon = SizedBox(
           height: height,
           width: 60,
@@ -131,6 +131,7 @@ class _IconTextFieldState extends State<IconTextField> {
               child: TextFormField(
                 focusNode: focusNode,
                 obscureText: widget.obscureText,
+                initialValue: widget.initialValue,
                 keyboardType: (widget.multiline)
                     ? TextInputType.multiline
                     : widget.keyboardType,

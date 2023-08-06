@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:discover_morocco/business_logic/models/cache.dart';
 import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -69,6 +68,7 @@ class AuthenticationRepository {
         email: email,
         password: password,
       );
+      
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignInFailure.fromCode(e.code);
     } catch (_) {
@@ -172,49 +172,6 @@ class AuthenticationRepository {
         .toList();
   }
 
-  Future<void> sendEmailVerification() async {
-    try {
-      await _firebaseAuth.currentUser!.sendEmailVerification(
-        ActionCodeSettings(
-          handleCodeInApp: true,
-          androidPackageName: 'com.tourism.discover_morocco',
-          androidInstallApp: true,
-          androidMinimumVersion: "1",
-          url: 'https://tourism-assistant-551b3.firebaseapp.com',
-        ),
-      );
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      throw SignInFailure.fromCode(e.code);
-    } catch (_) {
-      throw const SignInFailure();
-    }
-  }
-
-  /*/// Send signs in link to the provided [email].
-  ///
-  /// Throws a [SendSignInLinkToEmailFailure] if an exception occurs.
-  Future<void> sendSignInLinkToEmail({
-    required String email,
-  }) async {
-    try {
-      await _firebaseAuth.sendSignInLinkToEmail(
-        email: email,
-        actionCodeSettings: ActionCodeSettings(
-          handleCodeInApp: true,
-          // iOSBundleId: 'demo.beautifuldestinations',
-          androidPackageName: '',
-          androidInstallApp: true,
-          androidMinimumVersion: "1",
-          url: 'https://tourism-app-27c37.firebaseapp.com',
-        ),
-      );
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      throw SendEmailLinkFailure.fromCode(e.code);
-    } catch (_) {
-      throw const SendEmailLinkFailure();
-    }
-  }*/
-
   /// Signs out the current user which will emit
   /// [UserModel.empty] from the [user] Stream.
   ///
@@ -256,5 +213,4 @@ extension on firebase_auth.User {
     );
   }
 
-// TODO: DOc user from firebase auth with the UID so u can add and update his infos
 }

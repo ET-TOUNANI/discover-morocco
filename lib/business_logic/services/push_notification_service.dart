@@ -105,8 +105,7 @@ class FirebaseApi {
               "token": userDeviceToken,
               "notification": {
                 "body": body,
-                "title": title,
-                'click_action': 'FLUTTER_NOTIFICATION_CLICK'
+                "title": title
               }
             }
           }));

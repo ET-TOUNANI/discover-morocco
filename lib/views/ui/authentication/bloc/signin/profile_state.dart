@@ -7,7 +7,7 @@ class ProfileState extends Equatable {
     this.status = FormzStatus.pure,
     this.name = '',
     this.phone = '',
-    this.photo = "assets/mock/profile.png",
+    this.photo = '',
     this.errorMessage,
   });
 

@@ -11,13 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../business_logic/services/user_service.dart';
+
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   static const String prefKey = 'PREF_KEY_SETTINGS';
 
-  SettingsBloc({
+  SettingsBloc(this.userService, {
     required this.authenticationRepository,
     required this.sharedPreferences,
   }) : super(
@@ -43,11 +45,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   final SharedPreferences sharedPreferences;
   final AuthenticationRepository authenticationRepository;
-  late final StreamSubscription<UserModel> _userSubscription;
+  final UserService userService;
 
   @override
   Future<void> close() {
-    _userSubscription.cancel();
+    //_userSubscription.cancel();
     return super.close();
   }
 
@@ -85,18 +87,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   FutureOr<void> _changeUser(
-    _AppUserChanged event,
-    Emitter<SettingsState> emit,
-  ) async {
-    final newState = state.copyWith(
-      user: event.user,
-      authStatus: event.user.isEmpty
-          ? AuthenticationStatus.unauthenticated
-          : AuthenticationStatus.authenticated,
-    );
+      _AppUserChanged event,
+      Emitter<SettingsState> emit,
+      ) async {
+    // Fetch the full user data from Firestore using the userService
+    UserModel? updatedUser = await userService.getUserById(event.user.id);
 
-    await sharedPreferences.setString(prefKey, jsonEncode(newState.toJson()));
+    if (updatedUser != null) {
+      // Merge the additional attributes from Firestore into the current user object
 
-    emit(newState);
+      final newState = state.copyWith(
+        user: updatedUser,
+        authStatus: updatedUser.isEmpty
+            ? AuthenticationStatus.unauthenticated
+            : AuthenticationStatus.authenticated,
+      );
+
+      await sharedPreferences.setString(prefKey, jsonEncode(newState.toJson()));
+      emit(newState);
+    }
   }
+
 }

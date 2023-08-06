@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_vlc/dart_vlc.dart';
+import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:discover_morocco/views/ui/chat/bloc/chat/chat_bloc.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:discover_morocco/views/ui/landing/landing.dart';
@@ -18,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'business_logic/models/authentication/models/enums/status.dart';
 import 'business_logic/services/Auth_service.dart';
-import 'business_logic/services/db_service.dart';
+import 'business_logic/services/publication_service.dart';
 import 'business_logic/services/push_notification_service.dart';
 import 'config/router_config.dart';
 import 'firebase_options.dart';
@@ -46,18 +47,24 @@ class TourismApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => DbService(FirebaseFirestore.instance),
         ),
+        RepositoryProvider(
+          create: (_) => UserService(FirebaseFirestore.instance,),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<SettingsBloc>(
             create: (BuildContext providerContext) => SettingsBloc(
+              providerContext.read<UserService>(),
               sharedPreferences: sharesPreferences,
+
               authenticationRepository:
                   providerContext.read<AuthenticationRepository>(),
             ),
           ),
-          BlocProvider(create: (context) => ChatBloc())
+          BlocProvider(create: (context) => ChatBloc()),
         ],
+
         child: BlocConsumer<SettingsBloc, SettingsState>(
           buildWhen: (previous, current) =>
               previous.authStatus != current.authStatus,
@@ -68,7 +75,7 @@ class TourismApp extends StatelessWidget {
           },
           builder: (BuildContext context, state) => MaterialApp(
               onGenerateTitle: (context) =>
-                  "Discover Morocco", // "Descover Morocco"
+                  "Discover Morocco",
               debugShowCheckedModeBanner: false,
               routes: Routers.routes(),
               theme: Themes().getBrightness(state.brightness),
