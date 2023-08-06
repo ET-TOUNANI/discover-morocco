@@ -14,10 +14,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(
     this.userService, this.authenticationRepository,
   ) : super(  ProfileState(
-      email:Email.dirty( authenticationRepository.currentUser.email??''),
-      name: authenticationRepository.currentUser.name??'',
-      phone:  authenticationRepository.currentUser.phone??'',
-      photo: authenticationRepository.currentUser.photo??'',
+      name: userModel.name??'',
+      phone:  userModel.phone??'',
+      photo: userModel.photo??'',
   ));
   final UserService userService;
   final AuthenticationRepository authenticationRepository;
@@ -27,13 +26,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       UserModel user= UserModel(
-          id: authenticationRepository.currentUser.id,
-          isAnonymous:  authenticationRepository.currentUser.isAnonymous,
-          emailVerified:  authenticationRepository.currentUser.emailVerified,
-        email:state.email.value,
+          id: userModel.id,
+          isAnonymous:  userModel.isAnonymous,
+          emailVerified:  userModel.emailVerified,
         name: state.name,
+        email: userModel.email,
         photo:state.photo,
-        fcmToken: authenticationRepository.currentUser.fcmToken,
+        phone: state.phone,
+        fcmToken: userModel.fcmToken,
       );
       final res =await userService.updateUser(user);
       if (res) {
@@ -53,26 +53,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     }  catch (e) {
       emit(state.copyWith(errorMessage: e.toString(),status: FormzStatus.submissionFailure));
     }
-  }
-
-
-  void emailChanged(String value) {
-    final email = Email.dirty(value);
-    emit(
-      state.copyWith(
-        email: email, status: Formz.validate([email, state.password]),
-      ),
-    );
-  }
-
-  void passwordChanged(String value) {
-    final password = Password.dirty(value);
-    emit(
-      state.copyWith(
-        password: password,
-        status: Formz.validate([state.email, password]),
-      ),
-    );
   }
 
   void nameChanged(String value) {

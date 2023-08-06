@@ -1,11 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:discover_morocco/business_logic/models/authentication/models/models.dart';
-
+UserModel userModel=const UserModel(id: '');
 class UserService {
   UserService(FirebaseFirestore instance,);
   final _db = FirebaseFirestore.instance;
 
 
+  Future<UserModel>fetchUser(String id)async{
+    try {
+       final snapshot = await getUserById(id);
+       if(snapshot != null) {
+         userModel=snapshot;
+       }
+       print("***************** $userModel");
+       return userModel;
+
+    } catch (e) {
+      print("Error fetching current user: $e");
+      throw Exception(e);
+    }
+  }
 
   Future<bool> createUser(UserModel user) async {
     try {
@@ -22,6 +36,7 @@ class UserService {
   }
   Future<UserModel?> getUserById(String userId) async {
     try {
+      print("**************userId  $userId");
       final snapshot = await _db.collection("users").doc(userId).get();
       if (snapshot.exists) {
         return UserModel.fromJson(snapshot.data()!);

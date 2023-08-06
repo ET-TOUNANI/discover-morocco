@@ -43,21 +43,6 @@ class _ProfileState extends State<ProfileProvider> {
 
     super.didChangeDependencies();
   }
-  Widget _emailInput() =>BlocBuilder<ProfileCubit, ProfileState>(
-  builder: (context, state) {return TextFormInput(
-        buildWhen: (previous, current) => previous.email != current.email,
-        label: "Email",
-        hint: 'exmaple@email.com',
-        textFieldKey: const Key('profile_emailInput_textField'),
-        keyboardType: TextInputType.emailAddress,
-        obscureText: false,
-        onChanged: (email, context, state) =>
-            context.read<ProfileCubit>().emailChanged(email),
-        getError: (context, state) =>
-            state.email.invalid ? 'invalid email' : null,
-        icon: Icons.email_outlined,
-    initialValue: state.email.value,
-  );});
 
   Widget _nameInput() => BlocBuilder<ProfileCubit, ProfileState>(
   builder: (context, state) {return TextFormInput(
@@ -87,25 +72,10 @@ class _ProfileState extends State<ProfileProvider> {
         icon: Icons.phone,
     initialValue: state.phone,
       );});
-  Widget _passwordInput() => TextFormInput(
-        buildWhen: (previous, current) => previous.password != current.password,
-        label: "Password",
-        hint: 'password',
-        textFieldKey: const Key('profile_password_textField'),
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        onChanged: (password, context, state) =>
-            context.read<ProfileCubit>().passwordChanged(password),
-        getError: (context, state) =>
-            state.password.invalid ? 'invalid password' : null,
-        icon: Icons.lock_outline_rounded,
-        initialValue: '',
-      );
 
   Future<void> editProfilePressed(BuildContext context) async {
     await context.read<ProfileCubit>().editProfile();
-
-  }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +115,11 @@ class _ProfileState extends State<ProfileProvider> {
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   child: Column(
+
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+
+                      const SizedBox(height: 50),
                       // -- IMAGE with ICON
                       const Picture(),
                       const SizedBox(height: 20),
@@ -156,11 +130,7 @@ class _ProfileState extends State<ProfileProvider> {
                           children: [
                             _nameInput(),
                             const SizedBox(height: 10),
-                            _emailInput(),
-                            const SizedBox(height: 10),
                             _phoneInput(),
-                            const SizedBox(height: 10),
-                            _passwordInput(),
                             const SizedBox(height: 20),
                             // -- Form Submit Button
                             SizedBox(

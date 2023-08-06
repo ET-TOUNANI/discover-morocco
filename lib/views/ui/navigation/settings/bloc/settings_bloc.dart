@@ -31,15 +31,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
                 )
               : const SettingsState(),
         ) {
-    on<_AppUserChanged>(_changeUser);
+    on<AppUserChanged>(_changeUser);
     on<AppLogoutRequested>(_logout);
     on<AppLocalChanged>(_changeLocal);
     on<AppBrightnessChanged>(_changeBrightness);
 
-    authenticationRepository.user.listen((user) => add(_AppUserChanged(user)));
+    authenticationRepository.user.listen((user) => add(AppUserChanged(user)));
 
     if (authenticationRepository.currentUser != state.user) {
-      add(_AppUserChanged(authenticationRepository.currentUser));
+      add(AppUserChanged(authenticationRepository.currentUser));
     }
   }
 
@@ -87,25 +87,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   FutureOr<void> _changeUser(
-      _AppUserChanged event,
+      AppUserChanged event,
       Emitter<SettingsState> emit,
       ) async {
+    print("************* ok");
     // Fetch the full user data from Firestore using the userService
-    UserModel? updatedUser = await userService.getUserById(event.user.id);
+    UserModel? updatedUser = await userService.fetchUser(event.user.id);
 
-    if (updatedUser != null) {
-      // Merge the additional attributes from Firestore into the current user object
+    final newState = state.copyWith(
+      user: updatedUser,
+      authStatus: updatedUser.isEmpty
+          ? AuthenticationStatus.unauthenticated
+          : AuthenticationStatus.authenticated,
+    );
 
-      final newState = state.copyWith(
-        user: updatedUser,
-        authStatus: updatedUser.isEmpty
-            ? AuthenticationStatus.unauthenticated
-            : AuthenticationStatus.authenticated,
-      );
-
-      await sharedPreferences.setString(prefKey, jsonEncode(newState.toJson()));
-      emit(newState);
-    }
+    await sharedPreferences.setString(prefKey, jsonEncode(newState.toJson()));
+    emit(newState);
   }
 
 }

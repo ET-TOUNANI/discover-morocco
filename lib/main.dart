@@ -1,10 +1,7 @@
 /// *****************************************************************************
 /// Copyright (c) 2023.  Made With Love By Abderrahmane ET-TOUNANI
 ///****************************************************************************
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dart_vlc/dart_vlc.dart';
 import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:discover_morocco/views/ui/chat/bloc/chat/chat_bloc.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';

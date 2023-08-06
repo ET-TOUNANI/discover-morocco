@@ -1,8 +1,8 @@
 import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
+import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 
 import '../authentication/page/signin.dart';
 

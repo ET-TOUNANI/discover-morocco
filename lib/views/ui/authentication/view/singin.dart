@@ -7,12 +7,10 @@ import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/tex
 import 'package:discover_morocco/views/ui/authentication/widgets/outline_icon_button.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/singin_button.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
-import 'package:discover_morocco/views/ui/home/plan/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginView extends StatefulWidget {

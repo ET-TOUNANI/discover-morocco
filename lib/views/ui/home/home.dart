@@ -1,13 +1,11 @@
 import 'package:badges/badges.dart' as b;
 import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
+import 'package:discover_morocco/views/ui/home/widgets/appBarProfile.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/item.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
-import 'package:discover_morocco/views/ui/navigation/menu.dart';
 import 'package:discover_morocco/views/ui/notification/notification.dart';
-import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +16,7 @@ import '../../../business_logic/services/Auth_service.dart';
 import '../publication/view/list_Publication.dart';
 import 'explore/explore.dart';
 import 'plan/trip.dart';
+
 
 class MainView extends StatefulWidget {
   static const routeName = '/home';
@@ -55,10 +54,6 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     //Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
   }
 
-  void onProfilePicturePressed() {
-    Navigator.of(context).pushNamed(NavigationMenu.routeName);
-  }
-
   void onChatBotPressed() {
     Navigator.of(context).pushNamed(Chat.routeName);
   }
@@ -75,24 +70,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           semanticsLabel: 'Discover Morocco',
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              shape: const CircleBorder(),
-              clipBehavior: Clip.antiAlias,
-              color: Colors.transparent,
-              child: Ink.image(
-                image: const AssetImage('assets/mock/profile.png'),
-                width: 42,
-                height: 42,
-                fit: BoxFit.cover,
-                child: InkWell(
-                  onTap: onProfilePicturePressed,
-                ),
-              ),
-            ),
-          ),
+        actions: const [
+          AppBarProfile()
         ],
         leading: CircleIconButton(
           icon: b.Badge(

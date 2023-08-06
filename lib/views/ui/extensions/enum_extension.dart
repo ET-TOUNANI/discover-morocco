@@ -1,17 +1,11 @@
-import 'dart:io' show Platform;
 import 'dart:ui' show SingletonFlutterWindow;
 
-import 'package:discover_morocco/business_logic/models/models/enums/contact_host.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/icon_class.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/screen_type.dart';
 import 'package:flutter/material.dart'
     show BuildContext, IconData, MediaQueryData;
 import 'package:flutter/widgets.dart'
     show BuildContext, IconData, MediaQueryData;
-
-import 'map_extension.dart';
-import 'string_extension.dart';
-import 'uri_extension.dart';
 
 extension IconClassExtension on IconClass {
   // NOTE:

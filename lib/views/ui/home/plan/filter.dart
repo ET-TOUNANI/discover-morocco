@@ -1,12 +1,12 @@
 import 'dart:math';
+
 import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
-import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:discover_morocco/views/ui/home/plan/trip.dart';
 import 'package:discover_morocco/views/ui/publication/widgets/dropdown_destination.dart';
-import 'package:flutter/material.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
+import 'package:flutter/material.dart';
+
 import '../../publication/widgets/dartTimePicker.dart';
-import 'myPlan.dart';
 
 class FilterView extends StatefulWidget {
   static const routeName = '/home/search/filter';

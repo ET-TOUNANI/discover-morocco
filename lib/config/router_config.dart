@@ -5,7 +5,6 @@ import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
-import 'package:discover_morocco/views/ui/home/plan/myPlan.dart';
 import 'package:discover_morocco/views/ui/home/plan/filter.dart';
 import 'package:discover_morocco/views/ui/landing/landing.dart';
 import 'package:discover_morocco/views/ui/navigation/menu.dart';

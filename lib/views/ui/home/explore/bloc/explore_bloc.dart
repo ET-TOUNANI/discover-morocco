@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/bloc_status.dart';
 import 'package:discover_morocco/business_logic/services/publication_service.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../../business_logic/models/models/publication.dart';
 

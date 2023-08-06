@@ -12,7 +12,6 @@ import 'package:lottie/lottie.dart';
 import '../../../../business_logic/models/models/enums/bloc_status.dart';
 import '../../../../business_logic/services/Auth_service.dart';
 import '../../../../business_logic/services/publication_service.dart';
-import '../../../../business_logic/services/push_notification_service.dart';
 import '../../home/explore/widgets/snap_list_shimmer.dart';
 import '../../publication/widgets/Loading.dart';
 import '../bloc/pub_bloc.dart';

@@ -2,7 +2,6 @@ import 'package:discover_morocco/business_logic/models/models/place_category.dar
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'destination.g.dart';
 
 @JsonSerializable(explicitToJson: true)

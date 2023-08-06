@@ -30,8 +30,10 @@ class AppLogoutRequested extends SettingsEvent {
   const AppLogoutRequested();
 }
 
-class _AppUserChanged extends SettingsEvent {
-  const _AppUserChanged(this.user);
+class AppUserChanged extends SettingsEvent {
+   AppUserChanged(this.user){
+   print("AppUserChanged***************");
+  }
 
   final UserModel user;
 

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-
 import 'package:discover_morocco/business_logic/models/authentication/models/models.dart';
 import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/views/ui/home/plan/widgets/ongoing_trip.dart';
