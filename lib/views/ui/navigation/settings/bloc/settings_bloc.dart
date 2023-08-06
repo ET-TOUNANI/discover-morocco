@@ -75,6 +75,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     AppLogoutRequested event,
     Emitter<SettingsState> emit,
   ) async {
+    userModel=UserModel.empty;
     final newState = state.copyWith(
       user: UserModel.empty,
       authStatus: AuthenticationStatus.unauthenticated,

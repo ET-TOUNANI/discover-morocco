@@ -31,6 +31,7 @@ class NavigationMenu extends StatelessWidget {
                     context
                         .read<SettingsBloc>()
                         .add(const AppLogoutRequested());
+
                     Navigator.popAndPushNamed(context, SingInPage.routeName);
                   },
                   style: ElevatedButton.styleFrom(
