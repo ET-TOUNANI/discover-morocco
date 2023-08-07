@@ -57,8 +57,8 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                     topRight: Radius.circular(16),
                   ),
                   image: DecorationImage(
-                    image: AssetImage("assets/mock/morocco.jpg"),
-                    fit: BoxFit.cover,
+                    image: AssetImage("assets/mock/filter_sea.jpg"), // Use AssetImage to load the SVG asset
+                    fit: BoxFit.cover, // Adjust the fit based on your requirements
                   ),
                 ),
                 child: Stack(
