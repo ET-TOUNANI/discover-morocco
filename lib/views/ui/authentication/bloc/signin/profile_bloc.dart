@@ -34,6 +34,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         photo:state.photo,
         phone: state.phone,
         fcmToken: userModel.fcmToken,
+          trip:userModel.trip
       );
       final res =await userService.updateUser(user);
       if (res) {

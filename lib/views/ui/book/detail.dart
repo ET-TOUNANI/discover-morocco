@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
-import 'package:discover_morocco/views/utils/constants.dart';
+import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,7 +31,6 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final random = Random();
-    final price = random.nextInt(400) + 100;
     final room = random.nextInt(3) + 1;
     final bed = random.nextInt(3) + 1;
     final theme = Theme.of(context);
@@ -65,29 +64,20 @@ class DetailView extends StatelessWidget {
                         tag: args['imageHeroTag'],
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
+                          child: Image.network(
                             model.imageUrl,
                             height: mediaQuery.size.height * 0.5,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return  Icon(
+                                Icons.image,
+                                size: mediaQuery.size.height * 0.5,
+                                color: Colors.grey,
+                              );
+                            },
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.topEnd,
-                    child: CircleIconButton(
-                      icon: const Icon(
-                        Icons.bookmark_outline_outlined,
-                        size: 24,
-                      ),
-                      size: 50,
-                      backgroundColor: Colors.white60,
-                      padding: const EdgeInsetsDirectional.only(
-                        top: 42,
-                        end: 42,
-                      ),
-                      onTap: () {},
                     ),
                   ),
                   Align(
@@ -150,7 +140,7 @@ class DetailView extends StatelessWidget {
                   children: [
                     Icon(Icons.location_on_outlined, color: theme.primaryColor),
                     Text(
-                      '123 sth, sqr, City, Country',
+                      model.destination.city,
                       style: theme.textTheme.bodySmall,
                     ),
                   ],
@@ -188,7 +178,7 @@ class DetailView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Wrap(
                       spacing: 16,
-                      children: snapList
+                      children: categories
                               .take(3)
                               .map(
                                 (e) => ClipRRect(
@@ -197,7 +187,7 @@ class DetailView extends StatelessWidget {
                                     clipBehavior: Clip.antiAlias,
                                     color: Colors.transparent,
                                     child: Ink.image(
-                                      image: AssetImage(e['imageUrl']!),
+                                      image: AssetImage('assets/mock/${e.image}'),
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -216,7 +206,7 @@ class DetailView extends StatelessWidget {
                                 clipBehavior: Clip.antiAlias,
                                 color: Colors.transparent,
                                 child: Ink.image(
-                                  image: AssetImage(snapList[3]['imageUrl']!),
+                                  image: AssetImage('assets/mock/${model.destination.categories.first.image}'),
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
@@ -251,42 +241,18 @@ class DetailView extends StatelessWidget {
                 bottom: 64,
               ),
               sliver: SliverToBoxAdapter(
-                child: Row(
-                  children: [
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Price", //localizations!.price,
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '$price\$',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: buttonSize,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
                     ),
-                    const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: buttonSize,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                      ),
-                      child: const Text(
-                        "Add to my plan",
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  child: const Text(
+                    "Add to my plan",
+                  ),
+                )
               ),
             )
           ],

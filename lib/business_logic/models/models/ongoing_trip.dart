@@ -10,19 +10,11 @@ part 'ongoing_trip.g.dart';
 @JsonSerializable(explicitToJson: true)
 class OngoingTripModel extends Equatable {
   final String id;
-  final String title;
-  final DestinationModel destination;
-  final String imageUrl;
   final List<OngoingTripTimelineModel> timeline;
-  final UserModel user;
 
   const OngoingTripModel({
     required this.id,
-    required this.title,
-    required this.destination,
-    required this.imageUrl,
-    required this.timeline,
-    required this.user,
+    required this.timeline
   });
 
   @override

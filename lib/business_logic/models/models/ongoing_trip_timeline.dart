@@ -1,30 +1,21 @@
+import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'enums/icon_class.dart';
-
 part 'ongoing_trip_timeline.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OngoingTripTimelineModel extends Equatable {
   final String id;
-  final String title;
-  final String description;
   final bool done;
   final String date;
-  final String? time;
-  final IconClass iconClass;
-  final int icon;
+  final DestinationModel destination;
 
-  const OngoingTripTimelineModel({
+  const OngoingTripTimelineModel( {
     required this.id,
-    required this.title,
-    required this.description,
     required this.date,
     required this.done,
-    required this.iconClass,
-    required this.icon,
-    this.time,
+    required this.destination
   });
 
   @override

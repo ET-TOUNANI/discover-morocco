@@ -1,4 +1,6 @@
+import 'package:discover_morocco/views/ui/home/plan/bloc/trip_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class DateTimePicker extends StatefulWidget {
   const DateTimePicker({super.key});
 
@@ -13,8 +15,24 @@ class _DateTimePickerState extends State<DateTimePicker> {
   @override
   void didChangeDependencies() {
     _theme = Theme.of(context);
-    textController=TextEditingController(text: "2023-12-10");
+    textController=TextEditingController(text: formatDate(DateTime.now().toString()));
     super.didChangeDependencies();
+  }
+  formatDate(String date){
+    return date.split(' ').first;
+  }
+  Future<void>datePressed() async {
+    final selectedDate =await showDialog(
+        context: context,
+        builder: (_) => DatePickerDialog(
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
+          lastDate: DateTime(DateTime.now().year + 2),
+        ));
+    if (selectedDate != null) {
+      textController.text = formatDate(selectedDate.toString());
+      context.read<TripBloc>().dateChange(formatDate(selectedDate.toString())); // Call your method here
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -33,14 +51,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-              onTap: () async => await showDialog(
-                  context: context,
-                  builder: (_) => DatePickerDialog(
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(DateTime.now().year + 2),
-
-                  )),
+              onTap: datePressed,
               borderRadius: const BorderRadiusDirectional.only(
                 topStart: Radius.circular(32),
                 bottomStart: Radius.circular(32),
@@ -63,13 +74,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 child: TextFormField(
                   readOnly: true,
                   controller: textController,
-                  onTap: ()async => await showDialog(
-                      context: context,
-                      builder: (_) => DatePickerDialog(
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(DateTime.now().year + 2),
-                      )),
+                  onTap: datePressed,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,

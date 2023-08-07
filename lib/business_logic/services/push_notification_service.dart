@@ -113,7 +113,6 @@ class FirebaseApi {
       // return ChatModel.fromJson(response.data);
     } catch (error) {
       log("error here :  $error");
-      rethrow;
     }
   }
 }

@@ -1,12 +1,16 @@
 import 'package:discover_morocco/views/ui/extensions/enum_extension.dart';
+import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timelines/timelines.dart';
 
 import '../../../../../business_logic/models/models/ongoing_trip.dart';
 import '../../../book/detail.dart';
+import '../bloc/trip_bloc.dart';
+import '../filter.dart';
 
 class OnGoingTripWidget extends StatefulWidget {
-  final OngoingTripModel model;
+  final OngoingTripModel? model;
   const OnGoingTripWidget({
     super.key,
     required this.model,
@@ -41,19 +45,19 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: ValueKey('ongoing_${widget.model.id}'),
+              tag: const ValueKey('ongoing_1'),
               child: Container(
                 height: 200,
                 width: double.infinity,
                 // margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
                   image: DecorationImage(
-                    image: AssetImage(widget.model.imageUrl),
+                    image: AssetImage("assets/mock/morocco.jpg"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -74,7 +78,7 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(
-                                Icons.pin_drop,
+                                Icons.face,
                                 color: Colors.white,
                               ),
                               Flexible(
@@ -84,7 +88,7 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                                     start: 8.0,
                                   ),
                                   child: Text(
-                                    widget.model.destination.city,
+                                    "Welcome to Morocco :)",
                                     maxLines: 1,
                                     softWrap: false,
                                     overflow: TextOverflow.clip,
@@ -101,10 +105,7 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                     Align(
                       alignment: AlignmentDirectional.bottomEnd,
                       child: OutlinedButton(
-                        onPressed: () => onPlaceCardPressed(
-                          widget.model.id,
-                          ValueKey('ongoing_${widget.model.id}'),
-                        ),
+                        onPressed: () => onPlaceCardPressed(),
                         style: OutlinedButton.styleFrom(
                           side:
                               BorderSide(color: _theme.primaryColor, width: 2),
@@ -112,8 +113,12 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                             borderRadius: BorderRadius.circular(32.0),
                           ),
                         ),
-                        child: const Text(
-                          "details",
+                        child: Text(
+                          "Add trip",
+                          style: _theme.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -121,169 +126,197 @@ class _OnGoingTripWidgetState extends State<OnGoingTripWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 24.0,
-                left: 16,
-                right: 16,
-              ),
-              child: Text(
-                "schedule",
-                style: _theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+            if (widget.model != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 24.0,
+                  left: 16,
+                  right: 16,
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 16,
-                bottom: 16,
-              ),
-              child: FixedTimeline.tileBuilder(
-                theme: TimelineThemeData(
-                  nodePosition: 0,
-                  color: Colors.grey.shade300,
-                  indicatorTheme: const IndicatorThemeData(
-                    position: 0,
-                  ),
-                  connectorTheme: const ConnectorThemeData(
-                    indent: 8,
-                    thickness: 2.5,
+                child: Text(
+                  "schedule",
+                  style: _theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                builder: TimelineTileBuilder.connected(
-                  connectionDirection: ConnectionDirection.before,
-                  itemCount: widget.model.timeline.length,
-                  contentsBuilder: (_, index) {
-                    final timeline = widget.model.timeline[index];
-                    return Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                        start: 16,
-                        bottom: 16,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            timeline.title,
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.clip,
-                            style: _theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+              ),
+            if (widget.model != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  top: 16,
+                  bottom: 16,
+                ),
+                child: (widget.model!.timeline.isNotEmpty)
+                    ? FixedTimeline.tileBuilder(
+                        theme: TimelineThemeData(
+                          nodePosition: 0,
+                          color: Colors.grey.shade300,
+                          indicatorTheme: const IndicatorThemeData(
+                            position: 0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(
-                              timeline.time != null
-                                  ? '${timeline.time} - ${timeline.description}'
-                                  : timeline.description,
-                              maxLines: 2,
-                              overflow: TextOverflow.clip,
-                              style: _theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
+                          connectorTheme: const ConnectorThemeData(
+                            indent: 8,
+                            thickness: 2.5,
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                  indicatorBuilder: (_, index) {
-                    final timeline = widget.model.timeline[index];
-                    if (timeline.done) {
-                      return Indicator.widget(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 70,
-                              height: 20,
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  timeline.date,
-                                  style: _theme.textTheme.bodyLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
+                        ),
+                        builder: TimelineTileBuilder.connected(
+                          connectionDirection: ConnectionDirection.before,
+                          itemCount: widget.model!.timeline.length,
+                          contentsBuilder: (_, index) {
+                            final timeline = widget.model!.timeline[index];
+                            return Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                start: 16,
+                                bottom:17,
+                                  top: 0
+                            ),
+                            child:  Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0), // Add appropriate spacing here
+                                  child: Text(
+                                    timeline.destination.city,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    overflow: TextOverflow.clip,
+                                    style: _theme.textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsetsDirectional.only(start: 8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _theme.primaryColor,
-                              ),
-                              width: 32,
-                              height: 32,
-                              child: Icon(
-                                timeline.iconClass.iconData(timeline.icon),
-                                color: Colors.white,
-                                size: 16.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Indicator.widget(
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 70,
-                              height: 20,
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsetsDirectional.only(start: 8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.grey,
+                                Checkbox(value: timeline.done, onChanged: (value) {
+                                  BlocProvider.of<TripBloc>(context).add(UpdatePlanEvent(index, (value ?? false)));
+                                }),],
+                            ),);
+                          },
+                          indicatorBuilder: (_, index) {
+                            final timeline = widget.model!.timeline[index];
+                            if (timeline.done) {
+                              return Indicator.widget(
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 70,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          timeline.date,
+                                          style: _theme.textTheme.bodyLarge
+                                              ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsetsDirectional.only(
+                                          start: 8),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: _theme.primaryColor,
+                                      ),
+                                      width: 32,
+                                      height: 32,
+                                      child: const Icon(
+                                        Icons.access_alarm_outlined,
+                                        color: Colors.white,
+                                        size: 16.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              width: 32,
-                              height: 32,
-                              child: Icon(
-                                timeline.iconClass.iconData(timeline.icon),
-                                color: Colors.grey,
-                                size: 16.0,
-                              ),
+                              );
+                            } else {
+                              return Indicator.widget(
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 70,
+                                      height: 20,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          timeline.date,
+                                          style: _theme.textTheme.bodyLarge
+                                              ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsetsDirectional.only(
+                                          start: 8),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      width: 32,
+                                      height: 32,
+                                      child: const Icon(
+                                        Icons.access_alarm_outlined,
+                                        color: Colors.grey,
+                                        size: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                          connectorBuilder: (_, index, ___) => Padding(
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 76),
+                            child: SolidLineConnector(
+                              color: widget.model!.timeline[index].done
+                                  ? _theme.primaryColor
+                                  : null,
                             ),
-                          ],
+                          ),
                         ),
-                      );
-                    }
-                  },
-                  connectorBuilder: (_, index, ___) => Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 76),
-                    child: SolidLineConnector(
-                      color: widget.model.timeline[index].done
-                          ? _theme.primaryColor
-                          : null,
+                      )
+                    : Center(
+                        child: Text(
+                          "Try to configure your plan",
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  top: 16,
+                  bottom: 16,
+                ),
+                child: Center(
+                  child: Text(
+                    "No Data found",
+                    style: _theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
                   ),
                 ),
-              ),
-            ),
+              )
           ],
         ),
       ),
     );
   }
 
-  Future<void> onPlaceCardPressed(String id, Object imageHeroTag) async {
-    Navigator.of(context).pushNamed(
-      DetailView.routeName,
-      arguments: {
-        'id': id,
-        'imageHeroTag': imageHeroTag,
-      },
-    );
+  Future<void> onPlaceCardPressed() async {
+    Navigator.of(context).pushNamed(FilterView.routeName);
   }
 }

@@ -4,8 +4,9 @@ import '../../../../business_logic/utils/logicConstants.dart';
 class DropDownWidget extends StatelessWidget {
   final double padding;
   final MaterialColor? color;
+  final Function onChanged;
 
-  const DropDownWidget({super.key, required this.padding, this.color});
+  const DropDownWidget({super.key, required this.padding, this.color, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class DropDownWidget extends StatelessWidget {
         ),
         hint: const Text("Selected countries"),
         value: "Casablanca",
-        onChanged: (value) {},
+        onChanged: (value)=>onChanged(value),
       ),
     );
   }

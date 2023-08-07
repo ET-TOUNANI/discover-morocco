@@ -1,10 +1,8 @@
-import 'package:badges/badges.dart' as b;
 import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
 import 'package:discover_morocco/views/ui/home/widgets/appBarProfile.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/item.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
-import 'package:discover_morocco/views/ui/notification/notification.dart';
 import 'package:discover_morocco/views/widgets/circle_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +26,19 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> with TickerProviderStateMixin {
-  //late AppLocalizations _localizations;
   late ThemeData _theme;
 
   bool idAdmin = false;
 
   @override
   void didChangeDependencies() {
-    // _localizations = AppLocalizations.of(context)!;
     _theme = Theme.of(context);
     checkUserType();
     super.didChangeDependencies();
   }
 
   void onNotificationPressed() {
-    Navigator.of(context).pushNamed(NotificationView.routeName);
+    //  Navigator.of(context).pushNamed(NotificationView.routeName);
   }
 
   void checkUserType() async {
@@ -74,7 +70,10 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           AppBarProfile()
         ],
         leading: CircleIconButton(
-          icon: b.Badge(
+          icon: const Icon(
+            Icons.notifications_rounded,
+            size: 30.0,
+          ),/*b.Badge(
             badgeContent: Text(
               '2',
               style: _theme.textTheme.labelSmall?.copyWith(
@@ -86,7 +85,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
               Icons.notifications_rounded,
               size: 30.0,
             ),
-          ),
+          ),*/
           onTap: onNotificationPressed,
           padding: const EdgeInsetsDirectional.only(start: 4),
         ),

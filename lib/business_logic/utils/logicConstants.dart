@@ -50,6 +50,16 @@ List<DestinationModel> destinations = [
         'id': categories.first.id,
         'image': categories.first.image,
         'title': categories.first.title,
+      },
+      {
+        'id': categories.last.id,
+        'image': categories.last.image,
+        'title': categories.last.title,
+      },
+      {
+        'id': categories[2].id,
+        'image': categories[2].image,
+        'title': categories[2].title,
       }
     ]
   },

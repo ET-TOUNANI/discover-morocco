@@ -1,7 +1,6 @@
 import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/PubState.dart';
 import 'package:discover_morocco/views/ui/reels/page_view.dart';
-import 'package:discover_morocco/views/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../business_logic/models/authentication/models/user.dart';
@@ -34,7 +33,7 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
 
     final arg = ModalRoute.of(context)!.settings.arguments;
 
-    datasource = List.from(snapList);
+    datasource = List.empty();//List.from(snapList);
 
     if (arg != null) {
       final item = datasource.where((e) => e['id'] == arg).first;

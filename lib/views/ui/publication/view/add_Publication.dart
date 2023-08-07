@@ -152,7 +152,10 @@ class _AddPublicationState extends State<AddPublication> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const DropDownWidget(padding: 0,color:Colors.grey),
+                           DropDownWidget(padding: 0,color:Colors.grey,
+                             onChanged: (value) {
+                               context.read<PublicationCubit>().destinationChanged(value??'');
+                             },),
                           const SizedBox(height: 10),
                           _titleInput(),
                           const SizedBox(height: 10),

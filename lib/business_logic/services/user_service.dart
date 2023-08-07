@@ -55,6 +55,7 @@ class UserService {
 
       // Use set with merge option to update the existing document
       await userRef.set(user.toJson(), SetOptions(merge: true));
+      userModel=user;
       return true;
     } catch (e) {
       throw Exception(e);

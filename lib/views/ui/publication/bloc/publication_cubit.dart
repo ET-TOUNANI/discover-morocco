@@ -110,10 +110,10 @@ class PublicationCubit extends Cubit<PublicationState> {
       ),
     );
   }
-  void destinationChanged(DestinationModel value) {
+  void destinationChanged(String value) {
     emit(
       state.copyWith(
-        destination: value,
+        destination: destinations.firstWhere((element) => element.city==value),
         status: FormzStatus.valid,
       ),
     );

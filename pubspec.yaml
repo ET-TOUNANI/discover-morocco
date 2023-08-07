@@ -2,7 +2,7 @@ name: discover_morocco
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -96,3 +96,5 @@ flutter:
           weight: 700
         - asset: assets/fonts/manrope/manrope_extra_bold.ttf
           weight: 800
+
+

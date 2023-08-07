@@ -4,14 +4,11 @@ import 'package:discover_morocco/business_logic/models/authentication/models/mod
 import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/views/ui/home/plan/widgets/ongoing_trip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../business_logic/models/models/enums/icon_class.dart';
-import '../../../../business_logic/models/models/ongoing_trip.dart';
-import '../../../../business_logic/models/models/ongoing_trip_timeline.dart';
-import '../../../utils/constants.dart';
+import 'bloc/trip_bloc.dart';
 
 class MyPlanView extends StatefulWidget {
-
   const MyPlanView({super.key});
 
   @override
@@ -57,54 +54,13 @@ class _MyPlanViewState extends State<MyPlanView> {
                 ),
               ),
             ),
-            OnGoingTripWidget(
-              model: OngoingTripModel(
-                id: snapList[0]['id']!,
-                title: snapList[0]['id']!,
-                destination: DestinationModel(id: '1' ,city: snapList[0]['location']!, categories: const []),// TODO: Change it with destination model
-                imageUrl: snapList[0]['imageUrl']!,
-                timeline: [
-                  OngoingTripTimelineModel(
-                    id: 'kjfchnlhfnlaciunhn34n',
-                    title: 'Airplan Reservation',
-                    description: 'Airboss of America Corp.',
-                    date: '2022-2-12',
-                    time: '13:15',
-                    done: true,
-                    iconClass: IconClass.materialIcon,
-                    icon: Icons.airplane_ticket.codePoint,
-                  ),
-                  OngoingTripTimelineModel(
-                    id: '987jkdfshdfsnjdfs',
-                    title: 'Hotel Reservation',
-                    description: 'Airbnb Vacation rental company',
-                    date: '2022-2-13',
-                    time: '07:15',
-                    done: true,
-                    iconClass: IconClass.materialIcon,
-                    icon: Icons.hotel_rounded.codePoint,
-                  ),
-                  OngoingTripTimelineModel(
-                    id: '987jkdfshdfsnjdfs',
-                    title: 'Tourism tour',
-                    description: 'Miniature Tourism Group',
-                    date: 'Pending',
-                    done: false,
-                    iconClass: IconClass.materialIcon,
-                    icon: Icons.tour_rounded.codePoint,
-                  ),
-                  OngoingTripTimelineModel(
-                    id: 'sdlfkmjdlsf9834jkhn',
-                    title: 'Photographer',
-                    description: 'Not determined yet',
-                    date: 'Pending',
-                    done: false,
-                    iconClass: IconClass.materialIcon,
-                    icon: Icons.camera_alt_rounded.codePoint,
-                  ),
-                ],
-                user: const UserModel(id: '1'),//TODO : Add currentUSER
-              ),
+            BlocBuilder<TripBloc, TripState>(
+              buildWhen: (previous, current) =>
+                  current.trip != previous.trip ||
+                  current.status != previous.status,
+              builder: (context, state) {
+                    return OnGoingTripWidget(model: state.trip);
+              },
             ),
           ],
         ),
@@ -112,3 +68,58 @@ class _MyPlanViewState extends State<MyPlanView> {
     );
   }
 }
+/*
+OngoingTripModel(
+                    id: snapList[0]['id']!,
+                    title: snapList[0]['id']!,
+                    timeline: [
+                      OngoingTripTimelineModel(
+                        id: 'kjfchnlhfnlaciunhn34n',
+                        title: 'Airplan Reservation',
+                        description: 'Airboss of America Corp.',
+                        date: '2022-2-12',
+                        time: '00:15',
+                        done: true,
+                        iconClass: IconClass.materialIcon,
+                        icon: Icons.airplane_ticket.codePoint,
+                        destination:  const DestinationModel(id: '1' ,city: "Welcome to Morocco :)", categories: []),
+                        imageCategory: '',
+                      ),
+                      OngoingTripTimelineModel(
+                        id: '987jkdfshdfsnjdfs',
+                        title: 'Hotel Reservation',
+                        description: 'Airbnb Vacation rental company',
+                        date: '2022-2-13',
+                        time: '07:15',
+                        done: true,
+                        iconClass: IconClass.materialIcon,
+                        icon: Icons.hotel_rounded.codePoint,
+                        destination:  const DestinationModel(id: '1' ,city: "Welcome to Morocco :)", categories: []),
+                        imageCategory: '',
+                      ),
+                      OngoingTripTimelineModel(
+                        id: '987jkdfshdfsnjdfs',
+                        title: 'Tourism tour',
+                        description: 'Miniature Tourism Group',
+                        date: 'Pending',
+                        done: true,
+                        iconClass: IconClass.materialIcon,
+                        icon: Icons.tour_rounded.codePoint,
+                        destination:  const DestinationModel(id: '1' ,city: "Welcome to Morocco :)", categories: []),
+                        imageCategory: '',
+                      ),
+                      OngoingTripTimelineModel(
+                        id: 'sdlfkmjdlsf9834jkhn',
+                        title: 'Photographer',
+                        description: 'Not determined yet',
+                        date: 'Pending',
+                        done: false,
+                        iconClass: IconClass.materialIcon,
+                        icon: Icons.camera_alt_rounded.codePoint,
+                        destination:  const DestinationModel(id: '1' ,city: "Welcome to Morocco :)", categories: []),
+                        imageCategory: '',
+                      ),
+                    ],
+                    user: const UserModel(id: '1'),
+                  ),
+ */
