@@ -82,8 +82,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class FirebaseApi {
   late Dio dio;
 
-  String get fcmKey => dotenv.env['FCM_KEY'] ?? '';
-  String get refreshToken => dotenv.env['REFRESH_TOKEN'] ?? ''; // Retrieve the refresh token
+  String get fcmServerKey => dotenv.env['FCM_SERVER_KEY'] ?? '';
 
   FirebaseApi() {
     BaseOptions options = BaseOptions(
@@ -92,64 +91,6 @@ class FirebaseApi {
     );
 
     dio = Dio(options);
-
-    // Interceptor to check and refresh token
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        // Check if the token is expired or about to expire (e.g., within 5 minutes)
-        if (isTokenExpired()) {
-          // Refresh the token
-          await refreshTokenIfNeeded();
-        }
-
-        // Add the refreshed token to the request headers
-        options.headers['Authorization'] = 'Bearer $fcmKey';
-
-        return handler.next(options);
-      },
-    ));
-  }
-
-  bool isTokenExpired() {
-    // Implement your logic to check if the token is expired
-    // Return true if the token is expired or about to expire
-    // Return false otherwise
-    // You might need to store the token's expiration timestamp when you initially fetch it
-    return false; // Placeholder implementation
-  }
-
-  Future<void> refreshTokenIfNeeded() async {
-    try {
-      String newAccessToken = await refreshAccessToken(refreshToken);
-      dotenv.env['FCM_KEY'] = newAccessToken;
-    } catch (error) {
-      log("Token refresh failed: $error");
-    }
-  }
-
-  Future<String> refreshAccessToken(String refreshToken) async {
-
-
-    try {
-      var response = await dio.post(
-        "https://oauth2.googleapis.com/token",
-        data: {
-          "client_id": "YOUR_CLIENT_ID",
-          "client_secret": "YOUR_CLIENT_SECRET",
-          "refresh_token": refreshToken,
-          "grant_type": "refresh_token",
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.data);
-        return data['access_token'];
-      } else {
-        throw Exception("Token refresh failed");
-      }
-    } catch (error) {
-      throw Exception("Token refresh failed: $error");
-    }
   }
 
   Future<dynamic> sendMessage({
@@ -159,20 +100,24 @@ class FirebaseApi {
   }) async {
     try {
       var response = await dio.post(
-        "/messages:send",
+        "/fcm/send",
         data: jsonEncode({
-          "message": {
-            "token": userDeviceToken,
-            "notification": {
-              "body": body,
-              "title": title,
-            },
+          "to": userDeviceToken,
+          "notification": {
+            "body": body,
+            "title": title,
+            "click_action": "FLUTTER_NOTIFICATION_CLICK"
           },
         }),
+        options: Options(
+          headers: {
+            'Authorization': 'key=$fcmServerKey', // FCM server key authorization
+          },
+        ),
       );
-      log("response data: ${jsonEncode(response.data)}");
+      print("Response data: ${jsonEncode(response.data)}");
     } catch (error) {
-      log("error here: $error");
+      print("Error: $error");
     }
   }
 }

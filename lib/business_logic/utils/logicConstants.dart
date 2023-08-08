@@ -4,7 +4,7 @@ import '../models/models/place_category.dart';
 
 class Constant {
   static const String baseUrl = "https://beta.purgpt.xyz/openai";
-  static const String fcmBaseUrl = "https://fcm.googleapis.com/v1/projects/tourism-assistant-551b3";
+  static const String fcmBaseUrl = "https://fcm.googleapis.com";
   static const String currentModel = "gpt-3.5-turbo-16k";
   static const String adminId = "gE9TkSESqWVpWDnn4vMOb0CjWbJ3";
 }
