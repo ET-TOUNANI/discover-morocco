@@ -1,5 +1,6 @@
 import 'package:discover_morocco/business_logic/models/models/destination.dart';
 import 'package:discover_morocco/business_logic/models/models/enums/PubState.dart';
+import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
 import 'package:discover_morocco/views/ui/reels/page_view.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
   //late AppLocalizations _localizations;
   late ThemeData _theme;
 
-  late List<Map<String, String>> datasource;
+  //late List<Map<String, String>> datasource;
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
     //_localizations = AppLocalizations.of(context)!;
     _theme = Theme.of(context);
 
-    final arg = ModalRoute.of(context)!.settings.arguments;
+    /*final arg = ModalRoute.of(context)!.settings.arguments;
 
     datasource = List.empty();//List.from(snapList);
 
@@ -40,7 +41,7 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
       datasource.remove(item);
       datasource.insert(0, item);
     }
-
+*/
     super.didChangeDependencies();
   }
 
@@ -64,25 +65,25 @@ class _TiktokVideoViewState extends State<TiktokVideoView> {
       body: PageView(
         controller: _pageController,
         scrollDirection: Axis.horizontal,
-        children: datasource
+        children:[
+          TiktokPageView(
+            Publication(
+              id: '1',
+              title: '',
+              imageUrl: '',
+              video: '',
+              likes: 20,
+              comments: 20,
+              state: PubState.accepted,
+              user: const UserModel(id: '1') ,
+              destination: destinations.first,
+            ),
+          ),
+        ] /*datasource
             .map(
-              (e) => TiktokPageView(
-                Publication(
-                    id: e['id']!,
-                    title: e['title']!,
-                    imageUrl: e['imageUrl']!,
-                    video: e['video']!,
-                    description: e['description'],
-                    likes: e["likes"]! as int,
-                    comments: e["comments"]! as int,
-                    state: e['state']! as PubState,
-                    user: e['user']! as UserModel,
-                    destination: e['destination']! as DestinationModel,
-
-                ),
-              ),
+              (e) =>
             )
-            .toList(),
+            .toList(),*/
       ),
     );
   }

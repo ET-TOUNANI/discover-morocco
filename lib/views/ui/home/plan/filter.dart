@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:discover_morocco/business_logic/utils/logicConstants.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
+import 'package:discover_morocco/views/ui/home/plan/trip.dart';
 import 'package:discover_morocco/views/ui/publication/widgets/dropdown_destination.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _FilterViewState extends State<FilterView> {
     super.didChangeDependencies();
   }
 
+  
   Widget _category(String title, String imageUrl) {
 
     return Stack(
@@ -186,7 +188,7 @@ class _FilterViewState extends State<FilterView> {
                 ElevatedButton(
                   onPressed: () {
                       context.read<TripBloc>().add(const AddPlanEvent());
-                      Navigator.of(context).pushNamed(MainView.routeName);
+                      //Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: buttonSize,

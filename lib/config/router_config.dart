@@ -13,6 +13,8 @@ import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart'
 import 'package:discover_morocco/views/ui/publication/view/list_Publication.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 
+import '../views/ui/home/plan/trip.dart';
+
 class Routers {
   static dynamic routes() => {
         Chat.routeName: (_) => const Chat(),

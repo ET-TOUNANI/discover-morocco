@@ -1,6 +1,7 @@
 import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart';
+import 'package:discover_morocco/views/ui/publication/view/list_Publication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,8 +53,10 @@ class NavigationMenu extends StatelessWidget {
   }
 
   void createPupPressed(BuildContext context) {
-    //context.read<SettingsBloc>().add(const ());
     Navigator.pushNamed(context, PublicationProvider.routeName);
+  }
+  void listPubPressed(BuildContext context) {
+    Navigator.pushNamed(context, ListPublication.routeName);
   }
 
   @override
@@ -107,13 +110,15 @@ class NavigationMenu extends StatelessWidget {
                 ),
               ),
               const Divider(indent: 24, endIndent: 24),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
+               Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child:InkWell(
+                  onTap: () => listPubPressed(context),
+                  child:const ListTile(
                   leading: Icon(Icons.support_agent_rounded),
                   title: Text("My publications"),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
-                ),
+                )),
               ),
               const Divider(indent: 24, endIndent: 24),
               const Padding(

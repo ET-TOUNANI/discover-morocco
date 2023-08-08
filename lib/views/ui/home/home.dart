@@ -1,3 +1,5 @@
+import 'package:badges/badges.dart'as b;
+import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:discover_morocco/views/ui/admin/view/Dashboard.dart';
 import 'package:discover_morocco/views/ui/chat/Chat.dart';
 import 'package:discover_morocco/views/ui/home/widgets/appBarProfile.dart';
@@ -12,6 +14,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../business_logic/services/Auth_service.dart';
 import '../publication/view/list_Publication.dart';
+import '../reels/tiktok_video_view.dart';
 import 'explore/explore.dart';
 import 'plan/trip.dart';
 
@@ -31,10 +34,11 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   bool idAdmin = false;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies()async {
     _theme = Theme.of(context);
     checkUserType();
-    super.didChangeDependencies();
+
+   super.didChangeDependencies();
   }
 
   void onNotificationPressed() {
@@ -47,7 +51,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   }
 
   void onButtomNavigatorExplorePressed() {
-    //Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
+    print('hi');
+    Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
   }
 
   void onChatBotPressed() {
@@ -70,10 +75,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           AppBarProfile()
         ],
         leading: CircleIconButton(
-          icon: const Icon(
-            Icons.notifications_rounded,
-            size: 30.0,
-          ),/*b.Badge(
+          icon: b.Badge(
             badgeContent: Text(
               '2',
               style: _theme.textTheme.labelSmall?.copyWith(
@@ -85,7 +87,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
               Icons.notifications_rounded,
               size: 30.0,
             ),
-          ),*/
+          ),
           onTap: onNotificationPressed,
           padding: const EdgeInsetsDirectional.only(start: 4),
         ),

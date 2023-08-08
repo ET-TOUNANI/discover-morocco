@@ -46,11 +46,16 @@ class _ExploreViewState extends State<ExploreView> {
     super.didChangeDependencies();
   }
 
-  Future<void> onCategoryPressed(Publication categoryModel) async {}
-
-  void onButtomNavigatorExplorePressed(String id) {
-    Navigator.of(context).pushNamed(ExploreView.routeName, arguments: id);
+  Future<void> onCategoryPressed(Publication pub) async {
+    Navigator.of(context).pushNamed(
+      DetailView.routeName,
+      arguments: {
+        'pub': pub,
+        'imageHeroTag': pub.id,
+      },
+    );
   }
+
 
   Widget _categories() => SizedBox(
         height: _snapListSize.height,
@@ -161,15 +166,5 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
-  Future<void> onPlaceCardPressed(Publication pub, Object imageHeroTag) async {
-    Navigator.of(context).pushNamed(
-      DetailView.routeName,
-      arguments: {
-        'pub': pub,
-        'imageHeroTag': imageHeroTag,
-      },
-    );
-  }
 
-  Future<void> onPlaceBookmarkPressed(String id) async {}
 }

@@ -29,7 +29,7 @@ class ChatGptAPI {
             "messages": [
               {"role": "user", "content": message}
             ],
-            "key": dotenv.get('apiKey'),
+            "key": dotenv.get('API_KEY'),
             "model": modelId,
             "temperature": 0.7,
             "max_tokens": 4000

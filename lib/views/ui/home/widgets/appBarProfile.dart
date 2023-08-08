@@ -48,8 +48,8 @@ class _AppBarProfileState extends State<AppBarProfile2> {
           buildWhen: (previous, current) => current.photo != previous.photo,
           builder: (context, state) {
             return Ink.image(
-              image: (state.photo != '')
-                  ? MemoryImage(base64Decode(state.photo))
+              image: (userModel.photo != null)
+                  ? MemoryImage(base64Decode(userModel.photo??''))
                   : const AssetImage('assets/mock/profile.png') as ImageProvider,
               width: 42,
               height: 42,

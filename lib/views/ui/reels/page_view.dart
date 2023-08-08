@@ -40,7 +40,7 @@ class _TiktokPageViewState extends State<TiktokPageView> {
   @override
   void initState() {
     super.initState();
-    _videoController = VideoPlayerController.asset(widget.model.video);
+    _videoController = VideoPlayerController.asset("assets/mock/landing.mp4");//widget.model.video
     _initializeVideoPlayerFuture = _videoController.initialize();
     _videoController.setLooping(true);
     _videoController.play();
@@ -75,15 +75,23 @@ class _TiktokPageViewState extends State<TiktokPageView> {
   Future<void> onDetailsPressed(String id) async {
     final navigator = Navigator.of(context);
 
-    await _videoController.pause();
-    await navigator.pushNamed(
+    //await _videoController.pause();
+    /*await navigator.pushNamed(
       DetailView.routeName,
       arguments: {
         'id': id,
         'imageHeroTag': UniqueKey(),
       },
-    );
-    await _videoController.play();
+    );*/
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.black,
+          content: Text("We are working on this feature!"),
+        ),
+      );
+    //await _videoController.play();
   }
 
   @override
@@ -176,7 +184,7 @@ class _TiktokPageViewState extends State<TiktokPageView> {
                                   vertical: 8,
                                 ),
                                 child: Text(
-                                  widget.model.title,
+                                  "Habibi come to Morocco",//widget.model.title
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style:

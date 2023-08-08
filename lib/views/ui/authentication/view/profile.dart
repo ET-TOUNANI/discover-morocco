@@ -2,6 +2,7 @@ import 'package:discover_morocco/business_logic/services/Auth_service.dart';
 import 'package:discover_morocco/views/ui/authentication/bloc/signin/profile_bloc.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/Picture.dart';
 import 'package:discover_morocco/views/ui/authentication/widgets/form_inputs/text_inputProfile.dart';
+import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -75,6 +76,7 @@ class _ProfileState extends State<ProfileProvider> {
 
   Future<void> editProfilePressed(BuildContext context) async {
     await context.read<ProfileCubit>().editProfile();
+    Navigator.pushNamed(context, MainView.routeName);
     }
 
   @override
