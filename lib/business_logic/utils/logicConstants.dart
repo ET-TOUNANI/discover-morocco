@@ -7,6 +7,11 @@ class Constant {
   static const String fcmBaseUrl = "https://fcm.googleapis.com";
   static const String currentModel = "gpt-3.5-turbo-16k";
   static const String adminId = "gE9TkSESqWVpWDnn4vMOb0CjWbJ3";
+
+  static const String mapBaseUrl = 'https://maps.googleapis.com/maps/api';
+  static const String suggestionAutocompleteEndPoint = 'place/autocomplete/json';
+  static const String placesLocationDetailsEndPoint = 'place/details/json';
+  static const String directionsEndPoint = 'directions/json';
 }
 
 List<CategoryModel> categories = [

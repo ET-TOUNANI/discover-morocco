@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../business_logic/services/Auth_service.dart';
+import '../geo_localisation/map_screen.dart';
 import '../publication/view/list_Publication.dart';
 import '../reels/tiktok_video_view.dart';
 import 'explore/explore.dart';
@@ -51,8 +52,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   }
 
   void onButtomNavigatorExplorePressed() {
-    print('hi');
-    Navigator.of(context).pushNamed(TiktokVideoView.routeName); //ExploreView
+    //print('hi');
+    Navigator.of(context).pushNamed(MapScreen.routeName); //ExploreView
   }
 
   void onChatBotPressed() {

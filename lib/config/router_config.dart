@@ -13,7 +13,7 @@ import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart'
 import 'package:discover_morocco/views/ui/publication/view/list_Publication.dart';
 import 'package:discover_morocco/views/ui/reels/tiktok_video_view.dart';
 
-import '../views/ui/home/plan/trip.dart';
+import '../views/ui/geo_localisation/map_screen.dart';
 
 class Routers {
   static dynamic routes() => {
@@ -25,10 +25,12 @@ class Routers {
         DashboardProvider.routeName: (_) => const DashboardProvider(),
         ListPublication.routeName: (_) => const ListPublication(),
         MainView.routeName: (_) => const MainView(),
+        MapScreen.routeName: (_) => const MapScreen(),
         NotificationView.routeName: (_) => const NotificationView(),
         NavigationMenu.routeName: (_) => const NavigationMenu(),
         FilterView.routeName: (_) => const FilterView(),
         DetailView.routeName: (_) => const DetailView(),
         TiktokVideoView.routeName: (_) => const TiktokVideoView(),
+
       };
 }
