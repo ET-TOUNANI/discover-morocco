@@ -1,3 +1,4 @@
+import 'package:discover_morocco/business_logic/services/user_service.dart';
 import 'package:discover_morocco/views/ui/authentication/view/profile.dart';
 import 'package:discover_morocco/views/ui/navigation/settings/bloc/settings_bloc.dart';
 import 'package:discover_morocco/views/ui/publication/view/add_Publication.dart';
@@ -48,17 +49,13 @@ class NavigationMenu extends StatelessWidget {
   }
 
   void onProfilePressed(BuildContext context) {
-    //context.read<SettingsBloc>().add(const ());
+    context.read<UserService>().fetchUser(userModel.id);
     Navigator.pushNamed(context, Profile.routeName);
   }
 
   void createPupPressed(BuildContext context) {
     Navigator.pushNamed(context, PublicationProvider.routeName);
   }
-  void listPubPressed(BuildContext context) {
-    Navigator.pushNamed(context, ListPublication.routeName);
-  }
-
   @override
   Widget build(BuildContext context) {
     //final localizations = AppLocalizations.of(context)!;
@@ -108,17 +105,6 @@ class NavigationMenu extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios_rounded),
                   ),
                 ),
-              ),
-              const Divider(indent: 24, endIndent: 24),
-               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child:InkWell(
-                  onTap: () => listPubPressed(context),
-                  child:const ListTile(
-                  leading: Icon(Icons.support_agent_rounded),
-                  title: Text("My publications"),
-                  trailing: Icon(Icons.arrow_forward_ios_rounded),
-                )),
               ),
               const Divider(indent: 24, endIndent: 24),
               const Padding(

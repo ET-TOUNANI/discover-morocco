@@ -188,7 +188,7 @@ class _FilterViewState extends State<FilterView> {
                 ElevatedButton(
                   onPressed: () {
                       context.read<TripBloc>().add(const AddPlanEvent());
-                      //Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(MainView.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: buttonSize,

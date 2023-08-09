@@ -13,6 +13,7 @@ import '../../../widgets/headline.dart';
 import '../../../widgets/row_place_card.dart';
 import '../../book/detail.dart';
 import '../../home/explore/widgets/snap_list_shimmer.dart';
+import '../../home/home.dart';
 import '../../home/widgets/bottom_nav_bar/navbar.dart';
 
 class ListPublication extends StatefulWidget {
@@ -169,6 +170,7 @@ class _ListPublicationState extends State<ListPublication> {
               onPressed: () {
                 context.read<PubliacationBloc>().add(DeletePubEvent(pub: pub));
                 Navigator.pop(context);
+                Navigator.pushNamed(context, MainView.routeName);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,

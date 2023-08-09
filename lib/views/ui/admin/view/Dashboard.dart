@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:discover_morocco/business_logic/models/models/publication.dart';
 import 'package:discover_morocco/views/ui/book/detail.dart';
+import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:discover_morocco/views/ui/home/widgets/bottom_nav_bar/navbar.dart';
 import 'package:discover_morocco/views/widgets/headline.dart';
 import 'package:discover_morocco/views/widgets/row_place_card.dart';
@@ -131,6 +132,7 @@ class _DashboardState extends State<Dashboard> {
               onPressed: () {
                 context.read<PubliacationBloc>().add(DeletePubWaitingEvent(pub: pub));
                 Navigator.pop(context);
+                Navigator.pushNamed(context, MainView.routeName);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,

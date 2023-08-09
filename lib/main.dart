@@ -3,7 +3,9 @@
 ///****************************************************************************
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:discover_morocco/business_logic/services/user_service.dart';
+import 'package:discover_morocco/views/ui/admin/bloc/pub_bloc.dart';
 import 'package:discover_morocco/views/ui/chat/bloc/chat/chat_bloc.dart';
+import 'package:discover_morocco/views/ui/geo_localisation/bloc/maps_cubit.dart';
 import 'package:discover_morocco/views/ui/home/home.dart';
 import 'package:discover_morocco/views/ui/home/plan/bloc/trip_bloc.dart';
 import 'package:discover_morocco/views/ui/landing/landing.dart';
@@ -62,6 +64,9 @@ class TourismApp extends StatelessWidget {
           ),
           BlocProvider(create: (context) => ChatBloc()),
           BlocProvider(create: (BuildContext providerContext) => TripBloc(providerContext.read<UserService>())),
+          BlocProvider(create: (BuildContext providerContext) => MapsCubit()),
+          BlocProvider(create: (BuildContext providerContext) => PubliacationBloc(providerContext.read<DbService>(),providerContext.read<AuthenticationRepository>())),
+
         ],
 
         child: BlocConsumer<SettingsBloc, SettingsState>(
