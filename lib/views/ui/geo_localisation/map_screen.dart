@@ -1,14 +1,16 @@
 import 'dart:async';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../../business_logic/models/models/place_directions.dart';
 import '../../../business_logic/models/models/place_model.dart';
 import '../../../business_logic/models/models/place_suggestions _model.dart';
+import '../home/widgets/appBarProfile.dart';
 import 'bloc/maps_cubit.dart';
-import 'distance_and_time.dart';
 import 'helper/location_helper.dart';
 
 class MapScreen extends StatefulWidget {
@@ -42,16 +44,23 @@ class _MapScreenState extends State<MapScreen> {
   PlaceDirections? placeDirections;
   var progressIndicator = false;
    List<LatLng>? polylinePoints;
-  var isSearchedPlaceMarkerClicked = false;
   var isTimeAndDistanceVisible = false;
   late String time;
   late String distance;
 
+  late ThemeData _theme;
 
+
+  @override
+  void didChangeDependencies()async {
+    _theme = Theme.of(context);
+    getCurrentLocation();
+    super.didChangeDependencies();
+  }
   @override
   void initState() {
     super.initState();
-    getCurrentLocation();
+
   }
   void getSelectedPlacedLocation() {
     final sessiontoken = const Uuid().v4();
@@ -73,14 +82,17 @@ class _MapScreenState extends State<MapScreen> {
   }
   Future<void> getCurrentLocation() async {
     position = await LocationHelper.getCurrentLocation().whenComplete(() {
+      buildCurrentLocationMarker();
       setState(() {});
     });
   }
   Future<void> _goToMyCurrentLocation() async {
+    print('current Location');
     final GoogleMapController controller = await _mapController.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(_myCurrentLocation),
     );
+    buildCurrentLocationMarker();
   }
 
   void buildSearchedPlaceMarker() {
@@ -90,7 +102,7 @@ class _MapScreenState extends State<MapScreen> {
       onTap: () {
         buildCurrentLocationMarker();
         setState(() {
-          isSearchedPlaceMarkerClicked = true;
+          //isSearchedPlaceMarkerClicked = true;
           isTimeAndDistanceVisible = true;
         });
       },
@@ -142,6 +154,10 @@ class _MapScreenState extends State<MapScreen> {
     buildSearchedPlaceMarker();
   }
 
+  void onNotificationPressed() {
+      Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MapsCubit, MapsState>(
@@ -149,32 +165,47 @@ class _MapScreenState extends State<MapScreen> {
       },
       builder: (context, state) {
         return Scaffold(
+          extendBodyBehindAppBar: false,
+          appBar: AppBar(
+            title: SvgPicture.asset(
+              'assets/images/logo_black.svg',
+              height: 36,
+              semanticsLabel: 'Discover Morocco',
+            ),
+            centerTitle: true,
+            actions: const [
+              AppBarProfile()
+            ],
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 30.0,
+              ),
+              padding: const EdgeInsetsDirectional.only(start: 4),
+              onPressed: onNotificationPressed
+            ),
+            elevation: 0,
+            backgroundColor: _theme.canvasColor,
+          ),
           body: SafeArea(
             child: Stack(
               fit: StackFit.expand,
               children: [
-               /* ConditionalBuilder(
+                ConditionalBuilder(
                   condition: position != null,
                   builder: (context) => buildMap(),
                   fallback: (context) =>
                   const Center(
                     child: CircularProgressIndicator(
-                      color: Colors.blue,
                     ),
                   ),
-                ),*/
-                //buildFloatingSearchBar(),
-                isSearchedPlaceMarkerClicked ? DistanceAndTime(
-                  isTimeAndDistanceVisiable: isTimeAndDistanceVisible,
-                  placeDirections: placeDirections,
-                ):Container(),
+                ),
               ],
             ),
           ),
           floatingActionButton: Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 8, 30),
             child: FloatingActionButton(
-              backgroundColor: Colors.blue,
               onPressed: _goToMyCurrentLocation,
               child: const Icon(
                 Icons.place,
@@ -187,169 +218,6 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
   }
-
-
- /* Widget buildFloatingSearchBar() {
-    final isPortrait =
-        MediaQuery
-            .of(context)
-            .orientation == Orientation.portrait;
-
-    return BlocBuilder<MapsCubit, MapsState>(
-      builder: (context, state) {
-        return FloatingSearchBar(
-          controller: _floatingSearchBarController,
-          hint: 'Search...',
-          elevation: 6,
-          progress: progressIndicator,
-          hintStyle: const TextStyle(fontSize: 18),
-          queryStyle: const TextStyle(fontSize: 18),
-          border: const BorderSide(style: BorderStyle.none),
-          margins: const EdgeInsets.fromLTRB(20, 50, 20, 0),
-          padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-          height: 52,
-          iconColor: Colors.blue,
-          scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-          transitionDuration: const Duration(milliseconds: 600),
-          transitionCurve: Curves.easeInOut,
-          physics: const BouncingScrollPhysics(),
-          axisAlignment: isPortrait ? 0.0 : -1.0,
-          openAxisAlignment: 0.0,
-          width: isPortrait ? 600 : 500,
-          debounceDelay: const Duration(milliseconds: 500),
-          onQueryChanged: (query) {
-            getSuggestions(query);
-          },
-          onFocusChanged: (isFocused) {
-            setState(() {
-              isTimeAndDistanceVisible = false;
-            });
-          },
-          transition: CircularFloatingSearchBarTransition(),
-          actions: [
-            FloatingSearchBarAction(
-              showIfOpened: false,
-              child: CircularButton(
-                icon: Icon(
-                  Icons.place,
-                  color: Colors.black.withOpacity(0.6),
-                ),
-                onPressed: () {},
-              ),
-            ),
-
-          ],
-          builder: (context, transition) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Material(
-                color: Colors.white,
-                elevation: 4.0,
-                child: Column(
-                  children: [
-                    if (state is PlacesLoading)
-                      const SizedBox(
-                        height: 100,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    else
-                      ListView.builder(
-                        itemCount: MapsCubit
-                            .get(context)
-                            .suggestions
-                            .length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () async {
-                              placeSuggestion =
-                              MapsCubit
-                                  .get(context)
-                                  .suggestions[index];
-                             // _floatingSearchBarController.close();
-                              getSelectedPlacedLocation();
-                              polylinePoints!.clear();
-                             setState(() {
-                               markers.clear();
-                             });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              margin: const EdgeInsetsDirectional.all(8),
-                              padding: const EdgeInsetsDirectional.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    leading: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.lightBlue,
-                                      ),
-                                      child: const Icon(
-                                        Icons.place,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    title: RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                          text:
-                                          '${MapsCubit
-                                              .get(context)
-                                              .suggestions[index].description
-                                              .split(',')[0]}\n',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: MapsCubit
-                                              .get(context)
-                                              .suggestions[index]
-                                              .description
-                                              .replaceAll(
-                                              MapsCubit
-                                                  .get(context)
-                                                  .suggestions[index]
-                                                  .description
-                                                  .split(',')[0],
-                                              '')
-                                              .substring(2),
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    buildSelectedPlaceLocationBloc(),
-                    buildDirectionBloC(),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }*/
 
   Widget buildMap() {
     return GoogleMap(
