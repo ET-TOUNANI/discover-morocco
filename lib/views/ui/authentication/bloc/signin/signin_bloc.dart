@@ -48,11 +48,27 @@ class SignInCubit extends Cubit<SignInState> {
     final methods = await authenticationRepository.fetchSignInMethodsForEmail(
       email: state.email.value,
     );
+    String token="";
+    await firebaseMessaging.getToken().then((tkn) {
+      token=tkn??"";
+
+      // Save the token to your server/database to send targeted notifications.
+    });
     if (methods.isEmpty) {
       // not registered
       try {
         await authenticationRepository.signUp(
             email: state.email.value, password: state.password.value);
+        UserModel user=UserModel(
+            id: authenticationRepository.currentUser.id,
+            photo:  authenticationRepository.currentUser.photo,
+            name:  authenticationRepository.currentUser.name,
+            fcmToken: token,
+            email:  authenticationRepository.currentUser.email,
+            emailVerified: authenticationRepository.currentUser.emailVerified ,
+            isAnonymous:  authenticationRepository.currentUser.isAnonymous
+        );
+        await userService.createUser(user);
       } on SignInFailure catch (e) {
         emit(
           state.copyWith(
@@ -74,22 +90,20 @@ class SignInCubit extends Cubit<SignInState> {
     try {
       await authenticationRepository.signInWithEmailAndPassword(
           email: state.email.value, password: state.password.value);
-      String token="";
-      await firebaseMessaging.getToken().then((tkn) {
-        token=tkn??"";
-
-        // Save the token to your server/database to send targeted notifications.
-      });
-      UserModel user=UserModel(
-          id: authenticationRepository.currentUser.id,
-          photo:  authenticationRepository.currentUser.photo,
-          name:  authenticationRepository.currentUser.name,
-          fcmToken: token,
-          email:  authenticationRepository.currentUser.email,
-          emailVerified: authenticationRepository.currentUser.emailVerified ,
-          isAnonymous:  authenticationRepository.currentUser.isAnonymous
-      );
-      await userService.createUser(user);
+      UserModel user=await userService.fetchUser(authenticationRepository.currentUser.id);
+      if(token !=user.fcmToken){
+        final updatedUser=UserModel(
+            id: user.id,
+            photo:  user.photo,
+            name:  user.name,
+            fcmToken: token,
+            email:  user.email,
+            emailVerified: user.emailVerified ,
+            isAnonymous:  user.isAnonymous
+        );
+        await userService.updateUser(updatedUser);
+        await userService.fetchUser(user.id);
+      }
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInFailure catch (e) {
       emit(
@@ -107,22 +121,6 @@ class SignInCubit extends Cubit<SignInState> {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       await authenticationRepository.signInAnonymously();
-      String token="";
-      await firebaseMessaging.getToken().then((tkn) {
-        token=tkn??"";
-
-        // Save the token to your server/database to send targeted notifications.
-      });
-      UserModel user=UserModel(
-          id: authenticationRepository.currentUser.id,
-          photo:  authenticationRepository.currentUser.photo,
-          name:  authenticationRepository.currentUser.name,
-          fcmToken: token,
-          email:  authenticationRepository.currentUser.email,
-          emailVerified: authenticationRepository.currentUser.emailVerified ,
-          isAnonymous:  authenticationRepository.currentUser.isAnonymous
-      );
-      await userService.createUser(user);
       emit(
         state.copyWith(
           status: FormzStatus.submissionSuccess,
@@ -148,19 +146,28 @@ class SignInCubit extends Cubit<SignInState> {
       String token="";
       await firebaseMessaging.getToken().then((tkn) {
         token=tkn??"";
-
-        // Save the token to your server/database to send targeted notifications.
       });
-      UserModel user=UserModel(
-          id: authenticationRepository.currentUser.id,
-          photo:  authenticationRepository.currentUser.photo,
-          name:  authenticationRepository.currentUser.name,
-          fcmToken: token,
-          email:  authenticationRepository.currentUser.email,
-          emailVerified: authenticationRepository.currentUser.emailVerified ,
-          isAnonymous:  authenticationRepository.currentUser.isAnonymous
-      );
-      await userService.createUser(user);
+      UserModel user=await userService.fetchUser(authenticationRepository.currentUser.id);
+      if(user.id!=''){
+        if(token !=user.fcmToken){
+          final updatedUser=UserModel(
+              id: user.id,
+              photo:  user.photo,
+              name:  user.name,
+              fcmToken: token,
+              email:  user.email,
+              emailVerified: user.emailVerified ,
+              isAnonymous:  user.isAnonymous
+          );
+          await userService.updateUser(updatedUser);
+          await userService.fetchUser(user.id);
+        }
+      }else{
+        //if user doesn't exist
+        await userService.createUser(authenticationRepository.currentUser);
+        await userService.fetchUser(authenticationRepository.currentUser.id);
+      }
+
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInFailure catch (e) {
       emit(
