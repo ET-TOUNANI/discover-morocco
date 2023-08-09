@@ -82,9 +82,9 @@ class _MapScreenState extends State<MapScreen> {
   }
   Future<void> getCurrentLocation() async {
     position = await LocationHelper.getCurrentLocation().whenComplete(() {
-      buildCurrentLocationMarker();
       setState(() {});
     });
+    buildCurrentLocationMarker();
   }
   Future<void> _goToMyCurrentLocation() async {
     print('current Location');
