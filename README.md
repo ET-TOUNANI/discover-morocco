@@ -1,6 +1,6 @@
 # discover_morocco
 
-A new Flutter project.
+https://play.google.com/store/apps/details?id=com.tourism.discover_morocco&pli=1
 
 ## Getting Started
 
