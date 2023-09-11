@@ -9,7 +9,6 @@ Discover Morocco is an application that allows you to discover the most beautifu
 ## Screenshots
 <table  
 style="width:100%; border-spacing:0px; border-collapse:collapse; border-width:0px; border-style:none; border-color:#000; margin:0px; padding:0px; border:0px;">
->
 <tr>
 <td><img src="demo/1.png" width="50%"></td>
 <td><img src="demo/2.png" width="50%"></td>
