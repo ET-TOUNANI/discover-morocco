@@ -4,7 +4,7 @@ Available on Google Play Store: https://play.google.com/store/apps/details?id=co
 
 ## Description
 
-Discover Morocco is an application that allows you to discover the most beautiful places in Morocco. It is a tourist guide that provides you with all the information you need to know about the monuments, the cities, the beaches, the mountains, the deserts, the museums, the hotels, the restaurants, the cafes, the shops, the festivals, the events, the activities, the sports, the culture, the history, the art, the artists, the craftsmen, the cuisine, the recipes, the music, the movies, the series, the celebrities, the personalities, the news, the weather, the climate...
+Discover Morocco is the ultimate app for anyone who wants to discover Morocco in a fun, easy, and authentic way. Whether you are looking for adventure, culture, nature, or relaxation, you will find it in Morocco. And with “Discover Morocco”, you will have everything you need to make your trip unforgettable. Download “Discover Morocco” today and start planning your dream vacation!
 
 ## Screenshots
 <table  
